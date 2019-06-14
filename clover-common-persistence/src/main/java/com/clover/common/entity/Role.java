@@ -31,7 +31,7 @@ public class Role extends Model<Role> {
      * 角色ID主键
      */
     @TableId("id")
-    private String roleID;
+    private String roleId;
 
     /**
      * 角色名称
@@ -45,19 +45,19 @@ public class Role extends Model<Role> {
     @TableField("describe")
     private  String describe;
 
-    private Integer create_by;
+    private Integer createBy;
 
-    private String create_time;
+    private String createTime;
 
-    private Integer update_by;
+    private Integer updateBy;
 
-    private String update_time;
+    private String updateTime;
 
-    private Integer del_flag;
+    private Integer delFlag;
 
     @Override
     protected Serializable pkVal() {
-        return this.roleID;
+        return this.roleId;
     }
 
 }

@@ -28,43 +28,44 @@ public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * 菜单ID
+     * 权限ID
      */
-    @TableField("menu_id")
-    private Integer menuId;
+    @TableId("permissions_id")
+    private Integer permissionsId;
     /**
-     * 父菜单ID
+     * 父权限ID
      */
     @TableField("parent_id")
     private Integer parentId;
     /**
-     * 菜单名称
+     * 权限名称
      */
     @TableField("name")
     private String name;
     /**
-     * 菜单代号,规范权限标识
+     * 权限级别
      */
-    @TableId("level")
-    private String menuLevel;
+    @TableField("level")
+    private String level;
     /**
-     * 菜单地址
+     * 权限标识
      */
+    @TableField("flag")
     private String flag;
 
-    private Integer create_by;
+    private Integer createBy;
 
-    private String create_time;
+    private String createTime;
 
-    private Integer update_by;
+    private Integer updateBy;
 
-    private String update_time;
+    private String updateTime;
 
-    private Integer del_flag;
+    private Integer delFlag;
 
     @Override
     protected Serializable pkVal() {
-        return this.menuId;
+        return this.permissionsId;
     }
 
 }

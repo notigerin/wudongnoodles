@@ -31,22 +31,22 @@ public class RoleToMenu extends Model<RoleToMenu> {
     /**
      * 主键
      */
-    @TableId(value = "role_to_menu_id", type = IdType.AUTO)
-    private Integer roleToMenuId;
+    @TableId(value = "role_to_permissions_id", type = IdType.AUTO)
+    private Integer roleToPermissionsId;
     /**
      * 角色代号
      */
     @TableField("role_id")
-    private String roleID;
+    private String roleId;
     /**
      * 菜单代号,规范权限标识
      */
     @TableField("permissions_id")
-    private String menuID;
+    private String permissionsId;
 
     @Override
     protected Serializable pkVal() {
-        return this.roleToMenuId;
+        return this.roleToPermissionsId;
     }
 
 }

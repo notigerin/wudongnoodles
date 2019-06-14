@@ -31,7 +31,7 @@ public class Admin extends Model<Admin> {
     /**
      * 姓名
      */
-    @TableField("name")
+    @TableField("username")
     private String username;
     /**
      * 密码
@@ -57,7 +57,7 @@ public class Admin extends Model<Admin> {
      * 角色ID
      */
     @TableField("role_id")
-    private Integer role_id;
+    private Integer roleId;
     /**
      * 状态值（1：启用，2：禁用）
      */
@@ -69,15 +69,22 @@ public class Admin extends Model<Admin> {
     @TableField("note")
     private String note;
 
-    private Integer create_by;
+    private Integer createBy;
 
-    private String create_time;
+    private long createTime;
 
-    private Integer update_by;
+    private Integer updateBy;
 
-    private String update_time;
+    private String updateTime;
 
-    private Integer del_flag;
+    private Integer delFlag;
+
+    @TableField(exist = false)
+    private String roleName;
+
+    @TableField(exist = false)
+    private String token;
+
     @Override
     protected Serializable pkVal() {
         return this.id;
