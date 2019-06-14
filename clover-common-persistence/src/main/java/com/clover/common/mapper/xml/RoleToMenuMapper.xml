@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.clover.common.entity.RoleToMenu">
-        <id column="role_to_menu_id" property="roleToMenuId" />
-        <result column="role_code" property="roleCode" />
-        <result column="menu_code" property="menuCode" />
+        <id column="role_to_permissions_id" property="roleToPermissionsId" />
+        <result column="role_id" property="roleId" />
+        <result column="permissions_id" property="permissionsId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        role_to_menu_id AS roleToMenuId, role_code AS roleCode, menu_code AS menuCode
+        role_to_menu_id AS roleToPermissionsId, role_id AS roleId, permissions_id AS permissionsId
     </sql>
 
 </mapper>

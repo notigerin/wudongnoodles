@@ -4,30 +4,30 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.clover.common.entity.Menu">
-        <id column="menu_code" property="menuCode" />
+        <id column="permissions_id" property="permissionsId" />
         <result column="parent_id" property="parentId" />
-        <result column="menu_id" property="menuId" />
         <result column="name" property="name" />
-        <result column="menu_type" property="menuType" />
-        <result column="num" property="num" />
-        <result column="url" property="url" />
-        <result column="code" property="code" />
-        <result column="icon" property="icon" />
+        <result column="level" property="level" />
+        <result column="flag" property="flag" />
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        menu_id AS menuId, parent_id AS parentId, menu_code AS menuCode, name, menu_type AS menuType, num, url, code,icon
+        permissions_id AS permissionsId, parent_id AS parentId, name, level, flag, create_by AS createBy,create_time AS createTime, update_by AS updateBy,update_time AS updateTime, del_flag AS delFlag
     </sql>
 
-    <!-- 根据角色查询菜单 -->
+    <!-- 根据角色查询权限-->
     <select id="findMenuByRoleCode" resultMap="BaseResultMap">
-        select m.* from sdk_back_menu m LEFT JOIN sdk_back_role_to_menu r on r.menu_code= m.menu_code
+        select m.* from permissions m LEFT JOIN role_to_permissions r on r.permissions_id= m.permissions_id
         WHERE
         1 = 1
-        <if test=" roleCode !=null and roleCode !=''">
-            AND r.role_code = #{roleCode}
+        <if test=" roleId !=null and roleId !=''">
+            AND r.role_id = #{roleId}
         </if>
     </select>
-
 </mapper>

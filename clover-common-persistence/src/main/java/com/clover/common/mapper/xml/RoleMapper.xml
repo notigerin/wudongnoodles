@@ -4,13 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.clover.common.entity.Role">
-        <id column="role_code" property="roleCode" />
-        <result column="role_name" property="roleName" />
+        <id column="id" property="roleId" />
+        <result column="name" property="roleName" />
+        <result column="describe" property="describe" />
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        role_code AS roleCode, role_name AS roleName
+        id AS roleId, name AS roleName, describe, create_by AS createBy,create_time AS createTime, update_by AS updateBy,update_time AS updateTime, del_flag AS delFlag
     </sql>
 
 </mapper>

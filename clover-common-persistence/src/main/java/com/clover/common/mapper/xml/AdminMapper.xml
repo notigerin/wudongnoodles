@@ -4,43 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.clover.common.entity.Admin">
-        <id column="user_no" property="userNo"/>
-        <result column="mobile" property="mobile"/>
-        <result column="user_name" property="username"/>
-        <result column="pass_word" property="password"/>
-        <result column="unit" property="unit"/>
-        <result column="create_time" property="createTime"/>
-        <result column="avatar" property="avatar"/>
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="role_id" property="roleId"/>
         <result column="status" property="status"/>
-        <result column="job" property="job"/>
+        <result column="note" property="note"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_no AS userNo, mobile, user_name AS username, pass_word AS password, unit, create_time AS createTime, avatar, status, job
+        id, username, password, gender, phone, email, role_id AS roleId, status, create_by AS createBy,create_time AS createTime, update_by AS updateBy,update_time AS updateTime, del_flag AS delFlag
     </sql>
 
 
     <resultMap id="UserModel" type="com.clover.common.entity.Admin">
-        <id column="user_no" property="userNo"/>
-        <result column="mobile" property="mobile"/>
-        <result column="user_name" property="username"/>
-        <result column="pass_word" property="password"/>
-        <result column="unit" property="unit"/>
-        <result column="create_time" property="createTime"/>
-        <result column="avatar" property="avatar"/>
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="role_id" property="roleId"/>
         <result column="status" property="status"/>
-        <result column="job" property="job"/>
+        <result column="note" property="note"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
         <result column="role_name" property="roleName"/>
     </resultMap>
 
 
     <!-- 等同于编写一个普通 list 查询，mybatis-plus 自动替你分页 -->
     <select id="selectPageByConditionUser" resultMap="UserModel">
-        select u.*,r.role_name from sdk_back_admin u,sdk_back_admin_to_role t ,sdk_back_role r
-        where u.user_no =t.user_no AND t.role_code =r.role_code
+        select u.*,r.role_name from admin u,role r
+        where u.role_id =r.id
         <if test="info != null and info != '' ">
-            and (u.mobile like concat('%',#{info},'%') or u.user_name like concat('%',#{info},'%'))
+            and (u.phone like concat('%',#{info},'%') or u.username like concat('%',#{info},'%'))
         </if>
         <if test="startTime != null and startTime != '' and endTime != null and endTime != '' ">
             and u.create_time between #{startTime,jdbcType=BIGINT} and #{endTime,jdbcType=BIGINT}
