@@ -11,11 +11,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 角色菜单表
+ * 角色权限表
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-14
  */
 @Builder
 @Getter
@@ -23,7 +23,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("role_to_menu")
+@TableName("role_to_permissions")
 public class RoleToMenu extends Model<RoleToMenu> {
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class RoleToMenu extends Model<RoleToMenu> {
     /**
      * 菜单代号,规范权限标识
      */
-    @TableField("menu_id")
+    @TableField("permissions_id")
     private String menuID;
 
     @Override

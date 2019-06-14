@@ -11,7 +11,7 @@ import java.io.Serializable;
  *  管理员表
  *
  * @author MuQ
- * @since 2019-06-13
+ * @since 2019-06-14
  */
 @Builder
 @Getter
@@ -46,22 +46,22 @@ public class Admin extends Model<Admin> {
     /**
      * 是电话号码，也是账号（登录用）
      */
-    @TableId("phone")
+    @TableField("phone")
     private String phone;
     /**
      * 邮箱
      */
-    @TableId("email")
+    @TableField("email")
     private String email;
     /**
-     * 创建时间
+     * 角色ID
      */
-    @TableField("date")
-    private Long createTime;;
+    @TableField("role_id")
+    private Integer role_id;
     /**
-     * 状态值（1：启用，2：禁用，3：删除）
+     * 状态值（1：启用，2：禁用）
      */
-    @TableId("state")
+    @TableField("status")
     private Integer status;
     /**
      * 备注
@@ -69,6 +69,15 @@ public class Admin extends Model<Admin> {
     @TableField("note")
     private String note;
 
+    private Integer create_by;
+
+    private String create_time;
+
+    private Integer update_by;
+
+    private String update_time;
+
+    private Integer del_flag;
     @Override
     protected Serializable pkVal() {
         return this.id;

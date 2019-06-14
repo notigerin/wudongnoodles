@@ -13,8 +13,8 @@ import java.io.Serializable;
  * 角色表
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-14
  */
 @Builder
 @Getter
@@ -44,6 +44,16 @@ public class Role extends Model<Role> {
      */
     @TableField("describe")
     private  String describe;
+
+    private Integer create_by;
+
+    private String create_time;
+
+    private Integer update_by;
+
+    private String update_time;
+
+    private Integer del_flag;
 
     @Override
     protected Serializable pkVal() {

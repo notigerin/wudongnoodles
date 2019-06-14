@@ -11,11 +11,11 @@ import java.util.List;
 
 /**
  * <p>
- * 菜单表
+ * 权限表
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-14
  */
 @Builder
 @Getter
@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("menu")
+@TableName("permissions")
 public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;
@@ -50,12 +50,17 @@ public class Menu extends Model<Menu> {
     /**
      * 菜单地址
      */
-    private String url;
-    private String code;
+    private String flag;
 
+    private Integer create_by;
 
-    @TableField(exist = false)
-    private List<Menu> childMenu;
+    private String create_time;
+
+    private Integer update_by;
+
+    private String update_time;
+
+    private Integer del_flag;
 
     @Override
     protected Serializable pkVal() {
