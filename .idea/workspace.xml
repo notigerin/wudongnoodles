@@ -20,11 +20,11 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clover-common-persistence/src/main/java/com/clover/common/entity/Role.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
+            <state relative-caret-position="430">
               <caret line="39" column="21" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
             </state>
           </provider>
@@ -34,8 +34,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="28">
-                <caret line="1" column="10" lean-forward="true" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+              <first_editor relative-caret-position="57">
+                <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
               </first_editor>
               <second_editor />
             </state>
@@ -58,8 +58,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="32" />
-    <option name="y" value="2" />
+    <option name="x" value="31" />
+    <option name="y" value="1" />
     <option name="width" value="1750" />
     <option name="height" value="970" />
   </component>
@@ -69,7 +69,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -77,11 +76,47 @@
               <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
               <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
+              <item name="clover-common-jwt-web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
+              <item name="clover-common-jwt-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
+              <item name="clover-common-jwt-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
+              <item name="clover-common-jwt-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clover-common-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wudongnoodles" type="462c0819:PsiDirectoryNode" />
+              <item name="clover-common-jwt-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -118,11 +153,12 @@
       <updated>1560395755116</updated>
       <workItem from="1560395758777" duration="870000" />
       <workItem from="1560408505381" duration="1362000" />
+      <workItem from="1560471995596" duration="98000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2314000" />
+    <option name="totallyTimeSpent" value="2412000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -135,8 +171,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.21715818" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.22013423" />
       <window_info id="Structure" order="1" sideWeight="0.50141644" side_tool="true" weight="0.23123324" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -145,6 +182,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.50141644" side_tool="true" weight="0.23123324" />
       <window_info id="设计器" order="7" />
       <window_info id="Web" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -158,6 +196,7 @@
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Spring" order="11" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.32892805" />
+      <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -199,6 +238,20 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/clover-common-persistence/src/main/java/com/clover/common/entity/Admin.java">
@@ -234,7 +287,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clover-common-persistence/src/main/java/com/clover/common/entity/Role.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
+        <state relative-caret-position="430">
           <caret line="39" column="21" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
         </state>
       </provider>
@@ -242,8 +295,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="28">
-            <caret line="1" column="10" lean-forward="true" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+          <first_editor relative-caret-position="57">
+            <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
           </first_editor>
           <second_editor />
         </state>
