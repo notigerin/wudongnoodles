@@ -23,7 +23,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("sdk_back_role_to_menu")
+@TableName("role_to_menu")
 public class RoleToMenu extends Model<RoleToMenu> {
 
     private static final long serialVersionUID = 1L;
@@ -36,13 +36,13 @@ public class RoleToMenu extends Model<RoleToMenu> {
     /**
      * 角色代号
      */
-    @TableField("role_code")
-    private String roleCode;
+    @TableField("role_id")
+    private String roleID;
     /**
      * 菜单代号,规范权限标识
      */
-    @TableField("menu_code")
-    private String menuCode;
+    @TableField("menu_id")
+    private String menuID;
 
     @Override
     protected Serializable pkVal() {

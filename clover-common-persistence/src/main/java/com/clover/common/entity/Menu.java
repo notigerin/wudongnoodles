@@ -23,44 +23,36 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("sdk_back_menu")
+@TableName("menu")
 public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * 菜单代号,规范权限标识
+     * 菜单ID
      */
-    @TableId("menu_code")
-    private String menuCode;
-    /**
-     * 父菜单主键
-     */
-    @TableField("parent_id")
-    private Integer parentId;
-
     @TableField("menu_id")
     private Integer menuId;
     /**
+     * 父菜单ID
+     */
+    @TableField("parent_id")
+    private Integer parentId;
+    /**
      * 菜单名称
      */
+    @TableField("name")
     private String name;
     /**
-     * 菜单类型，1：菜单  2：业务按钮
+     * 菜单代号,规范权限标识
      */
-    @TableField("menu_type")
-    private Integer menuType;
-    /**
-     * 菜单的序号
-     */
-    private Integer num;
+    @TableId("level")
+    private String menuLevel;
     /**
      * 菜单地址
      */
     private String url;
-
     private String code;
 
-    private String icon;
 
     @TableField(exist = false)
     private List<Menu> childMenu;

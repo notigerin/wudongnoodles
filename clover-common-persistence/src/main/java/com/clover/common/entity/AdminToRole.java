@@ -11,11 +11,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 用户角色关系表
+ * 管理员角色关系表
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-14
  */
 @Builder
 @Getter
@@ -23,7 +23,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("sdk_back_admin_to_role")
+@TableName("admin_to_role")
 public class AdminToRole extends Model<AdminToRole> {
 
     private static final long serialVersionUID = 1L;
@@ -34,14 +34,14 @@ public class AdminToRole extends Model<AdminToRole> {
     @TableId(value = "user_to_role_id", type = IdType.AUTO)
     private Integer userToRoleId;
     /**
-     * 用户编号
+     * 管理员ID
      */
-    @TableField("user_no")
+    @TableField("admin_id")
     private String userNo;
     /**
-     * 角色代号
+     * 角色ID
      */
-    @TableField("role_code")
+    @TableField("role_id")
     private String roleCode;
 
     @Override

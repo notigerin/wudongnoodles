@@ -22,26 +22,32 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@TableName("sdk_back_role")
+@TableName("role")
 public class Role extends Model<Role> {
 
     private static final long serialVersionUID = 1L;
 
     /**
+     * 角色ID主键
+     */
+    @TableId("id")
+    private String roleID;
+
+    /**
      * 角色名称
      */
-    @TableField("role_name")
+    @TableField("name")
     private String roleName;
 
     /**
-     * 角色代号主键
+     * 角色描述
      */
-    @TableId("role_code")
-    private String roleCode;
+    @TableField("describe")
+    private  String describe;
 
     @Override
     protected Serializable pkVal() {
-        return this.roleCode;
+        return this.roleID;
     }
 
 }
