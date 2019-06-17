@@ -14,4 +14,9 @@
       <module name="ddc-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ddc-server" options="-parameters" />
+    </option>
+  </component>
 </project>
