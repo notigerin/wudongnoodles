@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.mapper.DDCAdminMapper;
 import com.ddc.server.service.IDDCAdminService;
+import com.ddc.server.shiro.PasswordUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,10 +22,32 @@ import java.util.Map;
  */
 @Service
 public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> implements IDDCAdminService {
-@Resource private DDCAdminMapper adminMapper;
+    @Resource
+    private DDCAdminMapper adminMapper;
     @Override
-    public DDCAdmin selectByName(String userNo) {
-        return adminMapper.selectOne(new DDCAdmin(userNo));
+    public DDCAdmin selectByName(String name) {
+        return adminMapper.selectOne(new DDCAdmin(name));
+    }
+
+    @Override
+    public List<DDCAdmin> selectAllAdmin(){
+        return adminMapper.getAdminList();
+    }
+
+    @Override
+    public void insertAdmin(DDCAdmin admin){
+        PasswordUtils.entryptPassword(admin);
+        adminMapper.insert(admin);
+    }
+
+    @Override
+    public void delAdmin(long id){
+        adminMapper.deleteById(id);
+    }
+
+    @Override
+    public void updateAdmin(DDCAdmin admin){
+        adminMapper.updateById(admin);
     }
 
     @Override

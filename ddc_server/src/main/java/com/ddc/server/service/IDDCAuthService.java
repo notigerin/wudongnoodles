@@ -15,6 +15,13 @@ import java.util.List;
  */
 public interface IDDCAuthService extends IService<DDCAuth> {
 
+    List<DDCAuth> selectAllAuth();
 
-    List<DDCAuth> selectByRoleId(Long roleId);
+    void insertAuth(DDCAuth auth);
+
+    void delAuth(long id);
+
+    void updateAuth(DDCAuth auth);
+
+    List<DDCAuth> selectByRoleId(long roleId);
 }

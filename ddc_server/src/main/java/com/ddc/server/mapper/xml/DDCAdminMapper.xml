@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ddc.server.mapper.DDCAdminMapper">
 
+        <!-- 查询记录数 -->
+        <!-- id:是唯一标识符 -->
+        <!-- resultType: 返回值类型 -->
 
+    <select id="getAdminList" resultType="DDCAdmin">
+		select * from ddc_admin
+	</select>
 
 </mapper>

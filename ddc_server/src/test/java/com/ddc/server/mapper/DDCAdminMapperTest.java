@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.entity.DDCAuth;
 import com.ddc.server.entity.DDCRoleAuth;
+import com.ddc.server.service.IDDCAdminService;
+import com.ddc.server.service.IDDCAuthService;
+import com.ddc.server.service.SpringContextBeanService;
 import com.ddc.server.shiro.PasswordUtils;
 import org.junit.Test;
 
@@ -22,8 +25,12 @@ public class DDCAdminMapperTest extends BaseTest {
     private DDCRoleMapper roleMapper;
     @Resource
     private DDCRoleAuthMapper roleAuthMapper;
+    @Resource
+    private IDDCAdminService adminService;
+    @Resource
+    private IDDCAuthService authService;
 
-    @Test
+    //@Test
     public void hello() {
 //        authMapper.insert(new DDCAuth("资讯管理","ZXGL",0L,1));
 //        authMapper.insert(new DDCAuth("评论管理","PLGL",0L,1));
@@ -46,7 +53,7 @@ public class DDCAdminMapperTest extends BaseTest {
         authMapper.insert(new DDCAuth("系统日志", "XTGL-XTRZ", 1139936539791441922L, 2));
     }
 
-    @Test
+    //@Test
     public void hello1() {
         List<DDCAuth> auths = authMapper.selectList(new EntityWrapper<>());
         List<DDCRoleAuth> list = new ArrayList<>(auths.size());
@@ -56,11 +63,64 @@ public class DDCAdminMapperTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void hello2() {
-        DDCAdmin admin = new DDCAdmin("root", "123456", 0,
-                "13812341234", "hello@qq.com", 1L);
-        PasswordUtils.entryptPassword(admin);
-        ddcAdminMapper.insert(admin);
+        DDCAdmin admin = new DDCAdmin("ShuNing", "980613", 1,
+                "13000480320", "ShuNing@qq.com", 3L);
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        adminService.insertAdmin(admin);
+    }
+
+    //查询Admin获取Role测试
+    //@Test
+    public void RoleId(){
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        DDCAdmin admin = adminService.selectByName("oneT");
+        System.out.println(admin.getRoleId());
+    }
+
+    //Admin列表查询测试
+    //@Test
+    public void AllAdmin(){
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        List<DDCAdmin> list = adminService.selectAllAdmin();
+        for(int i = 0 ; i < list.size() ; i++) {
+            if(list.get(i).getStatus() != 2) {
+                System.out.print(list.get(i).getName() + "," + list.get(i).getMobile() + "," + list.get(i).getRoleId() + ",");
+                if (list.get(i).getStatus() == 0) {
+                    System.out.println("已启用");
+                } else if ((list.get(i).getStatus() == 1)) {
+                    System.out.println("未启用");
+                }
+            }
+        }
+    }
+
+    //删除功能测试
+    //@Test
+    public void delAdmin(){
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        DDCAdmin admin = adminService.selectByName("oneT");
+        long id = admin.getId();
+        adminService.delAdmin(id);
+    }
+
+    //@Test
+    public void updateAdmin(){
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        DDCAdmin admin = adminService.selectByName("ShuNing");
+        admin.setMobile("13000000613");
+        adminService.updateAdmin(admin);
+    }
+
+    //@Test
+    public void AuthNameOfRoleList(){
+        authService = SpringContextBeanService.getBean(IDDCAuthService.class);
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        DDCAdmin admin = adminService.selectByName("ShuNing");
+        List<DDCAuth> list = authService.selectByRoleId(admin.getRoleId());
+        for(DDCAuth auth :list){
+            System.out.println(auth.getName() + "," + auth.getLevel());
+        }
     }
 }

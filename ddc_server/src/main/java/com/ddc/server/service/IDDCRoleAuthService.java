@@ -13,6 +13,8 @@ import com.ddc.server.entity.DDCRoleAuth;
  */
 public interface IDDCRoleAuthService extends IService<DDCRoleAuth> {
 
+    void insertRoleAuth(DDCRoleAuth roleAuth);
 
+    void delRoleAuth(long id);
 
 }

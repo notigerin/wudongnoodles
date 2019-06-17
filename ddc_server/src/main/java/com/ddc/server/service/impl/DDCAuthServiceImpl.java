@@ -29,7 +29,27 @@ public class DDCAuthServiceImpl extends ServiceImpl<DDCAuthMapper, DDCAuth> impl
     private DDCRoleAuthMapper roleAuthMapper;
 
     @Override
-    public List<DDCAuth> selectByRoleId(Long roleId) {
+    public List<DDCAuth> selectAllAuth() {
+        return authMapper.getAuthList();
+    }
+
+    @Override
+    public void insertAuth(DDCAuth auth) {
+        authMapper.insert(auth);
+    }
+
+    @Override
+    public void delAuth(long id) {
+        authMapper.deleteById(id);
+    }
+
+    @Override
+    public void updateAuth(DDCAuth auth) {
+        authMapper.updateById(auth);
+    }
+
+    @Override
+    public List<DDCAuth> selectByRoleId(long roleId) {
         List<DDCRoleAuth> roleAuths = roleAuthMapper.selectList(new EntityWrapper<DDCRoleAuth>().eq("role_id", roleId));
         List<DDCAuth> auths = new ArrayList<>(10);
         for (DDCRoleAuth roleAuth : roleAuths) {

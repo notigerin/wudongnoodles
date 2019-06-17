@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.service.IService;
 import com.ddc.server.entity.DDCAdmin;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,15 +12,21 @@ import java.util.Map;
  *  服务类
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-17
  */
 public interface IDDCAdminService extends IService<DDCAdmin> {
 
 
-    DDCAdmin selectByName(String userNo);
+    DDCAdmin selectByName(String name);
 
+    List<DDCAdmin> selectAllAdmin();
 
+    void insertAdmin(DDCAdmin admin);
+
+    void delAdmin(long id);
+
+    void updateAdmin(DDCAdmin admin);
     Map<String, Object> checkNameAndPasswd(JSONObject requestJson);
 }
 

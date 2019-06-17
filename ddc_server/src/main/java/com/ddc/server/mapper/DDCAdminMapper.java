@@ -3,6 +3,8 @@ package com.ddc.server.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.ddc.server.entity.DDCAdmin;
 
+import java.util.List;
+
 /**
  * Mapper 接口
  *
@@ -11,5 +13,6 @@ import com.ddc.server.entity.DDCAdmin;
  */
 public interface DDCAdminMapper extends BaseMapper<DDCAdmin> {
 
+    List<DDCAdmin> getAdminList();
 
 }

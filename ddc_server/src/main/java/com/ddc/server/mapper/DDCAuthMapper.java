@@ -3,6 +3,8 @@ package com.ddc.server.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.ddc.server.entity.DDCAuth;
 
+import java.util.List;
+
 /**
  * Mapper 接口
  *
@@ -11,6 +13,6 @@ import com.ddc.server.entity.DDCAuth;
  */
 
 public interface DDCAuthMapper extends BaseMapper<DDCAuth> {
-
+    List<DDCAuth> getAuthList();
 
 }
