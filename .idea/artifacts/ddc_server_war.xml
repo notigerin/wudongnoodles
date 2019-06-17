@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ddc-server:war">
+    <output-path>$PROJECT_DIR$/ddc_server/target</output-path>
+    <root id="archive" name="ddc-server.war">
+      <element id="artifact" artifact-name="ddc-server:war exploded" />
+    </root>
+  </artifact>
+</component>
