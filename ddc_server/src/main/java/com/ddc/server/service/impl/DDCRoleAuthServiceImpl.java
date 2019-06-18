@@ -13,8 +13,8 @@ import javax.annotation.Resource;
  *  服务实现类
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-17
  */
 @Service
 public class DDCRoleAuthServiceImpl extends ServiceImpl<DDCRoleAuthMapper, DDCRoleAuth> implements IDDCRoleAuthService {

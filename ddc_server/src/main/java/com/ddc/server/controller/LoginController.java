@@ -61,9 +61,6 @@ public class LoginController {
             session.setAttribute("currentUser",(DDCAdmin)SecurityUtils.getSubject().getPrincipal());
         }
 
-
-
-
         // 此方法不处理登录成功,由shiro进行处理
         return "/login";
     }

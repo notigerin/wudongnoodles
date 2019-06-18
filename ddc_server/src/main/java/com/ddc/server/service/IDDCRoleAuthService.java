@@ -8,8 +8,8 @@ import com.ddc.server.entity.DDCRoleAuth;
  *  服务类
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-17
  */
 public interface IDDCRoleAuthService extends IService<DDCRoleAuth> {
 

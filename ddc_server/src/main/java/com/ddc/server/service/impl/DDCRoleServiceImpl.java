@@ -14,8 +14,8 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-17
  */
 @Service
 public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> implements IDDCRoleService {
@@ -30,6 +30,7 @@ public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> impl
     @Override
     public List<DDCRole> selectAllRole() {
         return roleMapper.getRoleList();
+
     }
 
     @Override

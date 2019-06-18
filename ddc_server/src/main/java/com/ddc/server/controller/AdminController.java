@@ -1,7 +1,16 @@
 package com.ddc.server.controller;
 
+import com.ddc.server.entity.DDCAdmin;
+import com.ddc.server.service.IDDCAdminService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 前端控制器
@@ -13,9 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin")
 public class AdminController {
 
-//  @Resource
-//  IAdminService adminService;
-//
+  @Resource
+  private IDDCAdminService adminService;
+
+  @GetMapping("/admin-list")
+    public String getAllAdmin(HttpServletRequest req , HttpServletResponse resp , HttpSession session){
+        System.out.println("getAllAdmin()");
+        List<DDCAdmin> list = adminService.selectAllAdmin();
+        session.setAttribute("list",list);
+        return "/admin-list";
+  }
+
 //  /**
 //   * 获取当前登录用户信息
 //   *

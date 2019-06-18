@@ -4,9 +4,11 @@ package com.ddc.server.mapper;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.entity.DDCAuth;
+import com.ddc.server.entity.DDCRole;
 import com.ddc.server.entity.DDCRoleAuth;
 import com.ddc.server.service.IDDCAdminService;
 import com.ddc.server.service.IDDCAuthService;
+import com.ddc.server.service.IDDCRoleService;
 import com.ddc.server.service.SpringContextBeanService;
 import com.ddc.server.shiro.PasswordUtils;
 import org.junit.Test;
@@ -29,6 +31,9 @@ public class DDCAdminMapperTest extends BaseTest {
     private IDDCAdminService adminService;
     @Resource
     private IDDCAuthService authService;
+    @Resource
+    private IDDCRoleService roleService;
+
 
     //@Test
     public void hello() {
@@ -79,17 +84,33 @@ public class DDCAdminMapperTest extends BaseTest {
         System.out.println(admin.getRoleId());
     }
 
-    //Admin列表查询测试
     //@Test
+    public void AllRole(){
+        roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
+        List<DDCRole> list = roleMapper.getRoleList();
+        for(DDCRole role : list){
+            System.out.println(role.getName());
+        }
+    }
+
+    //Admin列表查询测试
+    @Test
     public void AllAdmin(){
         adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
         List<DDCAdmin> list = adminService.selectAllAdmin();
-        for(int i = 0 ; i < list.size() ; i++) {
-            if(list.get(i).getStatus() != 2) {
-                System.out.print(list.get(i).getName() + "," + list.get(i).getMobile() + "," + list.get(i).getRoleId() + ",");
-                if (list.get(i).getStatus() == 0) {
+        List<DDCRole> roleList = roleMapper.getRoleList();
+        for(DDCAdmin admin : list) {
+            if(admin.getStatus() != 2) {
+                System.out.print(admin.getName() + "," + admin.getMobile() + "," + admin.getRoleId() + ",");
+                for(DDCRole role : roleList){
+                    if(role.getId().equals(admin.getRoleId())){
+                        System.out.print(role.getName());
+                    }
+                }
+                if (admin.getStatus() == 0) {
                     System.out.println("已启用");
-                } else if ((list.get(i).getStatus() == 1)) {
+                } else if (admin.getStatus() == 1) {
                     System.out.println("未启用");
                 }
             }
