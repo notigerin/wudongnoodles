@@ -144,4 +144,8 @@ public class DDCAdminMapperTest extends BaseTest {
             System.out.println(auth.getName() + "," + auth.getLevel());
         }
     }
+
+    //@Test
+    public void Test(){
+    }
 }

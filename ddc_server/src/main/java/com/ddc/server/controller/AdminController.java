@@ -1,16 +1,23 @@
 package com.ddc.server.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ddc.server.entity.DDCAdmin;
+import com.ddc.server.entity.DDCRole;
 import com.ddc.server.service.IDDCAdminService;
+import com.ddc.server.service.IDDCRoleService;
+import org.apache.logging.log4j.util.StringBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import com.google.gson.Gson;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * 前端控制器
@@ -19,18 +26,36 @@ import java.util.List;
  * @since 2019-05-09
  */
 @RestController
-@RequestMapping("/admin")
 public class AdminController {
-
   @Resource
   private IDDCAdminService adminService;
 
-  @GetMapping("/admin-list")
-    public String getAllAdmin(HttpServletRequest req , HttpServletResponse resp , HttpSession session){
-        System.out.println("getAllAdmin()");
-        List<DDCAdmin> list = adminService.selectAllAdmin();
-        session.setAttribute("list",list);
-        return "/admin-list";
+  /**
+   * 获取所有管理员列表
+   *
+   * @throws Exception
+   */
+  @RequestMapping("/admin-list")
+  public void AdminList(HttpServletResponse resp)throws Exception{
+    System.out.println("AdminController.AdminList()");
+    List<DDCAdmin> list = adminService.selectAllAdmin();
+    DDCAdmin admin;
+    StringJoiner str;
+
+    admin = list.get(0);
+    String jsonStr = JSON.toJSONString(admin);
+    str = new StringJoiner(jsonStr);
+    System.out.println(str);
+    for(int i = 0 ; i < list.size() ; i++){
+      admin = list.get(i);
+      jsonStr = JSON.toJSONString(admin);
+/*      if(i<(list.size()-1)) {
+        str.add(jsonStr + ",");
+      }else{*/
+        str.add(jsonStr);
+      //}
+    }
+    resp.getWriter().append(str.toString());
   }
 
 //  /**

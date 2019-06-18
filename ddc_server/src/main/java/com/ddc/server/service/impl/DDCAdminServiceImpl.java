@@ -25,8 +25,14 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
     @Resource
     private DDCAdminMapper adminMapper;
     @Override
-    public DDCAdmin selectByName(String name) {
-        return adminMapper.selectOne(new DDCAdmin(name));
+    public DDCAdmin selectByName(String userNo) {
+        return adminMapper.selectOne(new DDCAdmin(userNo));
+    }
+
+    @Override
+    public Map<String, Object> checkNameAndPasswd(JSONObject requestJson) {
+        //todo 检查用户名密码是否匹配 如果是反正Admin对象信息
+        return null;
     }
 
     @Override
@@ -50,9 +56,5 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
         adminMapper.updateById(admin);
     }
 
-    @Override
-    public Map<String, Object> checkNameAndPasswd(JSONObject requestJson) {
-        //todo 检查用户名密码是否匹配 如果是反正Admin对象信息
-        return null;
-    }
+
 }

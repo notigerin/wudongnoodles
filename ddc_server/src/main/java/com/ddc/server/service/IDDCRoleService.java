@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2019-06-17
  */
 public interface IDDCRoleService extends IService<DDCRole> {
-    DDCRole selectById(long id);
+    DDCRole selectByRoleId(long id);
 
     List<DDCRole> selectAllRole();
 

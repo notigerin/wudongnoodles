@@ -5,9 +5,30 @@
         <!-- 查询记录数 -->
         <!-- id:是唯一标识符 -->
         <!-- resultType: 返回值类型 -->
+    <resultMap id="adminMap" type="DDCAdmin">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="password" column="password" />
+        <result property="salt" column="salt" />
+        <result property="sex" column="sex" />
+        <result property="mobile" column="mobile" />
+        <result property="email" column="email" />
+        <result property="roleId" column="role_id" />
+        <result property="remark" column="remark" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+        <result property="status" column="status" />
+        <result property="delFlag" column="del_flag" />
+    </resultMap>
 
-    <select id="getAdminList" resultType="DDCAdmin">
+    <select id="getAdminList" resultMap="adminMap">
 		select * from ddc_admin
 	</select>
+
+    <select id="selectAdmin" resultMap="adminMap">
+        select * from ddc_admin where name = #{name}
+    </select>
 
 </mapper>

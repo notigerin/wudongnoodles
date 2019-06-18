@@ -106,6 +106,7 @@
           <element id="library" level="project" name="Maven: org.slf4j:jul-to-slf4j:1.7.26" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.26" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: org.jetbrains:annotations:17.0.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

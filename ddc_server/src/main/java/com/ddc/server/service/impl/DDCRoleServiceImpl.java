@@ -23,7 +23,7 @@ public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> impl
     private DDCRoleMapper roleMapper;
 
     @Override
-    public DDCRole selectById(long id) {
+    public DDCRole selectByRoleId(long id) {
         return roleMapper.selectById(id);
     }
 

@@ -1,5 +1,7 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -33,8 +35,8 @@
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="">
-		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" name="">
+		<button type="submit" class="btn btn-success" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
@@ -64,32 +66,13 @@
 				<th width="100">操作</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
-				<td>1</td>
-				<td>admin</td>
-				<td>13000000000</td>
-				<td>admin@mail.com</td>
-				<td>超级管理员</td>
-				<td>2014-6-11 11:11:42</td>
-				<td class="td-status"><span class="label label-success radius">已启用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
-			<tr class="text-c">
-				<td><input type="checkbox" value="2" name=""></td>
-				<td>2</td>
-				<td>zhangsan</td>
-				<td>13000000000</td>
-				<td>admin@mail.com</td>
-				<td>栏目编辑</td>
-				<td>2014-6-11 11:11:42</td>
-				<td class="td-status"><span class="label radius">已停用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="admin_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','2','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
+		<tbody class="copy_tbody" id="tboy_id">
+
 		</tbody>
 	</table>
 </div>
+
+
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
@@ -109,6 +92,35 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 */
+
+
+$.get("//admin-list",function(data,status){
+	var txt = '{ "sites" : ['+ data + ' ]}';
+	// 	alert("数据: " + data + "\n状态: " + status);
+	var obj = eval ("(" + txt + ")");
+	var i;
+	for(i=0; i<obj.sites.length; i++){
+		//if(obj.sites[i].delFlag != 1){
+			$("#tboy_id").append("<tr id=\"tr"+i+"\"></tr>");
+			$("#tr"+i+"").append("<td><input type=\"checkbox\" value=\""+ obj.sites[i].id +"\" name=\"\">" + "</td>");
+			$("#tr"+i+"").append("<td>"+ (i+1) +"</td>");
+			$("#tr"+i+"").append("<td>"+obj.sites[i].name +"</td>");
+			$("#tr"+i+"").append("<td>"+obj.sites[i].mobile +"</td>");
+			$("#tr"+i+"").append("<td>"+obj.sites[i].email +"</td>");
+			$("#tr"+i+"").append("<td>"+obj.sites[i].roleId +"</td>");
+			$("#tr"+i+"").append("<td>"+obj.sites[i].createTime +"</td>");
+			if(obj.sites[i].status == 0){
+				$("#tr"+i+"").append("<td class=\"td-status\"><span class=\"label label-success radius\">已启用</span></td>");
+				$("#tr"+i+"").append("<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_stop(this,'10001')\" href=\"javascript:;\" title=\"停用\"><i class=\"Hui-iconfont\">&#xe631;</i></a><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a><a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>");
+			}else{
+				$("#tr"+i+"").append("<td class=\"td-status\"><span class=\"label radius\">已停用</span></td>");
+				$("#tr"+i+"").append("<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_start(this,'10001')\" href=\"javascript:;\" title=\"启用\"><i class=\"Hui-iconfont\">&#xe615;</i></a><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a><a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>");
+			}
+		//}
+
+	}
+});
+
 /*管理员-增加*/
 function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
