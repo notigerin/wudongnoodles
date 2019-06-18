@@ -24,38 +24,23 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager);
         factoryBean.setLoginUrl("/login");
-        // 登录成功后要跳转的链接
-        factoryBean.setSuccessUrl("/");
-
-        // 未授权界面;
+        factoryBean.setSuccessUrl("/index");
         factoryBean.setUnauthorizedUrl("/403");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<>();
-//        filterMap.put("authc", new FormAuthenticationFilter());
         factoryBean.setFilters(filterMap);
-        /*
-         * 自定义url规则
-         * http://shiro.apache.org/web.html#urls-
-         */
         Map<String, String> filterRuleMap = new HashMap<>(2);
         // 访问401和404页面不通过我们的Filter
         //通过http://127.0.0.1:9527/druid/index.html 访问 liugh/liugh
         filterRuleMap.put("/static/**", "anon");
+        filterRuleMap.put("/lib/**", "anon");
+        filterRuleMap.put("/temp/**", "anon");
+        filterRuleMap.put("/favicon.ico", "anon");
         filterRuleMap.put("/logout", "logout");
         filterRuleMap.put("/login", "authc");
-        filterRuleMap.put("/admin-list", "authc");
-        // <!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterRuleMap.put("/**", "authc");
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面,设置的话没经过验证会发送test请求到控制器，由控制器决定转到对应视图
-        //shiroFilterFactoryBean.setLoginUrl("/test");
-
-        // 所有请求通过我们自己的JWT Filter
-//        filterRuleMap.put("/**", "jwt");
-
-
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
-//        Map<String, Filter> filters = factoryBean.getFilters();
 
         return factoryBean;
     }
