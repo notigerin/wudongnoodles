@@ -94,7 +94,7 @@ public class DDCAdminMapperTest extends BaseTest {
     }
 
     //Admin列表查询测试
-    @Test
+    //@Test
     public void AllAdmin(){
         adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
         roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
