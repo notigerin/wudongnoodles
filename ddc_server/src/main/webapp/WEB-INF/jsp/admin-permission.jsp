@@ -57,14 +57,8 @@
 				<th width="100">操作</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
-				<td>1</td>
-				<td>栏目添加</td>
-				<td></td>
-				<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','admin-permission-add.html','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
+		<tbody id="tbody">
+
 		</tbody>
 	</table>
 </div>
@@ -85,6 +79,37 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 */
+
+	function authList() {
+		$.ajax({
+			type: 'post',
+			url: '/auth/list',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				for (var i = 0; i <data.data.length; i++) {
+					var d = data.data[i];
+
+					var j = i + 1;
+					if(d.delFlag != 1) {
+						var li = "<tr class=\"text-c\">" +
+								"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+								"<td>" + j + "</td>" +
+								"<td>" + d.name + "</td>" +
+								"<td>" + d.flag + "</td>" +
+								"<td><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_permission_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+								"</tr>";
+						$("#tbody").append(li);
+					}
+				}
+			},
+			error:function(data) {
+				console.log(data+"111");
+			}
+		});
+	}
+	authList();
+
 /*管理员-权限-添加*/
 function admin_permission_add(title,url,w,h){
 	layer_show(title,url,w,h);

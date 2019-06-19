@@ -34,6 +34,11 @@ public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> impl
     }
 
     @Override
+    public List<DDCRole> getRoleName() {
+        return roleMapper.getRoleName();
+    }
+
+    @Override
     public void insertRole(DDCRole role) {
         roleMapper.insert(role);
     }

@@ -18,6 +18,8 @@ public interface IDDCRoleService extends IService<DDCRole> {
 
     List<DDCRole> selectAllRole();
 
+    List<DDCRole> getRoleName();
+
     void insertRole(DDCRole role);
 
     void delRole(long id);

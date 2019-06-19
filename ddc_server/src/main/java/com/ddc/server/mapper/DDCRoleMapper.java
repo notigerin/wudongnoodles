@@ -15,4 +15,6 @@ import java.util.List;
 public interface DDCRoleMapper extends BaseMapper<DDCRole> {
     List<DDCRole> getRoleList();
 
+    List<DDCRole> getRoleName();
+
 }

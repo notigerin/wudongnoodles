@@ -14,6 +14,7 @@
         <result property="mobile" column="mobile" />
         <result property="email" column="email" />
         <result property="roleId" column="role_id" />
+        <result property="roleName" column="roleName" />
         <result property="remark" column="remark" />
         <result property="createBy" column="create_by" />
         <result property="createTime" column="create_time" />
@@ -24,8 +25,8 @@
     </resultMap>
 
     <select id="getAdminList" resultMap="adminMap">
-		select * from ddc_admin
-	</select>
+		select a.* , r.name AS roleName from ddc_admin a JOIN ddc_role r on a.role_id = r.id
+    </select>
 
     <select id="selectAdmin" resultMap="adminMap">
         select * from ddc_admin where name = #{name}

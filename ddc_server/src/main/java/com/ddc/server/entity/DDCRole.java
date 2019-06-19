@@ -63,9 +63,6 @@ public class DDCRole extends Model<DDCRole> {
     private Long updateTime;
 
 
-
-
-
     /**
      * 删除标志
      */
@@ -73,7 +70,8 @@ public class DDCRole extends Model<DDCRole> {
     private Integer delFlag;
 
 
-
+    @TableField(exist = false)
+    private String adminName;
 
     @Override
     protected Serializable pkVal() {

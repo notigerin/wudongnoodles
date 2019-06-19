@@ -49,7 +49,7 @@
 		</span>
 		<span class="r">共有数据：<strong>54</strong> 条</span>
 	</div>
-	<table class="table table-border table-bordered table-bg">
+	<table class="table table-border table-bordered table-bg" id="AdminList">
 		<thead>
 			<tr>
 				<th scope="col" colspan="9">员工列表</th>
@@ -66,7 +66,7 @@
 				<th width="100">操作</th>
 			</tr>
 		</thead>
-		<tbody class="copy_tbody" id="tboy_id">
+		<tbody class="copy_tbody" id="tbody">
 
 		</tbody>
 	</table>
@@ -92,34 +92,49 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 */
-
-
-$.get("//admin-list",function(data,status){
-	var txt = '{ "sites" : ['+ data + ' ]}';
-	// 	alert("数据: " + data + "\n状态: " + status);
-	var obj = eval ("(" + txt + ")");
-	var i;
-	for(i=0; i<obj.sites.length; i++){
-		//if(obj.sites[i].delFlag != 1){
-			$("#tboy_id").append("<tr id=\"tr"+i+"\"></tr>");
-			$("#tr"+i+"").append("<td><input type=\"checkbox\" value=\""+ obj.sites[i].id +"\" name=\"\">" + "</td>");
-			$("#tr"+i+"").append("<td>"+ (i+1) +"</td>");
-			$("#tr"+i+"").append("<td>"+obj.sites[i].name +"</td>");
-			$("#tr"+i+"").append("<td>"+obj.sites[i].mobile +"</td>");
-			$("#tr"+i+"").append("<td>"+obj.sites[i].email +"</td>");
-			$("#tr"+i+"").append("<td>"+obj.sites[i].roleId +"</td>");
-			$("#tr"+i+"").append("<td>"+obj.sites[i].createTime +"</td>");
-			if(obj.sites[i].status == 0){
-				$("#tr"+i+"").append("<td class=\"td-status\"><span class=\"label label-success radius\">已启用</span></td>");
-				$("#tr"+i+"").append("<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_stop(this,'10001')\" href=\"javascript:;\" title=\"停用\"><i class=\"Hui-iconfont\">&#xe631;</i></a><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a><a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>");
-			}else{
-				$("#tr"+i+"").append("<td class=\"td-status\"><span class=\"label radius\">已停用</span></td>");
-				$("#tr"+i+"").append("<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_start(this,'10001')\" href=\"javascript:;\" title=\"启用\"><i class=\"Hui-iconfont\">&#xe615;</i></a><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a><a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>");
+	function adminList() {
+		$.ajax({
+			type: 'post',
+			url: '/admin/list',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				for (var i = 0; i <data.data.length; i++) {
+					var d = data.data[i];
+					if(d.status == 0){
+						var status = "已启用";
+						var unstatus = "停用";
+						var staclass = "label label-success radius";
+					}else{
+						var status = "已停用";
+						var unstatus = "启用";
+						var staclass = "label radius"
+					}
+					var j = i + 1;
+					if(d.delFlag != 1) {
+						var li = "<tr class=\"text-c\">" +
+								"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+								"<td>" + j + "</td>" +
+								"<td>" + d.name + "</td>" +
+								"<td>" + d.mobile + "</td>" +
+								"<td>" + d.email + "</td>" +
+								"<td>" + d.roleName + "</td>" +
+								"<td>" + d.createTime + "</td>" +
+								"<td class=\"td-status\"><span class=\"" + staclass + "\">" + status + "</span></td>" +
+								"<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_stop(this,'10001')\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe631;</i></a> <a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','admin-add.html','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+								"</tr>";
+						$("#tbody").append(li);
+					}
+				}
+			},
+			error:function(data) {
+				console.log(data+"111");
 			}
-		//}
-
+		});
 	}
-});
+	adminList();
+
+
 
 /*管理员-增加*/
 function admin_add(title,url,w,h){
