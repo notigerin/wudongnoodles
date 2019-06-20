@@ -110,7 +110,7 @@
 	function roleList() {
 		$.ajax({
 			type: 'post',
-			url: '/role/roleName',
+			url: '/role/list',
 			dataType: 'json',
 			success: function (data) {
 				console.log(data);
@@ -157,7 +157,7 @@
 			dataType:"json",
 			success:function (data) {
 				// alert(data.result);
-				//alert(data.msg);
+				alert("添加管理员成功");
 			}
 		})
 	})

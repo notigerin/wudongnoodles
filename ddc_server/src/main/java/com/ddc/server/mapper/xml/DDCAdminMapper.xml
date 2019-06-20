@@ -25,11 +25,19 @@
     </resultMap>
 
     <select id="getAdminList" resultMap="adminMap">
-		select a.* , r.name AS roleName from ddc_admin a JOIN ddc_role r on a.role_id = r.id
+		select a.* , r.name AS roleName from ddc_admin a JOIN ddc_role r on a.role_id = r.id;
     </select>
 
     <select id="selectAdmin" resultMap="adminMap">
-        select * from ddc_admin where name = #{name}
+        select * from ddc_admin where name = #{name};
     </select>
+
+    <update id="updateStatus">
+        update ddc_admin set status = #{status} where id = #{id};
+    </update>
+
+    <update id="delAdmin">
+        update ddc_admin set del_flag = 1 where id = #{id};
+    </update>
 
 </mapper>

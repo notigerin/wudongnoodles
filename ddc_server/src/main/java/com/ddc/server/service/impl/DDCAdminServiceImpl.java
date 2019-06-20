@@ -36,6 +36,11 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
     }
 
     @Override
+    public void updateStatus(long id, Integer status) {
+        adminMapper.updateStatus(id, status);
+    }
+
+    @Override
     public List<DDCAdmin> selectAllAdmin(){
         return adminMapper.getAdminList();
     }
@@ -48,7 +53,7 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
 
     @Override
     public void delAdmin(long id){
-        adminMapper.deleteById(id);
+        adminMapper.delAdmin(id);
     }
 
     @Override

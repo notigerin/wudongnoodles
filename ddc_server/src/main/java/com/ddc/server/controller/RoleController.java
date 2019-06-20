@@ -5,6 +5,7 @@ import com.ddc.server.config.web.http.ResponseHelper;
 import com.ddc.server.config.web.http.ResponseModel;
 import com.ddc.server.entity.DDCRole;
 import com.ddc.server.service.IDDCRoleService;
+import com.ddc.server.service.SpringContextBeanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,7 @@ public class RoleController {
     @RequestMapping("/list")
     @ResponseBody
     public ResponseModel<List<DDCRole>> RoleList(HttpServletResponse resp){
+        roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
         List<DDCRole> list = roleService.selectAllRole();
         for(int i = 0; i < list.size()-1; i++){
             for(int j = i + 1; j < list.size(); j++){
@@ -46,12 +48,16 @@ public class RoleController {
         return ResponseHelper.buildResponseModel(list);
     }
 
-    @RequestMapping("/roleName")
-    @ResponseBody
-    public ResponseModel<List<DDCRole>> RoleName(HttpServletResponse resp){
-        List<DDCRole> list = roleService.getRoleName();
-        return ResponseHelper.buildResponseModel(list);
-    }
+
+
+//    @RequestMapping("/roleName")
+//    @ResponseBody
+//    public ResponseModel<List<DDCRole>> RoleName(HttpServletResponse resp){
+//        List<DDCRole> list = roleService.getRoleName();
+//        return ResponseHelper.buildResponseModel(list);
+//    }
+
+
 //    @Resource
 //    private IRoleService roleService;
 //

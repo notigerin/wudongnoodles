@@ -17,4 +17,8 @@ public interface DDCAdminMapper extends BaseMapper<DDCAdmin> {
     List<DDCAdmin> getAdminList();
 
     DDCAdmin selectAdmin(@Param(value = "name") String name);
+
+    void updateStatus(@Param(value = "id") long id, @Param(value = "status") Integer status);
+
+    void delAdmin(@Param(value = "id") long id);
 }

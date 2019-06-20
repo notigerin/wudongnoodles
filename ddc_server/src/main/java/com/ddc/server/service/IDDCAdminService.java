@@ -28,5 +28,7 @@ public interface IDDCAdminService extends IService<DDCAdmin> {
 
     void updateAdmin(DDCAdmin admin);
     Map<String, Object> checkNameAndPasswd(JSONObject requestJson);
+
+    void updateStatus(long id, Integer status);
 }
 

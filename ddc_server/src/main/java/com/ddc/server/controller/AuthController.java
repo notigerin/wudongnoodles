@@ -3,6 +3,7 @@ import com.ddc.server.config.web.http.ResponseHelper;
 import com.ddc.server.config.web.http.ResponseModel;
 import com.ddc.server.entity.DDCAuth;
 import com.ddc.server.service.IDDCAuthService;
+import com.ddc.server.service.SpringContextBeanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class AuthController {
     @RequestMapping("/list")
     @ResponseBody
     public ResponseModel<List<DDCAuth>> AuthList(HttpServletResponse resp){
+        authService = SpringContextBeanService.getBean(IDDCAuthService.class);
         List<DDCAuth> list = authService.selectAllAuth();
         return ResponseHelper.buildResponseModel(list);
     }

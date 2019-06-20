@@ -20,7 +20,7 @@
 	</select>
 
 	<select id="getRoleName" resultType="DDCRole">
-		select id, name from ddc_role
+		select id, name from ddc_role;
 	</select>
 
 </mapper>

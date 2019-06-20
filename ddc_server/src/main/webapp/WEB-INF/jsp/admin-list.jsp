@@ -105,10 +105,12 @@
 						var status = "已启用";
 						var unstatus = "停用";
 						var staclass = "label label-success radius";
+						var onclick = "admin_stop";
 					}else{
 						var status = "已停用";
 						var unstatus = "启用";
-						var staclass = "label radius"
+						var staclass = "label radius";
+						var onclick = "admin_start";
 					}
 					var j = i + 1;
 					if(d.delFlag != 1) {
@@ -121,14 +123,15 @@
 								"<td>" + d.roleName + "</td>" +
 								"<td>" + d.createTime + "</td>" +
 								"<td class=\"td-status\"><span class=\"" + staclass + "\">" + status + "</span></td>" +
-								"<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"admin_stop(this,'10001')\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe631;</i></a> <a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','admin-add.html','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+								"<td class=\"td-manage\">"+
+									"<a style=\"text-decoration:none\" onClick=\""+ onclick + "(this," + d.id + ","+ d.status +")\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe631;</i></a>"+
+									"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+									"<a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this," + d.id + ")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>"+
+								"</td>" +
 								"</tr>";
 						$("#tbody").append(li);
 					}
 				}
-			},
-			error:function(data) {
-				console.log(data+"111");
 			}
 		});
 	}
@@ -144,8 +147,11 @@ function admin_add(title,url,w,h){
 function admin_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
-			type: 'POST',
-			url: '',
+			type: 'post',
+			url: '/admin/delAdmin',
+			data:{
+				"id":id,
+			},
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
@@ -163,27 +169,53 @@ function admin_edit(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
 /*管理员-停用*/
-function admin_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
+function admin_stop(obj,id,status){
+	layer.confirm('确认要停用吗？' ,function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-		$(obj).remove();
-		layer.msg('已停用!',{icon: 5,time:1000});
+		$.ajax({
+			type: 'post',
+			url: '/admin/updateStatus',
+			data:{
+				"id":id,
+				"status":status
+			},
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,"+ sid +")" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已停用</span>');
+				$(obj).remove();
+				layer.msg("已停用",{icon: 5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.data.msg);
+			},
+		});
+
 	});
 }
 
 /*管理员-启用*/
-function admin_start(obj,id){
+function admin_start(obj,id,status){
 	layer.confirm('确认要启用吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		
-		
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-		$(obj).remove();
-		layer.msg('已启用!', {icon: 6,time:1000});
+		$.ajax({
+			type: 'post',
+			url: '/admin/updateStatus',
+			data:{
+				"id":id,
+				"status":status
+			},
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).remove();
+				layer.msg('已启用!', {icon: 6,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});
 	});
 }
 </script>
