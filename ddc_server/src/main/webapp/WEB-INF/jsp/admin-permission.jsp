@@ -35,7 +35,7 @@
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
-			<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+			<a href="javascript:;" onclick="batchDeletes()" class="btn btn-danger radius">
 				<i class="Hui-iconfont">&#xe6e2;</i> 批量删除
 			</a>
 			<a href="javascript:;" onclick="admin_permission_add('添加权限节点','/page/admin-permission-add','','310')" class="btn btn-primary radius">
@@ -91,11 +91,13 @@
 
 					var j = i + 1;
 					var li = "<tr class=\"text-c\">" +
-							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"subcheck\"></td>" +
 							"<td>" + j + "</td>" +
 							"<td>" + d.name + "</td>" +
 							"<td>" + d.flag + "</td>" +
-							"<td><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_permission_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+							"<td>"+
+							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+							"<a title=\"删除\" href=\"javascript:;\" onclick=\"auth_del(this,"+ d.id +")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
 							"</tr>";
 					$("#tbody").append(li);
 				}
@@ -107,43 +109,94 @@
 	}
 	authList();
 
-/*管理员-权限-添加*/
-function admin_permission_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
-/*管理员-权限-编辑*/
-function admin_permission_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
+	/*权限-删除*/
+	function auth_del(obj,id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				type: 'post',
+				url: '/auth/delAuth',
+				data:{
+					"id":id
+				},
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					location.reload();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
+		});
+	}
 
-/*管理员-权限-删除*/
-function admin_permission_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
+	/*批量删除*/
+	function batchDeletes(){
+		var checkedNum = $("input[name='subcheck']:checked").length;
+		if(checkedNum==0){
+			alert("请至少选择一项!");
+			return false;
+		}
+		if(confirm("确定删除所选项目?")){
+			var checkedList = new Array();
+			$("input[name='subcheck']:checked").each(function(){
+				checkedList.push($(this).val());
+			});
+			$.ajax({
+				type:"POST",
+				url:"/auth/batchDel",
+				data:{"delItems":checkedList.toString()},
+				datatype:"json",
+				success:function(data){
+					$("[name='checkbox2']:checkbox").attr("checked",false);
+					location.reload();
+					art.dialog.tips('删除成功!');
+				},
+				error:function(data){
+					art.dialog.tips('删除失败!');
+				}
+			});
+		}
+	}
 
-setTimeout(function () {
-	$('.table-sort').dataTable({
-		"aaSorting": [[1, "desc"]],//默认第几个排序
-		"bStateSave": true,//状态保存
-		"aoColumnDefs": [
-			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-			{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
-		]
-	});
-}, 200);
+	/*管理员-权限-添加*/
+	function admin_permission_add(title,url,w,h){
+		layer_show(title,url,w,h);
+	}
+	/*管理员-权限-编辑*/
+	function admin_permission_edit(title,url,id,w,h){
+		layer_show(title,url,w,h);
+	}
+
+	/*管理员-权限-删除*/
+	function admin_permission_del(obj,id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				type: 'POST',
+				url: '',
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
+		});
+	}
+
+	setTimeout(function () {
+		$('.table-sort').dataTable({
+			"aaSorting": [[1, "desc"]],//默认第几个排序
+			"bStateSave": true,//状态保存
+			"aoColumnDefs": [
+				//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+			]
+		});
+	}, 200);
 
 </script>
 </body>

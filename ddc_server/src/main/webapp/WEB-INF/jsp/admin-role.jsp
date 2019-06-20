@@ -37,7 +37,7 @@
 <div class="page-container">
 	<div class="cl pd-5 bg-1 bk-gray">
 		<span class="l">
-			<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+			<a href="javascript:;" onclick="batchDeletes()" class="btn btn-danger radius">
 				<i class="Hui-iconfont">&#xe6e2;</i> 批量删除
 			</a>
 			<a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','/page/admin-role-add','800')">
@@ -86,12 +86,14 @@
 
 					var j = i + 1;
 					var li = "<tr class=\"text-c\">" +
-							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"subcheck\"></td>" +
 							"<td>" + j + "</td>" +
 							"<td>" + d.name + "</td>" +
 							"<td>" + d.adminName + "</td>" +
 							"<td>" + d.remark + "</td>" +
-							"<td class=\"f-14\"><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/page/admin-role-add','4')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_role_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+							"<td class=\"f-14\">"+
+							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/page/admin-role-add','4')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+							"<a title=\"删除\" href=\"javascript:;\" onclick=\"role_del(this,"+ d.id +")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
 							"</tr>";
 					$("#tbody").append(li);
 				}
@@ -102,6 +104,57 @@
 		});
 	}
 	roleList();
+
+	/*角色-删除*/
+	function role_del(obj,id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				type: 'post',
+				url: '/role/delRole',
+				data:{
+					"id":id
+				},
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					location.reload();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
+		});
+	}
+
+	/*批量删除*/
+	function batchDeletes(){
+		var checkedNum = $("input[name='subcheck']:checked").length;
+		if(checkedNum==0){
+			alert("请至少选择一项!");
+			return false;
+		}
+		if(confirm("确定删除所选项目?")){
+			var checkedList = new Array();
+			$("input[name='subcheck']:checked").each(function(){
+				checkedList.push($(this).val());
+			});
+			$.ajax({
+				type:"POST",
+				url:"/role/batchDel",
+				data:{"delItems":checkedList.toString()},
+				datatype:"json",
+				success:function(data){
+					$("[name='checkbox2']:checkbox").attr("checked",false);
+					location.reload();
+					art.dialog.tips('删除成功!');
+				},
+				error:function(data){
+					art.dialog.tips('删除失败!');
+				}
+			});
+		}
+	}
 
 /*管理员-角色-添加*/
 function admin_role_add(title,url,w,h){

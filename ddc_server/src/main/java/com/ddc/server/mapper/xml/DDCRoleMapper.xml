@@ -23,4 +23,8 @@
 		select id, name from ddc_role;
 	</select>
 
+	<update id="delById">
+		update ddc_role set del_flag = 1 where id = #{id};
+	</update>
+
 </mapper>

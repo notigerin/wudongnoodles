@@ -8,10 +8,12 @@ import com.ddc.server.service.IDDCRoleService;
 import com.ddc.server.service.SpringContextBeanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -47,6 +49,31 @@ public class RoleController {
             }
         }
         return ResponseHelper.buildResponseModel(list);
+    }
+
+    @RequestMapping("/delRole")
+    @ResponseBody
+    public ResponseModel<String> delAdmin(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id) throws Exception {
+        String msg;
+        if (id != null) {
+            roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
+            roleService.delRole(id);
+            msg = "删除成功";
+        }else{
+            msg = "数据出错";
+        }
+        return ResponseHelper.buildResponseModel(msg);
+    }
+
+
+    @RequestMapping("/batchDel")
+    @ResponseBody
+    public void batchDeletes(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="delItems") String delItems) {
+        String[] strs = delItems.split(",");
+        for (int i = 0; i < strs.length; i++) {
+            long oid = Long.parseLong(strs[i]);
+            roleService.delRole(oid);
+        }
     }
 
 

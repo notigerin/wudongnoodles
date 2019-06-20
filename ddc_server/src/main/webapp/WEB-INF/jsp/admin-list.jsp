@@ -91,6 +91,7 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 */
+	/*列表获取*/
 	function adminList() {
 		$.ajax({
 			type: 'post',
@@ -136,130 +137,130 @@
 
 
 
-/*管理员-增加*/
-function admin_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
-
-/*管理员-编辑*/
-function admin_edit(title,url,id,w,h){
-    layer_show(title,url,w,h);
-}
-
-/*管理员-删除*/
-function admin_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'post',
-			url: '/admin/delAdmin',
-			data:{
-				"id":id
-			},
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				location.reload();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
-
-function batchDeletes(){
-	var checkedNum = $("input[name='subcheck']:checked").length;
-	if(checkedNum==0){
-		alert("请至少选择一项!");
-		return false;
+	/*管理员-增加*/
+	function admin_add(title,url,w,h){
+		layer_show(title,url,w,h);
 	}
-	if(confirm("确定删除所选项目?")){
-		var checkedList = new Array();
-		$("input[name='subcheck']:checked").each(function(){
-			checkedList.push($(this).val());
-		});
-		$.ajax({
-			type:"POST",
-			url:"/admin/batchDel",
-			data:{"delItems":checkedList.toString()},
-			datatype:"json",
-			success:function(data){
-				$("[name='checkbox2']:checkbox").attr("checked",false);
-				location.reload();
-				art.dialog.tips('删除成功!');
-			},
-			error:function(data){
-				art.dialog.tips('删除失败!');
-			}
+
+	/*管理员-编辑*/
+	function admin_edit(title,url,id,w,h){
+		layer_show(title,url,w,h);
+	}
+
+	/*-删除*/
+	function admin_del(obj,id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				type: 'post',
+				url: '/admin/delAdmin',
+				data:{
+					"id":id
+				},
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					location.reload();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
 		});
 	}
-}
+	/*批量删除*/
+	function batchDeletes(){
+		var checkedNum = $("input[name='subcheck']:checked").length;
+		if(checkedNum==0){
+			alert("请至少选择一项!");
+			return false;
+		}
+		if(confirm("确定删除所选项目?")){
+			var checkedList = new Array();
+			$("input[name='subcheck']:checked").each(function(){
+				checkedList.push($(this).val());
+			});
+			$.ajax({
+				type:"POST",
+				url:"/admin/batchDel",
+				data:{"delItems":checkedList.toString()},
+				datatype:"json",
+				success:function(data){
+					$("[name='checkbox2']:checkbox").attr("checked",false);
+					location.reload();
+					art.dialog.tips('删除成功!');
+				},
+				error:function(data){
+					art.dialog.tips('删除失败!');
+				}
+			});
+		}
+	}
 
-/*管理员-停用*/
-function admin_stop(obj,id,status){
-	layer.confirm('确认要停用吗？' ,function(index){
-		//此处请求后台程序，下方是成功后的前台处理……
-		$.ajax({
-			type: 'post',
-			url: '/admin/updateStatus',
-			data:{
-				"id":id,
-				"status":status
-			},
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,"+ sid +")" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已停用</span>');
-				$(obj).remove();
-				location.reload();
-				layer.msg("已停用",{icon: 5,time:1000});
-			},
-			error:function(data) {
-				console.log(data.data.msg);
-			},
+	/*管理员-停用*/
+	function admin_stop(obj,id,status){
+		layer.confirm('确认要停用吗？' ,function(index){
+			//此处请求后台程序，下方是成功后的前台处理……
+			$.ajax({
+				type: 'post',
+				url: '/admin/updateStatus',
+				data:{
+					"id":id,
+					"status":status
+				},
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,"+ sid +")" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+					$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已停用</span>');
+					$(obj).remove();
+					location.reload();
+					layer.msg("已停用",{icon: 5,time:1000});
+				},
+				error:function(data) {
+					console.log(data.data.msg);
+				},
+			});
+
 		});
+	}
 
-	});
-}
-
-/*管理员-启用*/
-function admin_start(obj,id,status){
-	layer.confirm('确认要启用吗？',function(index){
-		//此处请求后台程序，下方是成功后的前台处理……
-		$.ajax({
-			type: 'post',
-			url: '/admin/updateStatus',
-			data:{
-				"id":id,
-				"status":status
-			},
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				location.reload();
-				layer.msg('已启用!', {icon: 6,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
+	/*管理员-启用*/
+	function admin_start(obj,id,status){
+		layer.confirm('确认要启用吗？',function(index){
+			//此处请求后台程序，下方是成功后的前台处理……
+			$.ajax({
+				type: 'post',
+				url: '/admin/updateStatus',
+				data:{
+					"id":id,
+					"status":status
+				},
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+					$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+					$(obj).remove();
+					location.reload();
+					layer.msg('已启用!', {icon: 6,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
 		});
-	});
-}
+	}
 
-/*分页处理*/
-setTimeout(function () {
-	$('.table-sort').dataTable({
-		"aaSorting": [[1, "desc"]],//默认第几个排序
-		"bStateSave": true,//状态保存
-		"aoColumnDefs": [
-			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-			{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
-		]
-	});
-}, 200);
+	/*分页处理*/
+	setTimeout(function () {
+		$('.table-sort').dataTable({
+			"aaSorting": [[1, "desc"]],//默认第几个排序
+			"bStateSave": true,//状态保存
+			"aoColumnDefs": [
+				//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+			]
+		});
+	}, 200);
 </script>
 </body>
 </html>
