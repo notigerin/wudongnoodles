@@ -113,6 +113,7 @@
 						var onclick = "admin_start";
 					}
 					var j = i + 1;
+					//var dateTime = dateFormat_2(d.createTime);
 					var li = "<tr class=\"text-c\">" +
 							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"subcheck\"></td>" +
 							"<td>" + j + "</td>" +
@@ -135,9 +136,15 @@
 	}
 	adminList();
 
+// function dateFormat_2(longTypeDate){
+// 	var dateType = "";
+// 	var date = new Date();
+// 	date.setTime(longTypeDate);
+// 	dateType = date.getFullYear()+"-"+getMonth(date)+"-"+getDay(date);//yyyy-MM-dd格式日期
+// 	return dateType;
+// }
 
-
-	/*管理员-增加*/
+/*管理员-增加*/
 	function admin_add(title,url,w,h){
 		layer_show(title,url,w,h);
 	}

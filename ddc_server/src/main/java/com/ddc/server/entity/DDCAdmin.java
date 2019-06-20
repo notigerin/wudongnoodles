@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.*;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * <p>
@@ -67,15 +69,15 @@ public class DDCAdmin extends Model<DDCAdmin> {
     @TableField("remark")
     private String remark;
     /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    private Long createTime;
-    /**
      * 创建人
      */
     @TableField("create_by")
     private Long createBy;
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private String createTime;
     /**
      * 更新人
      */
@@ -85,7 +87,7 @@ public class DDCAdmin extends Model<DDCAdmin> {
      * 更新时间
      */
     @TableField("update_time")
-    private Long updateTime;
+    private String updateTime;
 
 
     /**
@@ -115,6 +117,7 @@ public class DDCAdmin extends Model<DDCAdmin> {
     }
 
     public DDCAdmin(String name, String password, Integer sex, String mobile, String email, Long roleId, String remark) {
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id = 0L;
         this.name = name;
         this.password = password;
@@ -123,8 +126,8 @@ public class DDCAdmin extends Model<DDCAdmin> {
         this.email = email;
         this.roleId = roleId;
         this.remark = remark;
-        this.createTime=System.currentTimeMillis();
-        this.updateTime=System.currentTimeMillis();
+        this.createTime= data.format(new Date(System.currentTimeMillis()));
+        this.updateTime= data.format(new Date(System.currentTimeMillis()));
         this.createBy=0L;
         this.updateBy=0L;
         this.delFlag=0;
@@ -132,6 +135,7 @@ public class DDCAdmin extends Model<DDCAdmin> {
     }
 
     public DDCAdmin(long id, String name, Integer sex, String mobile, String email, Long roleId, String remark) {
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id = id;
         this.name = name;
         this.password = password;
@@ -140,9 +144,10 @@ public class DDCAdmin extends Model<DDCAdmin> {
         this.email = email;
         this.roleId = roleId;
         this.remark = remark;
-        this.updateTime=System.currentTimeMillis();
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
     }
     public DDCAdmin(long id, String name, String password, Integer sex, String mobile, String email, Long roleId, String remark) {
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id = id;
         this.name = name;
         this.password = password;
@@ -151,6 +156,6 @@ public class DDCAdmin extends Model<DDCAdmin> {
         this.email = email;
         this.roleId = roleId;
         this.remark = remark;
-        this.updateTime=System.currentTimeMillis();
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
     }
 }
