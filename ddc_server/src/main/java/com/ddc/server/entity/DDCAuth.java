@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.*;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -49,18 +50,16 @@ public class DDCAuth extends Model<DDCAuth> {
      * 权限级别
      */
     private Integer level;
-
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    private Long createTime;
     /**
      * 创建人
      */
     @TableField("create_by")
     private Long createBy;
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private String createTime;
     /**
      * 更新人
      */
@@ -70,7 +69,7 @@ public class DDCAuth extends Model<DDCAuth> {
      * 更新时间
      */
     @TableField("update_time")
-    private Long updateTime;
+    private String updateTime;
 
 
     /**
@@ -86,13 +85,14 @@ public class DDCAuth extends Model<DDCAuth> {
     }
 
     public DDCAuth(String name, String flag, Long pId, Integer level) {
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id = 0L;
         this.name = name;
         this.flag = flag;
         this.pId = pId;
         this.level = level;
-        this.createTime=System.currentTimeMillis();
-        this.updateTime=System.currentTimeMillis();
+        this.createTime = data.format(new Date(System.currentTimeMillis()));
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
         this.createBy=0L;
         this.updateBy=0L;
         this.delFlag=0;
