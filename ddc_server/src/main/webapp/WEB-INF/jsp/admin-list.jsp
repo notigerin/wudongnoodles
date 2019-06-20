@@ -40,16 +40,15 @@
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
-			<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+			<a href="javascript:;" onclick="batchDeletes()" class="btn btn-danger radius">
 				<i class="Hui-iconfont">&#xe6e2;</i> 批量删除
 			</a>
 			<a href="javascript:;" onclick="admin_add('添加管理员','/page/admin-add','800','500')" class="btn btn-primary radius">
 				<i class="Hui-iconfont">&#xe600;</i> 添加管理员
 			</a>
 		</span>
-		<span class="r">共有数据：<strong>54</strong> 条</span>
 	</div>
-	<table class="table table-border table-bordered table-bg" id="AdminList">
+	<table class="table table-border table-bordered table-bg table-sort" id="AdminList">
 		<thead>
 			<tr>
 				<th scope="col" colspan="9">员工列表</th>
@@ -113,24 +112,22 @@
 						var onclick = "admin_start";
 					}
 					var j = i + 1;
-					if(d.delFlag != 1) {
-						var li = "<tr class=\"text-c\">" +
-								"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
-								"<td>" + j + "</td>" +
-								"<td>" + d.name + "</td>" +
-								"<td>" + d.mobile + "</td>" +
-								"<td>" + d.email + "</td>" +
-								"<td>" + d.roleName + "</td>" +
-								"<td>" + d.createTime + "</td>" +
-								"<td class=\"td-status\"><span class=\"" + staclass + "\">" + status + "</span></td>" +
-								"<td class=\"td-manage\">"+
-									"<a style=\"text-decoration:none\" onClick=\""+ onclick + "(this," + d.id + ","+ d.status +")\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe631;</i></a>"+
-									"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-add','1','800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
-									"<a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this," + d.id + ")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>"+
-								"</td>" +
-								"</tr>";
-						$("#tbody").append(li);
-					}
+					var li = "<tr class=\"text-c\">" +
+							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"subcheck\"></td>" +
+							"<td>" + j + "</td>" +
+							"<td>" + d.name + "</td>" +
+							"<td>" + d.mobile + "</td>" +
+							"<td>" + d.email + "</td>" +
+							"<td>" + d.roleName + "</td>" +
+							"<td>" + d.createTime + "</td>" +
+							"<td class=\"td-status\"><span class=\"" + staclass + "\">" + status + "</span></td>" +
+							"<td class=\"td-manage\">"+
+								"<a style=\"text-decoration:none\" onClick=\""+ onclick + "(this," + d.id + ","+ d.status +")\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe631;</i></a>"+
+								"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_edit('管理员编辑','/page/admin-modify?id="+ d.id +"&name="+ d.name +"&sex="+ d.sex +"&mobile="+ d.mobile +"&email=" + d.email+ "&roleId="+ d.roleId +"&remark="+ d.remark +"',"+ d.id +",'800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+								"<a title=\"删除\" href=\"javascript:;\" onclick=\"admin_del(this," + d.id + ")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>"+
+							"</td>" +
+							"</tr>";
+					$("#tbody").append(li);
 				}
 			}
 		});
@@ -143,6 +140,12 @@
 function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
+
+/*管理员-编辑*/
+function admin_edit(title,url,id,w,h){
+    layer_show(title,url,w,h);
+}
+
 /*管理员-删除*/
 function admin_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
@@ -150,11 +153,12 @@ function admin_del(obj,id){
 			type: 'post',
 			url: '/admin/delAdmin',
 			data:{
-				"id":id,
+				"id":id
 			},
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
+				location.reload();
 				layer.msg('已删除!',{icon:1,time:1000});
 			},
 			error:function(data) {
@@ -164,10 +168,34 @@ function admin_del(obj,id){
 	});
 }
 
-/*管理员-编辑*/
-function admin_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
+function batchDeletes(){
+	var checkedNum = $("input[name='subcheck']:checked").length;
+	if(checkedNum==0){
+		alert("请至少选择一项!");
+		return false;
+	}
+	if(confirm("确定删除所选项目?")){
+		var checkedList = new Array();
+		$("input[name='subcheck']:checked").each(function(){
+			checkedList.push($(this).val());
+		});
+		$.ajax({
+			type:"POST",
+			url:"/admin/batchDel",
+			data:{"delItems":checkedList.toString()},
+			datatype:"json",
+			success:function(data){
+				$("[name='checkbox2']:checkbox").attr("checked",false);
+				location.reload();
+				art.dialog.tips('删除成功!');
+			},
+			error:function(data){
+				art.dialog.tips('删除失败!');
+			}
+		});
+	}
 }
+
 /*管理员-停用*/
 function admin_stop(obj,id,status){
 	layer.confirm('确认要停用吗？' ,function(index){
@@ -184,6 +212,7 @@ function admin_stop(obj,id,status){
 				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,"+ sid +")" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已停用</span>');
 				$(obj).remove();
+				location.reload();
 				layer.msg("已停用",{icon: 5,time:1000});
 			},
 			error:function(data) {
@@ -210,6 +239,7 @@ function admin_start(obj,id,status){
 				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
 				$(obj).remove();
+				location.reload();
 				layer.msg('已启用!', {icon: 6,time:1000});
 			},
 			error:function(data) {
@@ -218,6 +248,18 @@ function admin_start(obj,id,status){
 		});
 	});
 }
+
+/*分页处理*/
+setTimeout(function () {
+	$('.table-sort').dataTable({
+		"aaSorting": [[1, "desc"]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+			{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+		]
+	});
+}, 200);
 </script>
 </body>
 </html>

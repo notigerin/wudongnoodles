@@ -64,6 +64,7 @@ public class DDCAdmin extends Model<DDCAdmin> {
     /**
      * 备注
      */
+    @TableField("remark")
     private String remark;
     /**
      * 创建时间
@@ -113,7 +114,8 @@ public class DDCAdmin extends Model<DDCAdmin> {
         this.name = name;
     }
 
-    public DDCAdmin(String name, String password, Integer sex, String mobile, String email, Long roleId) {
+    public DDCAdmin(String name, String password, Integer sex, String mobile, String email, Long roleId, String remark) {
+        this.id = 0L;
         this.name = name;
         this.password = password;
         this.sex = sex;
@@ -127,5 +129,28 @@ public class DDCAdmin extends Model<DDCAdmin> {
         this.updateBy=0L;
         this.delFlag=0;
         this.status=0;
+    }
+
+    public DDCAdmin(long id, String name, Integer sex, String mobile, String email, Long roleId, String remark) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.sex = sex;
+        this.mobile = mobile;
+        this.email = email;
+        this.roleId = roleId;
+        this.remark = remark;
+        this.updateTime=System.currentTimeMillis();
+    }
+    public DDCAdmin(long id, String name, String password, Integer sex, String mobile, String email, Long roleId, String remark) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.sex = sex;
+        this.mobile = mobile;
+        this.email = email;
+        this.roleId = roleId;
+        this.remark = remark;
+        this.updateTime=System.currentTimeMillis();
     }
 }

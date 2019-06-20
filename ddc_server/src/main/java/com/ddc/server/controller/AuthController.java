@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -33,5 +34,6 @@ public class AuthController {
         authService = SpringContextBeanService.getBean(IDDCAuthService.class);
         List<DDCAuth> list = authService.selectAllAuth();
         return ResponseHelper.buildResponseModel(list);
+
     }
 }

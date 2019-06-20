@@ -86,6 +86,7 @@ public class DDCAuth extends Model<DDCAuth> {
     }
 
     public DDCAuth(String name, String flag, Long pId, Integer level) {
+        this.id = 0L;
         this.name = name;
         this.flag = flag;
         this.pId = pId;

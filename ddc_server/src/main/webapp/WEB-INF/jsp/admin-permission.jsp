@@ -30,7 +30,7 @@
 	<div class="text-c">
 		<form class="Huiform" method="post" action="" target="_self">
 			<input type="text" class="input-text" style="width:250px" placeholder="权限名称" id="" name="">
-			<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限节点</button>
+			<button type="submit" class="btn btn-success" id="1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限节点</button>
 		</form>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -42,9 +42,8 @@
 				<i class="Hui-iconfont">&#xe600;</i> 添加权限节点
 			</a>
 		</span>
-		<span class="r">共有数据：<strong>54</strong> 条</span>
 	</div>
-	<table class="table table-border table-bordered table-bg">
+	<table class="table table-border table-bordered table-bg table-sort">
 		<thead>
 			<tr>
 				<th scope="col" colspan="7">权限节点</th>
@@ -91,16 +90,14 @@
 					var d = data.data[i];
 
 					var j = i + 1;
-					if(d.delFlag != 1) {
-						var li = "<tr class=\"text-c\">" +
-								"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
-								"<td>" + j + "</td>" +
-								"<td>" + d.name + "</td>" +
-								"<td>" + d.flag + "</td>" +
-								"<td><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_permission_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
-								"</tr>";
-						$("#tbody").append(li);
-					}
+					var li = "<tr class=\"text-c\">" +
+							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+							"<td>" + j + "</td>" +
+							"<td>" + d.name + "</td>" +
+							"<td>" + d.flag + "</td>" +
+							"<td><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_permission_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+							"</tr>";
+					$("#tbody").append(li);
 				}
 			},
 			error:function(data) {
@@ -136,6 +133,18 @@ function admin_permission_del(obj,id){
 		});		
 	});
 }
+
+setTimeout(function () {
+	$('.table-sort').dataTable({
+		"aaSorting": [[1, "desc"]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+			{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+		]
+	});
+}, 200);
+
 </script>
 </body>
 </html>

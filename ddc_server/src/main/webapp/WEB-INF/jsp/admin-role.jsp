@@ -44,9 +44,8 @@
 				<i class="Hui-iconfont">&#xe600;</i> 添加角色
 			</a>
 		</span>
-		<span class="r">共有数据：<strong>54</strong> 条</span>
 	</div>
-	<table class="table table-border table-bordered table-hover table-bg">
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr>
 				<th scope="col" colspan="6">角色管理</th>
@@ -86,17 +85,15 @@
 					var d = data.data[i];
 
 					var j = i + 1;
-					if(d.delFlag != 1) {
-						var li = "<tr class=\"text-c\">" +
-								"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
-								"<td>" + j + "</td>" +
-								"<td>" + d.name + "</td>" +
-								"<td>" + d.adminName + "</td>" +
-								"<td>" + d.remark + "</td>" +
-								"<td class=\"f-14\"><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/page/admin-role-add','4')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_role_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
-								"</tr>";
-						$("#tbody").append(li);
-					}
+					var li = "<tr class=\"text-c\">" +
+							"<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"id\"></td>" +
+							"<td>" + j + "</td>" +
+							"<td>" + d.name + "</td>" +
+							"<td>" + d.adminName + "</td>" +
+							"<td>" + d.remark + "</td>" +
+							"<td class=\"f-14\"><a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/page/admin-role-add','4')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a title=\"删除\" href=\"javascript:;\" onclick=\"admin_role_del(this,'1')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+							"</tr>";
+					$("#tbody").append(li);
 				}
 			},
 			error:function(data) {
@@ -131,6 +128,18 @@ function admin_role_del(obj,id){
 		});		
 	});
 }
+
+	setTimeout(function () {
+		$('.table-sort').dataTable({
+			"aaSorting": [[1, "desc"]],//默认第几个排序
+			"bStateSave": true,//状态保存
+			"aoColumnDefs": [
+				//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				{"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+			]
+		});
+	}, 200);
+
 </script>
 </body>
 </html>

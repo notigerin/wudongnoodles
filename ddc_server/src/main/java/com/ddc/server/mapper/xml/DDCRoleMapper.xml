@@ -16,7 +16,7 @@
 	</resultMap>
 
     <select id="getRoleList" resultMap="roleMap">
-		select r.id , r.name , r.remark , a.name AS adminName from ddc_role r JOIN ddc_admin a on r.id = a.role_id order by id;
+		select r.id , r.name , r.remark , a.name AS adminName from ddc_role r LEFT JOIN ddc_admin a on r.id = a.role_id where r.del_flag = 0  order by id;
 	</select>
 
 	<select id="getRoleName" resultType="DDCRole">

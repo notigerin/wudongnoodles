@@ -71,7 +71,7 @@ public class DDCAdminMapperTest extends BaseTest {
     //@Test
     public void hello2() {
         DDCAdmin admin = new DDCAdmin("ShuNing", "980613", 1,
-                "13000480320", "ShuNing@qq.com", 3L);
+                "13000480320", "ShuNing@qq.com", 3L ,"123");
         adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
         adminService.insertAdmin(admin);
     }
