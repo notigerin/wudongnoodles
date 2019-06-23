@@ -83,7 +83,7 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">备注：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<textarea name="remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+			<textarea name="remark" id="remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)"></textarea>
 			<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 		</div>
 	</div>
@@ -136,7 +136,7 @@
 		var mobile = $("#mobile").val();
 		var email = $("#email").val();
 		var roleId = $("#selectRole").val();
-		var remark = $("#remark").val();
+		var remark = $("#remark").text();
 		$.ajax({
 			url:"/admin/addAdmin",
 			type:"post",
@@ -154,9 +154,9 @@
 			dataType:"json",
 			success:function (data) {
 				// alert(data.result);
-				alert("添加管理员成功");
 			}
 		})
+		parent.location.reload();
 	})
 
 
