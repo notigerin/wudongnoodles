@@ -1,5 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: 164328
+  Date: 2019/6/18
+  Time: 9:08
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -45,14 +53,16 @@
         -
         <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax"
                class="input-text Wdate" style="width:120px;">
-        <input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px" class="input-text">
-        <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+        <input type="text" name=""  placeholder=" 资讯名称" style="width:250px" class="input-text">
+        <button name="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
     </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="datadel()"
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="batchDeletes()"
                                                                class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a
-            class="btn btn-primary radius" data-title="添加资讯" data-href="article-add.html" onclick="Hui_admin_tab(this)"
-            href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> <span
-            class="r">共有数据：<strong>54</strong> 条</span></div>
+            class="btn btn-primary radius" data-title="添加资讯" data-href="/page/article-add" onclick="Hui_admin_tab(this)"
+            href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span>
+<%--        <span--%>
+<%--            class="r">共有数据：<strong>12</strong> 条</span>--%>
+    </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
             <thead>
@@ -68,69 +78,140 @@
                 <th width="120">操作</th>
             </tr>
             </thead>
-            <tbody>
-            <tr class="text-c">
-                <td><input type="checkbox" value="" name=""></td>
-                <td>10001</td>
-                <td class="text-l"><u style="cursor:pointer" class="text-primary"
-                                      onClick="article_edit('查看','article-zhang.html','10001')" title="查看">资讯标题</u></td>
-                <td>行业动态</td>
-                <td>H-ui</td>
-                <td>2014-6-11 11:11:42</td>
-                <td>21212</td>
-                <td class="td-status"><span class="label label-success radius">已发布</span></td>
-                <td class="f-14 td-manage"><a style="text-decoration:none" onClick="article_stop(this,'10001')"
-                                              href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a
-                        style="text-decoration:none" class="ml-5"
-                        onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑"><i
-                        class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5"
-                                                                 onClick="article_del(this,'10001')" href="javascript:;"
-                                                                 title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                </td>
-            </tr>
-            <tr class="text-c">
-                <td><input type="checkbox" value="" name=""></td>
-                <td>10002</td>
-                <td class="text-l"><u style="cursor:pointer" class="text-primary"
-                                      onClick="article_edit('查看','article-zhang.html','10002')" title="查看">资讯标题</u></td>
-                <td>行业动态</td>
-                <td>H-ui</td>
-                <td>2014-6-11 11:11:42</td>
-                <td>21212</td>
-                <td class="td-status"><span class="label label-success radius">草稿</span></td>
-                <td class="f-14 td-manage"> <a style="text-decoration:none"
-                                                                                       class="ml-5"
-                                                                                       onClick="article_edit('资讯编辑','article-add.html','10001')"
-                                                                                       href="javascript:;" title="编辑"><i
-                        class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5"
-                                                                 onClick="article_del(this,'10001')" href="javascript:;"
-                                                                 title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                </td>
-            </tr>
+            <tbody id="tbody">
+<%--            <c:forEach items="${articleList}" var="article">--%>
+<%--                <tr class="text-c">--%>
+<%--                    <td><input type="checkbox" value="" name=""></td>--%>
+<%--                    <td>${article.id}</td>--%>
+<%--                    <td class="text-l"><u style="cursor:pointer" class="text-primary"--%>
+<%--                                          onClick="article_edit('查看','#','${article.id}')" title="查看">${article.title}</u></td>--%>
+<%--                    <td>${article.classify}</td>--%>
+<%--                    <td>${article.createBy}</td>--%>
+<%--                    <td>${article.updateTime}</td>--%>
+<%--                    <td>${article.frequency}</td>--%>
+<%--                    <td class="td-status"><span class="label label-success radius">${article.stateFlag}</span></td>--%>
+<%--                    <td class="f-14 td-manage"><a style="text-decoration:none" onClick="article_stop(this,'${article.id}')"--%>
+<%--                                                  href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a--%>
+<%--                            style="text-decoration:none" class="ml-5"--%>
+<%--                            onClick="article_edit('资讯编辑','/article/add','${article.id}')" href="javascript:;" title="编辑"><i--%>
+<%--                            class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5"--%>
+<%--                                                                     onClick="article_del(this,'${article.id}')" href="javascript:;"--%>
+<%--                                                                     title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--            </c:forEach>--%>
             </tbody>
         </table>
     </div>
 </div>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
-    $('.table-sort').dataTable({
-        "aaSorting": [[1, "desc"]],//默认第几个排序
-        "bStateSave": true,//状态保存
-        "pading": false,
-        "aoColumnDefs": [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
-        ]
-    });
+
+    setTimeout(function () {
+        $('.table-sort').dataTable({
+            "aaSorting": [[1, "desc"]],//默认第几个排序
+            "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "所有"]],
+            "bStateSave": true,//状态保存
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable": false, "aTargets": [0, 4]}// 制定列不参与排序
+            ]
+        });
+    }, 200);
+
+    function  list() {
+        $.ajax({
+            type: 'post',
+            url: '/article/list',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                //alert(data.data.length);
+                for (var i = 0; i < data.data.length; i++) {
+                    var d = data.data[i];
+                    //$("#demo01").attr("sum",d);
+                    if (d.stateFalg == 1) {
+                        var status = "已发布";
+                        var unstatus = "下架";
+                        var staclass = "label label-success radius";
+                    } else {
+                        var status = "已下架";
+                        var unstatus = "发布";
+                        var staclass = "label label-defaunt radius"
+                    }
+                    var li = "<tr class=\"text-c\">" +
+                        "<td><input type=\"checkbox\" value=\"" + d.id + "\" name=\"subcheck\"></td>" +
+                        "<td>" + d.id + "</td>" +
+                        "<td>" + d.title + "</td>" +
+                        "<td>" + d.classify + "</td>" +
+                        "<td>" + d.resource + "</td>" +
+                        "<td>" + d.updateTime+ "</td>" +
+                        "<td>" + d.frequency + "</td>" +
+                        "<td class=\"td-status\"><span class=\"" + staclass + "\">" + status + "</span></td>" +
+                        "<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,"+ d.id +")\" href=\"javascript:;\" title=\"" + unstatus + "\"><i class=\"Hui-iconfont\">&#xe603;</i></a> " +
+                        "<a title=\"编辑\" href=\"javascript:;\" onclick=\"article_edit('管理员编辑','/article/upDisplay',"+ d.id +",'800','500')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> " +
+                        "<a title=\"删除\" href=\"javascript:;\" onclick=\"article_del(this,"+d.id+")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>" +
+                        "</td>" +
+                        "</tr>";
+                    $("#tbody").append(li);
+                }
+            },
+            error: function (data) {
+                console.log(data + "111");
+            }
+        });
+    }
+    list();
+
+    //批量删除
+    function batchDeletes() {
+        var checkedNum = $("input[name='subcheck']:checked").length;
+        if (checkedNum == 0) {
+            alert("请至少选择一项!");
+            return false;
+        }
+        if (confirm("确定删除所选项目?")) {
+            var checkedList = new Array();
+            $("input[name='subcheck']:checked").each(function () {
+                checkedList.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: "/article/batchDel",
+                data: {"delItems": checkedList.toString()},
+                datatype: "json",
+                success: function (data) {
+                    $("[name='checkbox2']:checkbox").attr("checked", false);
+                },
+                error: function (data) {
+                    art.dialog.tips('删除失败!');
+                }
+            });
+            window.location.reload()
+    }
+    }
+
+
+        // $(function() {
+    //     setTimeout($('.table-sort').dataTable({
+    //         "aaSorting": [[1, "desc"]],//默认第几个排序
+    //         "bStateSave": true,//状态保存
+    //         "pading": false,
+    //         "aoColumnDefs": [
+    //             //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+    //             {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
+    //         ]
+    //     }), 1);
+    // }
 
     /*资讯-添加*/
     function article_add(title, url, w, h) {
@@ -147,7 +228,7 @@
         var index = layer.open({
             type: 2,
             title: title,
-            content: url
+            content: url+"?id="+id
         });
         layer.full(index);
     }
@@ -157,7 +238,7 @@
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '',
+                url: '/article/del?id='+id,
                 dataType: 'json',
                 success: function (data) {
                     $(obj).parents("tr").remove();
@@ -167,6 +248,7 @@
                     console.log(data.msg);
                 },
             });
+            window.location.reload()
         });
     }
 

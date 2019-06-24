@@ -238,7 +238,7 @@
 <%--'<td><u style="cursor:pointer" class="text-primary" onclick="member_show(\'张三\',\'/member/show\',\'10001\',\'360\',\'400\')">'+d.username+'</u></td>\n' +--%>
 <%--'<td>'+sex+'</td>\n' +--%>
 <%--'<td>'+d.telephone+'</td>\n' +--%>
-<%--'<td>'+d.postAddress+'</td>\n' +--%>
+<%--'<td>'+d.email+'</td>\n' +--%>
 <%--'<td class="text-l">'+d.address+'</td>\n' +--%>
 <%--'<td>'+d.createTime+'</td>\n' +--%>
 <%--'<td class="td-status"><span class="label label-success radius">已启用</span></td>\n' +--%>
