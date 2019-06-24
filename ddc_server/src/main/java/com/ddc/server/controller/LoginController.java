@@ -7,7 +7,10 @@ import com.ddc.server.annotation.ValidationParam;
 import com.ddc.server.config.web.http.ResponseHelper;
 import com.ddc.server.config.web.http.ResponseModel;
 import com.ddc.server.entity.DDCAdmin;
+import com.ddc.server.entity.DDCLog;
+import com.ddc.server.mapper.DDCLogMapper;
 import com.ddc.server.service.IDDCAdminService;
+import org.apache.ibatis.annotations.Select;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -33,8 +36,13 @@ public class LoginController {
     @Resource
     private IDDCAdminService adminService;
 
+    @Resource
+    private DDCLogMapper DDCLogMapper;
+    private DDCLog ddcLog;
 
+    @Select("insert into sdk_back_operation_log(log_description,user_no,class_name,method_name,ip,create_time,succeed,model_name,action) values(username,password,HttpSession session,Model model)")
     @RequestMapping("/login")
+    @Log(modelName = "登陆",action = "登陆",description = "后台登陆")
     public String login(HttpServletRequest request, @RequestParam(value = "username",required = false) String username,
                         @RequestParam(value = "password",required =false ) String password,
                         HttpSession session, Model model) throws Exception {
