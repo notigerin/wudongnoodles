@@ -47,38 +47,15 @@
 <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
 <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
 <script type="text/javascript">
-    var userCityUrl = "/log/charts_1";
+    var userCityUrl = "/log1/charts_2";
     var option = {
         xAxis: {
-            title: {
-                text: '年/月',
-            },
             type: 'category',
-            data: [],
-            axisLine:{
-                lineStyle:{
-                    color:'#ffb358',
-                    width:2,//这里是为了突出显示加上的
-                }
-            },
-            splitLine: {
-                show: false,
-                //  改变轴线颜色
-                lineStyle: {
-                    // 使用深浅的间隔色
-                    color: ['yellow']
-                }
-            },
-
+            data: []
         },
         yAxis: {
-            type: 'value',
-            axisLine:{
-                lineStyle:{
-                    color:'#ffb358',
-                    width:2,//这里是为了突出显示加上的
-                }
-            },
+            type: 'value'
+        },
             splitLine: {
                 show: true,
                 //  改变轴线颜色
@@ -87,11 +64,9 @@
                     color: ['black']
                 }
             },
-        },
         series: [{
             data: [],
-            type: 'bar',
-            color:'blue'
+            type: 'line'
         }]
     };
 
@@ -113,9 +88,6 @@
     function loadUserCityData(url, option) {
         var flag = false;
         $.ajax({
-            title: {
-            text: '活跃用户人数',
-        },
             type: "post",
             async: false,
             url: url,
@@ -124,10 +96,10 @@
                 flag = true;
                 console.log(result.data);
                 for (var i = result.data.length - 1; i >= 0; i--) {
-                    option.series[0].data.push(result.data[i].count);
+                    option.series[0].data.push(result.data[i].count2);
                 }
                 for (var i = result.data.length - 1; i >= 0; i--) {
-                    option.xAxis.data.push(result.data[i].month1);
+                    option.xAxis.data.push(result.data[i].month2);
                 }
 
 

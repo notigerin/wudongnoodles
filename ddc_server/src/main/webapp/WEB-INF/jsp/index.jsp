@@ -159,8 +159,8 @@
             <dt><i class="Hui-iconfont">&#xe61a;</i> 数据统计<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/page/charts-1" data-title="折线图" href="javascript:void(0)">活跃用户统计</a></li>
-                    <li><a data-href="/page/charts-1" data-title="时间轴折线图" href="javascript:void(0)">浏览数据统计</a></li>
+                    <li><a data-href="/page/charts-1" data-title="圆柱图" href="javascript:void(0)">活跃用户统计</a></li>
+                    <li><a data-href="/page/charts-2" data-title="时间轴折线图" href="javascript:void(0)">浏览数据统计</a></li>
                     <!--<li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">分享数据统计</a></li>-->
                     <!--<li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">评论数据统计</a></li>-->
                 </ul>
