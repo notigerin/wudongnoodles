@@ -48,7 +48,8 @@
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">网站角色：</label>
-			<div class="formControls col-xs-8 col-sm-9"  id="selectAuth">
+			<div class="formControls col-xs-8 col-sm-9" >
+				<dl class="list" id="authOneLevel"></dl>
 			</div>
 		</div>
 		<div class="row cl">
@@ -80,30 +81,32 @@
 				for (var i = 0; i<data.data.length; i++) {
 					var di = data.data[i];
 					if(di.level == 1){
-						var li = "<dl class=\"permission-list\"><dt><label>" +
-								"<input type=\"checkbox\" value=\""+ di.id +"\" name=\"user-Character-0\" id=\"user-Character-1\">\n" + di.name +
-								"</label></dt>";
+						var li = '<dt><dl class="permission-list" id="'+ di.id +'"><dt><label>' +
+								'<input type="checkbox" value="'+ di.id +'" name="user-Character-0" id="user-Character-1">' + di.name +
+								'</label></dt></dl></dt>';
+						$("#authOneLevel").append(li);
 						for(var j = 0; j<data.data.length; j++){
 							var dj = data.data[j];
-							if(di.id == dj.pid){
-								li = li + "<dd><dl class=\"cl permission-list2\"><dt><label>" +
-										"<input type=\"checkbox\" value=\""+ dj.id +"\" name=\"user-Character-1-0\" id=\"user-Character-1-0\">\n" + dj.name +
-										"</label></dt>";
-								for(var k = 0; k<data.data.length; k++){
-									var dk = data.data[k];
-									if(dj.id == dk.pid){
-										li= li + "<dd><label>"+
-												"<input type=\"checkbox\" value=\""+ dk.id +"\" name=\"auth\" id=\"auth\">\n" + dk.name +
-												"</label></dd>";
-									}
-								}
-								li = li + "</dl></dd>";
+							if(di.id == dj.pId){
+								var lj= '<dd><dl class="cl permission-list2"><dd><label>' +
+										'<input type="checkbox" value="'+ dj.id +'" name="user-Character-1-0" id="user-Character-1-0">' + dj.name +
+										"</label></dd>";
+								var levelPId = "#" + di.id;
+								$(levelPId).append(lj);
 							}
 						}
-						li = li + "</dl>";
-						$("#selectAuth").append(li);
+								// for(var k = 0; k<data.data.length; k++){
+								// 	var dk = data.data[k];
+								// 	if(dj.id == dk.pid){
+								// 		li= li + "<dd><label>"+
+								// 				"<input type=\"checkbox\" value=\""+ dk.id +"\" name=\"auth\" id=\"auth\">\n" + dk.name +
+								// 				"</label></dd>";
+								// 	}
+								// }
+								// li = li + "</dl></dd>";
 					}
 				}
+
 			},
 			error:function(data) {
 				console.log(data+"111");
