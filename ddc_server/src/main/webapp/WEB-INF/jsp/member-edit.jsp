@@ -30,7 +30,7 @@
 		String username=request.getParameter("username");
 		int gender=Integer.parseInt(request.getParameter("gender"));
 		String telephone=request.getParameter("telephone");
-		String postAddress=request.getParameter("postAddress");
+		String postAddress=request.getParameter("email");
 		String address=request.getParameter("address");
 		int city=Integer.parseInt(request.getParameter("city"));
 	%>

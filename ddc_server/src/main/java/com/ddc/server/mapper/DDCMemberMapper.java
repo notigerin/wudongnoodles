@@ -18,7 +18,7 @@ public interface DDCMemberMapper extends BaseMapper<DDCMember> {
     @Select("select * from user where id=#{id}")
     DDCMember selectMemberById(@Param("id") String id);
 
-    @Update("update user set username=#{username},gender=#{sex},telephone=#{mobile},postAddress=#{email},city=#{city},address=#{beizhu} where id=#{id}")
+    @Update("update user set username=#{username},gender=#{sex},telephone=#{mobile},email=#{email},city=#{city},address=#{beizhu} where id=#{id}")
     void updateMember(@Param("id") Long id, @Param("username") String username, @Param("sex") Integer sex, @Param("mobile") String mobile,
                       @Param("email") String email, @Param("city") String city, @Param("beizhu") String beizhu);
 }

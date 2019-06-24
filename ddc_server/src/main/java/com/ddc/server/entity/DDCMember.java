@@ -101,8 +101,8 @@ public class DDCMember extends Model<DDCMember> {
     /**
      * 邮箱
      */
-    @TableField("post_address")
-    private String postAddress;
+    @TableField("email")
+    private String email;
 
     /**
      * 账号简介
@@ -140,8 +140,8 @@ public class DDCMember extends Model<DDCMember> {
     /**
      * 更新时间
      */
-    @TableField("create_time")
-    private String createTime;
+    @TableField("time")
+    private String time;
 
     /**
      * 登录成功之后生成字符串
@@ -158,16 +158,16 @@ public class DDCMember extends Model<DDCMember> {
         this.username=memberName;
     }
 
-    public DDCMember(String memberName,int gender,String telephone,String postAddress,String city,String beuzhu){
+    public DDCMember(String memberName, int gender, String telephone, String email, String city, String beuzhu){
         this.username=memberName;
         this.gender=gender;
         this.telephone=telephone;
-        this.postAddress=postAddress;
+        this.email = email;
         this.city=city;
         this.address=beuzhu;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.createTime=sdf.format(new Date());
-        this.registerTime=this.createTime;
+        this.time=sdf.format(new Date());
+        this.registerTime=this.time;
     }
 
     public static void main(String[] args) {

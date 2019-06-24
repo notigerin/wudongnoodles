@@ -28,9 +28,9 @@
     String username=request.getParameter("username");
 	String gender=request.getParameter("gender");
 	String telephone=request.getParameter("telephone");
-	String postAddress=request.getParameter("postAddress");
+	String postAddress=request.getParameter("email");
 	String address=request.getParameter("address");
-	String createTime=request.getParameter("createTime");
+	String createTime=request.getParameter("time");
 %>
 <div class="cl pd-20" style=" background-color:#5bacb6">
 	<img class="avatar size-XL l" src="/static/h-ui/images/ucnter/avatar-default.jpg">

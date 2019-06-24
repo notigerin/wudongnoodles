@@ -89,9 +89,9 @@
 							// '<td><u style="cursor:pointer" class="text-primary" onclick="member_show(\'张三\',\'/member/show\',\'10001\',\'360\',\'400\')">'+d.username+'</u></td>\n' +
 							'<td>'+sex+'</td>\n' +
 							'<td>'+d.telephone+'</td>\n' +
-							'<td>'+d.postAddress+'</td>\n' +
+							'<td>'+d.email+'</td>\n' +
 							'<td class="text-l">'+d.address+'</td>\n' +
-							'<td>'+d.createTime+'</td>\n' +
+							'<td>'+d.time+'</td>\n' +
 							'<td class="td-status"><span class="label label-success radius">已启用</span></td>\n' +
 							'<td class="td-manage">' +
                             '<a style="text-decoration:none" onClick="member_stop(this,\'10001\')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>' +
@@ -129,7 +129,7 @@
 <%--				,{field: 'username', title: '用户名', width:80}--%>
 <%--				,{field: 'sex', title: '性别', width:80, sort: true}--%>
 <%--				,{field: 'mobile', title: '手机', width:80}--%>
-<%--				,{field: 'postAddress', title: '邮箱', width: 80, sort: true}--%>
+<%--				,{field: 'email', title: '邮箱', width: 80, sort: true}--%>
 <%--				,{field: 'address', title: '地址', width: 177}--%>
 <%--				,{field: 'createTime', title: '加入时间', width: 80, sort: true}--%>
 <%--				,{field: 'status', title: '状态', width: 80}--%>
@@ -168,10 +168,10 @@ function member_show(obj,w,h){
 				var telephone=d.telephone;
 				var postAddress=d.postAddress;
 				var address=d.address;
-				var createTime=d.createTime;
+				var time=d.time;
 				layer_show(username,'/member/show?id='+id+'&&username='+username+'&&gender='+sex+
-									'&&telephone='+telephone+'&&postAddress='+postAddress+'&&address='+
-									address+'&&createTime='+createTime,w,h);
+									'&&telephone='+telephone+'&&email='+postAddress+'&&address='+
+									address+'&&time='+time,w,h);
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -233,11 +233,11 @@ function member_edit(obj,w,h){
 			var username=d.username;
 			var gender=d.gender;
 			var telephone=d.telephone;
-			var postAddress=d.postAddress;
+			var email=d.email;
 			var address=d.address;
 			var city=d.city;
 			layer_show(username,'/member/edit?id='+id+'&&username='+username+'&&gender='+gender+
-					'&&telephone='+telephone+'&&postAddress='+postAddress+'&&address='+
+					'&&telephone='+telephone+'&&email='+ email +'&&address='+
 					address+'&&city='+city,w,h);
 		},
 		error:function(data) {
