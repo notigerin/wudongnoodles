@@ -25,7 +25,15 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
-
+	<%
+		Long id=Long.parseLong(request.getParameter("id"));
+		String username=request.getParameter("username");
+		int gender=Integer.parseInt(request.getParameter("gender"));
+		String telephone=request.getParameter("telephone");
+		String postAddress=request.getParameter("postAddress");
+		String address=request.getParameter("address");
+		int city=Integer.parseInt(request.getParameter("city"));
+	%>
 <title>添加用户 - H-ui.admin v3.1</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
@@ -33,25 +41,38 @@
 <body>
 <article class="page-container">
 	<form action="/member/addAction" method="post" class="form form-horizontal" id="form-member-add">
+		<input type="hidden" class="input-text" value="<%=id %>" placeholder="" id="id" name="id">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="username">
+				<input type="text" class="input-text" value="<%=username %>" placeholder="" id="username" name="username">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input name="sex" type="radio" id="sex-1" value="1" >
+					<% if(gender==1){ %>
+						<input name="sex" type="radio" id="sex-1" value="1" checked>
+					<% }else{ %>
+						<input name="sex" type="radio" id="sex-1" value="1">
+					<% } %>
 					<label for="sex-1">男</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex-2" name="sex" value="2">
+					<% if(gender==2){ %>
+						<input type="radio" id="sex-2" name="sex" value="2" checked>
+					<% }else{ %>
+						<input type="radio" id="sex-2" name="sex" value="2">
+					<% } %>
 					<label for="sex-2">女</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex-3" name="sex" value="3" checked>
+					<% if(gender==3){ %>
+						<input type="radio" id="sex-3" name="sex" value="3" checked>
+					<% }else{ %>
+						<input type="radio" id="sex-3" name="sex" value="3">
+					<% } %>
 					<label for="sex-3">保密</label>
 				</div>
 			</div>
@@ -59,13 +80,13 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="mobile" name="mobile">
+				<input type="text" class="input-text" value="<%=telephone %>" placeholder="" id="mobile" name="mobile">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" placeholder="@" name="email" id="email">
+				<input type="text" class="input-text" placeholder="@" name="email" id="email" value="<%=postAddress %>">
 			</div>
 		</div>
 		<div class="row cl">
@@ -80,17 +101,31 @@
 			<label class="form-label col-xs-4 col-sm-3">所在城市：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="city">
-					<option value="" selected>请选择城市</option>
-					<option value="1">北京</option>
-					<option value="2">上海</option>
-					<option value="3">广州</option>
+					<option value="">请选择城市</option>
+					<% if(city==1){ %>
+						<option value="1" selected>北京</option>
+					<% }else{ %>
+						<option value="1">北京</option>
+					<% } %>
+					<% if(city==2){ %>
+						<option value="2" selected>上海</option>
+					<% }else{ %>
+						<option value="2">上海</option>
+					<% } %>
+					<% if(city==3){ %>
+						<option value="3" selected>广州</option>
+					<% }else{ %>
+						<option value="3">广州</option>
+					<% } %>
 				</select>
 				</span> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">地址：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="写点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="写点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)">
+					<%=address %>
+				</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -150,7 +185,7 @@ $(function(){
 		submitHandler:function(form){
 			console.log(form);
 			$(form).ajaxSubmit({
-				url:"/member/addAction",
+				url:"/member/updAction",
 				success:function(d){
 					console.log(d);
 					var index = parent.layer.getFrameIndex(window.name);
