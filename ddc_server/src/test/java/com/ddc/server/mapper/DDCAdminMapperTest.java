@@ -10,6 +10,7 @@ import com.ddc.server.service.IDDCAdminService;
 import com.ddc.server.service.IDDCAuthService;
 import com.ddc.server.service.IDDCRoleService;
 import com.ddc.server.service.SpringContextBeanService;
+import com.ddc.server.mapper.*;
 import com.ddc.server.shiro.PasswordUtils;
 import org.junit.Test;
 
@@ -22,9 +23,9 @@ public class DDCAdminMapperTest extends BaseTest {
     @Resource
     private DDCAdminMapper ddcAdminMapper;
     @Resource
-    private DDCAuthMapper authMapper;
-    @Resource
     private DDCRoleMapper roleMapper;
+    @Resource
+    private  DDCAuthMapper authMapper;
     @Resource
     private DDCRoleAuthMapper roleAuthMapper;
     @Resource
@@ -71,7 +72,7 @@ public class DDCAdminMapperTest extends BaseTest {
     //@Test
     public void hello2() {
         DDCAdmin admin = new DDCAdmin("ShuNing", "980613", 1,
-                "13000480320", "ShuNing@qq.com", 3L);
+                "13000480320", "ShuNing@qq.com", 3L ,"123");
         adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
         adminService.insertAdmin(admin);
     }

@@ -40,7 +40,7 @@ public class DDCAuthServiceImpl extends ServiceImpl<DDCAuthMapper, DDCAuth> impl
 
     @Override
     public void delAuth(long id) {
-        authMapper.deleteById(id);
+        authMapper.delById(id);
     }
 
     @Override

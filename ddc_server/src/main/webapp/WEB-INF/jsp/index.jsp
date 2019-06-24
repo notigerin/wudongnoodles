@@ -99,7 +99,6 @@
                     <li><a data-href="/page/picture-list" data-title="图片管理" href="javascript:void(0)">图片管理</a></li>
                     <li><a data-href="/page/article_column" data-title="栏目管理" href="javascript:void(0)">栏目管理</a></li>
                     <li><a data-href="/page/article-category" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
-
                 </ul>
             </dd>
         </dl>

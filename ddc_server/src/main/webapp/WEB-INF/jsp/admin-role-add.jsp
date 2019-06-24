@@ -48,99 +48,7 @@
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">网站角色：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<dl class="permission-list">
-					<dt>
-						<label>
-							<input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
-							资讯管理</label>
-					</dt>
-					<dd>
-						<dl class="cl permission-list2">
-							<dt>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0" id="user-Character-0-0">
-									栏目管理</label>
-							</dt>
-							<dd>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-0">
-									添加</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-1">
-									修改</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-2">
-									删除</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-3">
-									查看</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-4">
-									审核</label>
-								<label class="c-orange"><input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-5"> 只能操作自己发布的</label>
-							</dd>
-						</dl>
-						<dl class="cl permission-list2">
-							<dt>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
-									文章管理</label>
-							</dt>
-							<dd>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-0">
-									添加</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-1">
-									修改</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-2">
-									删除</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-3">
-									查看</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-4">
-									审核</label>
-								<label class="c-orange"><input type="checkbox" value="" name="user-Character-0-2-0" id="user-Character-0-2-5"> 只能操作自己发布的</label>
-							</dd>
-						</dl>
-					</dd>
-				</dl>
-				<dl class="permission-list">
-					<dt>
-						<label>
-							<input type="checkbox" value="" name="user-Character-0" id="user-Character-1">
-							用户中心</label>
-					</dt>
-					<dd>
-						<dl class="cl permission-list2">
-							<dt>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0" id="user-Character-1-0">
-									用户管理</label>
-							</dt>
-							<dd>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-0">
-									添加</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-1">
-									修改</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-2">
-									删除</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-3">
-									查看</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-4">
-									审核</label>
-							</dd>
-						</dl>
-					</dd>
-				</dl>
+			<div class="formControls col-xs-8 col-sm-9"  id="selectAuth">
 			</div>
 		</div>
 		<div class="row cl">
@@ -162,6 +70,48 @@
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+	function authList() {
+		$.ajax({
+			type: 'post',
+			url: '/auth/list',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				for (var i = 0; i<data.data.length; i++) {
+					var di = data.data[i];
+					if(di.level == 1){
+						var li = "<dl class=\"permission-list\"><dt><label>" +
+								"<input type=\"checkbox\" value=\""+ di.id +"\" name=\"user-Character-0\" id=\"user-Character-1\">\n" + di.name +
+								"</label></dt>";
+						for(var j = 0; j<data.data.length; j++){
+							var dj = data.data[j];
+							if(di.id == dj.pid){
+								li = li + "<dd><dl class=\"cl permission-list2\"><dt><label>" +
+										"<input type=\"checkbox\" value=\""+ dj.id +"\" name=\"user-Character-1-0\" id=\"user-Character-1-0\">\n" + dj.name +
+										"</label></dt>";
+								for(var k = 0; k<data.data.length; k++){
+									var dk = data.data[k];
+									if(dj.id == dk.pid){
+										li= li + "<dd><label>"+
+												"<input type=\"checkbox\" value=\""+ dk.id +"\" name=\"auth\" id=\"auth\">\n" + dk.name +
+												"</label></dd>";
+									}
+								}
+								li = li + "</dl></dd>";
+							}
+						}
+						li = li + "</dl>";
+						$("#selectAuth").append(li);
+					}
+				}
+			},
+			error:function(data) {
+				console.log(data+"111");
+			}
+		});
+	}
+	authList();
+
 $(function(){
 	$(".permission-list dt input:checkbox").click(function(){
 		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));

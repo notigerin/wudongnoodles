@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -29,69 +30,72 @@
 <body>
 <article class="page-container">
 	<form class="form form-horizontal" id="form-admin-add">
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="confirmPassword" name="confirmPassword">
-		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-			<div class="radio-box">
-				<input name="sex" type="radio" id="sex-1" value="0" checked>
-				<label for="sex-1">男</label>
-			</div>
-			<div class="radio-box">
-				<input name="sex" type="radio" id="sex-2" value="1">
-				<label for="sex-2">女</label>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
+			<input type="hidden" value="${admin.id}" id="id" name="id"/>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${admin.name}" placeholder="" id="name" name="name">
 			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="mobile" name="mobile">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" placeholder="@" name="email" id="email">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="confirmPassword" name="confirmPassword">
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">角色：</label>
-		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+
+					<div class="radio-box">
+						<input name="sex" type="radio" id="sex-1" value="0" checked>
+							<label for="sex-1">男</label>
+					</div>
+					<div class="radio-box">
+						<input name="sex" type="radio" id="sex-2" value="1">
+							<label for="sex-1">女</label>
+					</div>
+
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${admin.mobile}" placeholder="" id="mobile" name="mobile">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${admin.email}" placeholder="@" name="email" id="email">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">角色：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="selectRole" size="1" id="selectRole">
 			</select>
 			</span>
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">备注：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<textarea name="remark" id="remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)"></textarea>
-			<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="remark" id="remark" cols="" rows="" class="textarea" value="${admin.remark}" placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-			<input class="btn btn-primary radius" type="button" id="addAdmin" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="button" id="modifyAdmin" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
 		</div>
-	</div>
 	</form>
 </article>
 
@@ -107,6 +111,26 @@
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
 
+	// function findAdmin() {
+	// 	var id = $.request.id;
+	// 	$.ajax({
+	// 		type: 'post',
+	// 		url: '/admin/findAdmin',
+	// 		data:{"id":id},
+	// 		dataType: 'json',
+	// 		success: function (data) {
+	// 			console.log(data);
+	// 			var d = data;
+	//
+	// 			roleList();
+	// 		},
+	// 		error:function(data) {
+	// 			console.log(data+"111");
+	// 		}
+	// 	});
+	// }
+	// findAdmin();
+
 	function roleList() {
 		$.ajax({
 			type: 'post',
@@ -116,6 +140,9 @@
 				console.log(data);
 				for (var i = 0; i <data.data.length; i++) {
 					var d = data.data[i];
+					/*if(id!=null && id.equals(d.id)){
+						var li = "<option value=\"" + d.id+ "\" name=\"roleId\" selected=\"selected\">" + d.name +"</option>"
+					}*/
 					var li = "<option value=\"" + d.id+ "\" name=\"roleId\">" + d.name +"</option>"
 					$("#selectRole").append(li);
 				}
@@ -127,8 +154,9 @@
 	}
 	roleList();
 
-	$("#addAdmin").click(function () {
+	$("#modifyAdmin").click(function () {
 		//获取值
+		var id = $("#id").val();
 		var name = $("#name").val();
 		var password = $("#password").val();
 		var confirmPassword = $("#confirmPassword").val();
@@ -138,10 +166,11 @@
 		var roleId = $("#selectRole").val();
 		var remark = $("#remark").text();
 		$.ajax({
-			url:"/admin/addAdmin",
+			url:"/admin/modifyAdmin",
 			type:"post",
 			//注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
 			data:{
+				"id":id,
 				"name":name,
 				"password":password,
 				"confirmPassword":confirmPassword,
@@ -154,6 +183,7 @@
 			dataType:"json",
 			success:function (data) {
 				// alert(data.result);
+
 			}
 		})
 		parent.location.reload();

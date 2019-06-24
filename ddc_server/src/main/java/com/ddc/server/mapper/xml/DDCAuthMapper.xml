@@ -12,7 +12,11 @@
 	</resultMap>
 
     <select id="getAuthList" resultMap="authMap">
-		select * from ddc_authority;
+		select * from ddc_authority where del_flag = 0;
 	</select>
+
+	<update id="delById">
+		update ddc_authority set del_flag = 1 where id = #{id};
+	</update>
 
 </mapper>

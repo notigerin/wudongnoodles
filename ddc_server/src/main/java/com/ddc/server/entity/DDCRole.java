@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.*;
 
+import javax.management.relation.Role;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * <p>
@@ -42,15 +45,15 @@ public class DDCRole extends Model<DDCRole> {
      */
     private String remark;
     /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    private Long createTime;
-    /**
      * 创建人
      */
     @TableField("create_by")
     private Long createBy;
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private String createTime;
     /**
      * 更新人
      */
@@ -60,9 +63,7 @@ public class DDCRole extends Model<DDCRole> {
      * 更新时间
      */
     @TableField("update_time")
-    private Long updateTime;
-
-
+    private String updateTime;
     /**
      * 删除标志
      */
@@ -78,5 +79,22 @@ public class DDCRole extends Model<DDCRole> {
         return this.id;
     }
 
+    public DDCRole(String name, String remark){
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.id = 0L;
+        this.name = name;
+        this.remark = remark;
+        this.createBy = 0L;
+        this.updateBy = 0L;
+        this.createTime = data.format(new Date(System.currentTimeMillis()));
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
+    }
 
+    public DDCRole(Long id, String name, String remark){
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.id = id;
+        this.name = name;
+        this.remark = remark;
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
+    }
 }

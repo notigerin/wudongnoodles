@@ -40,6 +40,7 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
         adminMapper.updateStatus(id, status);
     }
 
+
     @Override
     public List<DDCAdmin> selectAllAdmin(){
         return adminMapper.getAdminList();
@@ -58,8 +59,8 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
 
     @Override
     public void updateAdmin(DDCAdmin admin){
+        PasswordUtils.entryptPassword(admin);
+        System.out.println(admin.getPassword());
         adminMapper.updateById(admin);
     }
-
-
 }
