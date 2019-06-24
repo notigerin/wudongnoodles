@@ -47,7 +47,7 @@
 <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
 <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
 <script type="text/javascript">
-    var userCityUrl = "/log/charts_1";
+    var userCityUrl = "/logCount/charts_1";
     var option = {
         xAxis: {
             title: {

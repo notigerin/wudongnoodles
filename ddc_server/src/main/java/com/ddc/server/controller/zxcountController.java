@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/log1")
+@RequestMapping("/zxCount")
 public class zxcountController {
     @Resource
     private IDDCZxCountService service;

@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/log")
+@RequestMapping("/logCount")
 public class LogCountController {
     @Resource
     private IDDCLogCountService service;
