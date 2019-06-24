@@ -34,12 +34,12 @@ public class MemberController {
     }
     @RequestMapping("/show")
     public String jumpShow(Model model, @RequestParam(value = "id",required = false) String id) throws Exception {
-        return "member_show";
+        return "member-show";
     }
 
     @RequestMapping("/edit")
     public String jumpEdit(Model model) throws Exception {
-        return "member_edit";
+        return "member-edit";
     }
 
     @RequestMapping("/addAction")

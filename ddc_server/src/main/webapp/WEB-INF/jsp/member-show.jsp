@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -25,11 +24,19 @@
 <title>用户查看</title>
 </head>
 <body>
+<%
+    String username=request.getParameter("username");
+	String gender=request.getParameter("gender");
+	String telephone=request.getParameter("telephone");
+	String postAddress=request.getParameter("postAddress");
+	String address=request.getParameter("address");
+	String createTime=request.getParameter("createTime");
+%>
 <div class="cl pd-20" style=" background-color:#5bacb6">
 	<img class="avatar size-XL l" src="/static/h-ui/images/ucnter/avatar-default.jpg">
 	<dl style="margin-left:80px; color:#fff">
 		<dt>
-			<span class="f-18">张三</span>
+			<span class="f-18"><%=username %></span>
 			<span class="pl-10 f-12">余额：40</span>
 		</dt>
 		<dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
@@ -40,23 +47,23 @@
 		<tbody>
 			<tr>
 				<th class="text-r" width="80">性别：</th>
-				<td>男</td>
+				<td><%=gender %></td>
 			</tr>
 			<tr>
 				<th class="text-r">手机：</th>
-				<td>13000000000</td>
+				<td><%=telephone %></td>
 			</tr>
 			<tr>
 				<th class="text-r">邮箱：</th>
-				<td>admin@mail.com</td>
+				<td><%=postAddress %></td>
 			</tr>
 			<tr>
 				<th class="text-r">地址：</th>
-				<td>北京市 海淀区</td>
+				<td><%=address %></td>
 			</tr>
 			<tr>
 				<th class="text-r">注册时间：</th>
-				<td>2014.12.20</td>
+				<td><%=createTime %></td>
 			</tr>
 			<tr>
 				<th class="text-r">积分：</th>
@@ -66,10 +73,10 @@
 	</table>
 </div>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> 
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->

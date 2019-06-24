@@ -135,12 +135,12 @@ public class DDCMember extends Model<DDCMember> {
     /**
      * 创建人
      */
-    private String creater;
+    private Long creater;
 
     /**
      * 更新时间
      */
-//    @TableField("create_time")
+    @TableField("create_time")
     private String createTime;
 
     /**
@@ -167,6 +167,7 @@ public class DDCMember extends Model<DDCMember> {
         this.address=beuzhu;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.createTime=sdf.format(new Date());
+        this.registerTime=this.createTime;
     }
 
     public static void main(String[] args) {
