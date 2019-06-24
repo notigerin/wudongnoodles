@@ -92,7 +92,7 @@ public class ColumnsController {
     @RequestMapping("/article_column_edit")
     @ResponseBody
     public ModelAndView articleColumnEdit(@RequestParam(value="columnId") Integer columnId, HttpSession session) {
-        Columns columns = columnsService.selectColums(columnId);
+        Columns columns = columnsService.selectColumns(columnId);
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("article_column_edit");
         session.setAttribute("columns",columns);

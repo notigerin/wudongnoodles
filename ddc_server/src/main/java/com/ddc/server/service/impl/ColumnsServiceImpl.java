@@ -20,7 +20,7 @@ public class ColumnsServiceImpl extends ServiceImpl<ColumnsMapper,Columns> imple
     }
 
     @Override
-    public Columns selectColums(int id) {
+    public Columns selectColumns(int id) {
         return columnsMapper.selectById(id);
     }
 
