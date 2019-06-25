@@ -79,6 +79,8 @@
 			dataType: 'json',
 			success: function (data) {
 				console.log(data);
+				var li = '<option value="0" name="pId">无</option>';
+				$("#parentAuth").append(li);
 				for (var i = 0; i<data.data.length; i++) {
 					var di = data.data[i];
 					if(di.level <= 2){
