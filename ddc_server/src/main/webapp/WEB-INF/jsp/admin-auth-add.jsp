@@ -37,13 +37,13 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text" value="" lay-verify="required" placeholder="请输入权限名称" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限标识：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="flag" name="flag">
+				<input type="text" class="input-text" value="" lay-verify="required" placeholder="请输入权限标识" id="flag" name="flag">
 			</div>
 		</div>
 		<div class="row cl">
@@ -83,8 +83,11 @@
 				$("#parentAuth").append(li);
 				for (var i = 0; i<data.data.length; i++) {
 					var di = data.data[i];
-					if(di.level <= 2){
-						var li = '<option value="' + di.id+ '" name="pId">' + di.name +'</option>';
+					if(di.level == 1){
+						var li = '<option value="' + di.id+ '" name="pId" style="text-align: center;width:500px;">' + di.name +'......顶级权限</option>';
+						$("#parentAuth").append(li);
+					}else if(di.level == 2){
+						var li = '<option value="' + di.id+ '" name="pId" style="text-align: center;width:100%;">' + di.name +'......二级权限</option>';
 						$("#parentAuth").append(li);
 					}
 				}
@@ -115,9 +118,12 @@
 			dataType:"json",
 			success:function (data) {
 				// alert(data.result);
+				parent.location.reload();
+			},
+			error:function (data){
+				alert("系统错误");
 			}
 		})
-		parent.location.reload();
 	})
 
 $(function(){
