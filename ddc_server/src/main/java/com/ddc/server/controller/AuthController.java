@@ -6,10 +6,12 @@ import com.ddc.server.service.IDDCAuthService;
 import com.ddc.server.service.SpringContextBeanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -62,6 +64,23 @@ public class AuthController {
         return ResponseHelper.buildResponseModel(msg);
     }
 
+    @RequestMapping("/admin-auth-modify")
+    @ResponseBody
+    public ModelAndView findAuth(@RequestParam(value="id") Long id, HttpSession session){
+        DDCAuth auth = authService.selectById(id);
+        session.setAttribute("auth",auth);
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("admin-auth-modify");
+        return modelAndView;
+    }
+
+    @RequestMapping("/modifyAuth")
+    @ResponseBody
+    public void modifyAuth(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id, @RequestParam(value = "name",required = false) String name, @RequestParam(value = "flag",required = false) String flag, @RequestParam(value = "pId",required = false) Long pId, HttpSession session , Model model){
+        Integer level = authService.selectById(pId).getLevel();
+        DDCAuth auth = new DDCAuth(id,name,flag,pId,level);
+        authService.updateAuth(auth);
+    }
 
     @RequestMapping("/batchDel")
     @ResponseBody

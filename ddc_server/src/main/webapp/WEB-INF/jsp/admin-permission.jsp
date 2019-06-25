@@ -96,7 +96,7 @@
 							"<td>" + d.name + "</td>" +
 							"<td>" + d.flag + "</td>" +
 							"<td>"+
-							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/page/admin-permission-add','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_permission_edit('角色编辑','/auth/admin-auth-modify?id="+ d.id +"','1','','310')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
 							"<a title=\"删除\" href=\"javascript:;\" onclick=\"auth_del(this,"+ d.id +")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
 							"</tr>";
 					$("#tbody").append(li);

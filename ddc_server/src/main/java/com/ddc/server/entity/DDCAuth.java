@@ -97,4 +97,16 @@ public class DDCAuth extends Model<DDCAuth> {
         this.updateBy=0L;
         this.delFlag=0;
     }
+
+    public DDCAuth(Long id, String name, String flag, Long pId, Integer level) {
+        SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.id = id;
+        this.name = name;
+        this.flag = flag;
+        this.pId = pId;
+        this.level = level;
+        this.updateTime = data.format(new Date(System.currentTimeMillis()));
+        this.updateBy=0L;
+        this.delFlag=0;
+    }
 }
