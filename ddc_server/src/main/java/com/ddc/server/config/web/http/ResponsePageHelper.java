@@ -16,7 +16,7 @@ public class ResponsePageHelper {
 
     public static <T> ResponsePageModel<T> buildResponseModel(Page<T> page) {
         ResponsePageModel response = new ResponsePageModel();
-        response.setCode(HttpStatus.OK.value());
+        response.setCode(0);
         response.setMsg(HttpStatus.OK.getReasonPhrase());
         response.setData(page.getRecords());
         response.setCount(page.getTotal());
