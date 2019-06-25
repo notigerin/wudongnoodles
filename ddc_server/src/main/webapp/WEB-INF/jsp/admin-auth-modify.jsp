@@ -82,7 +82,7 @@
 				console.log(data);
 				for (var i = 0; i<data.data.length; i++) {
 					var di = data.data[i];
-					if(di.level <= 2){
+					if(di.level <= 2 && di.id !=${auth.id}){
 						var li = '<option value="' + di.id+ '" name="pId">' + di.name +'</option>';
 						$("#parentAuth").append(li);
 					}
