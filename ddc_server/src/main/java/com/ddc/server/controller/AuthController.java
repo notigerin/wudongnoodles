@@ -40,9 +40,17 @@ public class AuthController {
 
     }
 
+    @RequestMapping("/addAuth")
+    @ResponseBody
+    public void addAuth(@RequestParam(value = "name",required = false) String name, @RequestParam(value = "flag",required = false) String flag, @RequestParam(value = "pId",required = false) Long pId){
+        Integer level = authService.selectById(pId).getLevel();
+        DDCAuth auth = new DDCAuth(name,flag,pId,level);
+        authService.insertAuth(auth);
+    }
+
     @RequestMapping("/delAuth")
     @ResponseBody
-    public ResponseModel<String> delAdmin(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id) throws Exception {
+    public ResponseModel<String> delAuth(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id) throws Exception {
         String msg;
         if (id != null) {
             authService = SpringContextBeanService.getBean(IDDCAuthService.class);
