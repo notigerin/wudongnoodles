@@ -124,7 +124,7 @@
 		$("input[name='authId']:checked").each(function(){
 			checkedList.push($(this).val());
 		});
-		var remark = $("#remark").text();
+		var remark = $('textarea').val();
 		$.ajax({
 			url:"/role/addRole",
 			type:"post",

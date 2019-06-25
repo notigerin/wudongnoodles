@@ -136,7 +136,7 @@
 		var mobile = $("#mobile").val();
 		var email = $("#email").val();
 		var roleId = $("#selectRole").val();
-		var remark = $("#remark").text();
+		var remark = $('textarea').val();
 		$.ajax({
 			url:"/admin/addAdmin",
 			type:"post",
