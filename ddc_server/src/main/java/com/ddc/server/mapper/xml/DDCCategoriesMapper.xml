@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddc.server.mapper.DDCRoleMapper">
+
+    <resultMap id="categoriesMap" type="DDCCategories">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="remark" column="remark" />
+        <result property="pId" column="p_id" />
+        <result property="level" column="level" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+        <result property="delFlag" column="del_flag" />
+    </resultMap>
+
+    <select id="getCategoriesList" resultMap="categoriesMap">
+        select * from ddc_categories where del_flag = 0;
+    </select>
+</mapper>
