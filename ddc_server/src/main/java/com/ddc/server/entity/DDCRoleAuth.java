@@ -46,6 +46,7 @@ public class DDCRoleAuth extends Model<DDCRoleAuth> {
     }
 
     public DDCRoleAuth(Long roleId, Long authId){
+        this.id=0L;
         this.roleId=roleId;
         this.authId=authId;
     }

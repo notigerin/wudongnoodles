@@ -92,7 +92,7 @@
 							"<td>" + d.adminName + "</td>" +
 							"<td>" + d.remark + "</td>" +
 							"<td class=\"f-14\">"+
-							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/page/admin-role-add','4')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
+							"<a title=\"编辑\" href=\"javascript:;\" onclick=\"admin_role_edit('角色编辑','/role/admin-role-modify?id="+ d.id + "','3','700','480')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>"+
 							"<a title=\"删除\" href=\"javascript:;\" onclick=\"role_del(this,"+ d.id +")\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
 							"</tr>";
 					$("#tbody").append(li);
