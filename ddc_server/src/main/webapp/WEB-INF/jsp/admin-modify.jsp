@@ -52,16 +52,14 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-
-					<div class="radio-box">
-						<input name="sex" type="radio" id="sex-1" value="0" checked>
-							<label for="sex-1">男</label>
-					</div>
-					<div class="radio-box">
-						<input name="sex" type="radio" id="sex-2" value="1">
-							<label for="sex-1">女</label>
-					</div>
-
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-1" value="0" checked>
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-2" value="1">
+					<label for="sex-1">女</label>
+				</div>
 			</div>
 		</div>
 		<div class="row cl">
@@ -140,11 +138,14 @@
 				console.log(data);
 				for (var i = 0; i <data.data.length; i++) {
 					var d = data.data[i];
-					/*if(id!=null && id.equals(d.id)){
+					if(d.id == ${admin.roleId})
+					{
 						var li = "<option value=\"" + d.id+ "\" name=\"roleId\" selected=\"selected\">" + d.name +"</option>"
-					}*/
-					var li = "<option value=\"" + d.id+ "\" name=\"roleId\">" + d.name +"</option>"
-					$("#selectRole").append(li);
+						$("#selectRole").append(li);
+					}else {
+						var li = "<option value=\"" + d.id + "\" name=\"roleId\">" + d.name + "</option>"
+						$("#selectRole").append(li);
+					}
 				}
 			},
 			error:function(data) {
