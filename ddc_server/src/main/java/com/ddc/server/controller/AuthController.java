@@ -54,29 +54,6 @@ public class AuthController {
         return ResponseHelper.buildResponseModel(msg);
     }
 
-    @RequestMapping("/levelList")
-    @ResponseBody
-    public ResponseModel<List<List<DDCAuth>>> AuthLevelList(HttpServletResponse resp){
-        authService = SpringContextBeanService.getBean(IDDCAuthService.class);
-        List<DDCAuth> list = authService.selectAllAuth();
-        List<DDCAuth> oneList = new ArrayList<>();
-        List<DDCAuth> twoList = new ArrayList<>();
-        List<List<DDCAuth>> levelList = new ArrayList<>();
-
-        for(DDCAuth auth : list){
-            if(auth.getLevel().equals(1)){
-                oneList.add(auth);
-            }else if(auth.getLevel().equals(2)){
-                twoList.add(auth);
-            }
-        }
-        levelList.add(oneList);
-        levelList.add(twoList);
-
-        return ResponseHelper.buildResponseModel(levelList);
-
-    }
-
 
     @RequestMapping("/batchDel")
     @ResponseBody

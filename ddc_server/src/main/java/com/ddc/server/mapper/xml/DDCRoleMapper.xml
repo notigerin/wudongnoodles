@@ -23,6 +23,10 @@
 		select id, name from ddc_role;
 	</select>
 
+	<select id="selectRoleId" resultType="DDCRole">
+		select id from ddc_role where name= #{name};
+	</select>
+
 	<update id="delById">
 		update ddc_role set del_flag = 1 where id = #{id};
 	</update>

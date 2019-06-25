@@ -22,6 +22,8 @@ public interface IDDCRoleService extends IService<DDCRole> {
 
     void insertRole(DDCRole role);
 
+    DDCRole selectRoleId(String name);
+
     void delRole(long id);
 
     void updateRole(DDCRole role);

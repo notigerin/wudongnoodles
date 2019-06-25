@@ -4,9 +4,12 @@ package com.ddc.server.controller;
 import com.ddc.server.config.web.http.ResponseHelper;
 import com.ddc.server.config.web.http.ResponseModel;
 import com.ddc.server.entity.DDCRole;
+import com.ddc.server.entity.DDCRoleAuth;
+import com.ddc.server.service.IDDCRoleAuthService;
 import com.ddc.server.service.IDDCRoleService;
 import com.ddc.server.service.SpringContextBeanService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,8 @@ import java.util.List;
 public class RoleController {
     @Resource
     private IDDCRoleService roleService;
+    @Resource
+    private IDDCRoleAuthService roleAuthService;
 
     @RequestMapping("/list")
     @ResponseBody
@@ -50,6 +56,26 @@ public class RoleController {
         }
         return ResponseHelper.buildResponseModel(list);
     }
+
+    @RequestMapping("/addRole")
+    @ResponseBody
+    public ResponseModel<String> insertAdd(HttpServletRequest request, @RequestParam(value = "name",required = false) String name, @RequestParam(value = "remark",required = false) String remark, @RequestParam(value="authIdItems") String authIdItems, HttpSession session , Model model) throws Exception {
+        String msg;
+        DDCRole role = new DDCRole(name,remark);
+        roleService = SpringContextBeanService.getBean(IDDCRoleService.class);
+        roleService.insertRole(role);
+        Long roleId = roleService.selectRoleId(name).getId();
+        DDCRoleAuth roleAuth;
+        String[] strs = authIdItems.split(",");
+        for (int i = 0; i < strs.length; i++) {
+            long authId = Long.parseLong(strs[i]);
+            roleAuth = new DDCRoleAuth(roleId,authId);
+            roleAuthService.insertRoleAuth(roleAuth);
+        }
+        msg = "添加成功";
+        return ResponseHelper.buildResponseModel(msg);
+    }
+
 
     @RequestMapping("/delRole")
     @ResponseBody

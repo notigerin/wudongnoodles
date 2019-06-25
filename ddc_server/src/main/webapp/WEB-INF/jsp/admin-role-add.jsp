@@ -37,13 +37,14 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="roleName" name="roleName">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="">
+				<textarea name="remark" id="remark" cols="" rows="1" class="textarea"  placeholder="简要说明角色功能" dragonfly="true" onKeyUp="$.Huitextarealength(this,20)"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
 		<div class="row cl">
@@ -54,7 +55,7 @@
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+				<input class="btn btn-primary radius" type="button" id="addRole" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
@@ -82,14 +83,14 @@
 					var di = data.data[i];
 					if(di.level == 1){
 						var li = '<dt><dl class="permission-list" id="'+ di.id +'"><dt><label>' +
-								'<input type="checkbox" value="'+ di.id +'" name="user-Character-0" id="user-Character-1">' + di.name +
+								'<input type="checkbox" value="'+ di.id +'" name="authId" id="user-Character-1">' + di.name +
 								'</label></dt></dl></dt>';
 						$("#authOneLevel").append(li);
 						for(var j = 0; j<data.data.length; j++){
 							var dj = data.data[j];
 							if(di.id == dj.pId){
 								var lj= '<dd><dl class="cl permission-list2"><dd><label>' +
-										'<input type="checkbox" value="'+ dj.id +'" name="user-Character-1-0" id="user-Character-1-0">' + dj.name +
+										'<input type="checkbox" value="'+ dj.id +'" name="authId" id="user-Character-1-0">' + dj.name +
 										"</label></dd>";
 								var levelPId = "#" + di.id;
 								$(levelPId).append(lj);
@@ -114,6 +115,32 @@
 		});
 	}
 	authList();
+
+
+	$("#addRole").click(function () {
+		//获取值
+		var name = $("#name").val();
+		var checkedList = new Array();
+		$("input[name='authId']:checked").each(function(){
+			checkedList.push($(this).val());
+		});
+		var remark = $("#remark").text();
+		$.ajax({
+			url:"/role/addRole",
+			type:"post",
+			//注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
+			data:{
+				"name":name,
+				"authIdItems":checkedList.toString(),
+				"remark":remark
+			},
+			dataType:"json",
+			success:function (data) {
+				// alert(data.result);
+			}
+		})
+		parent.location.reload();
+	})
 
 $(function(){
 	$(".permission-list dt input:checkbox").click(function(){

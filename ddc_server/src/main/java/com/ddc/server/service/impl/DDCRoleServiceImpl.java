@@ -44,6 +44,11 @@ public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> impl
     }
 
     @Override
+    public DDCRole selectRoleId(String name) {
+        return roleMapper.selectRoleId(name);
+    }
+
+    @Override
     public void delRole(long id) {
         roleMapper.delById(id);
     }
