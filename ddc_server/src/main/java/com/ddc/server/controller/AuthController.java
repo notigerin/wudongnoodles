@@ -72,14 +72,13 @@ public class AuthController {
                 idArray.add(Long.valueOf(arr[i]));
             }
         }
+        String msg = "删除成功";
         if (!CollectionUtils.isEmpty(idArray)) {
             authService.deleteBatchIds(idArray);
-            return ResponseHelper.buildResponseModel("删除成功");
+            return ResponseHelper.buildResponseModel(msg);
         } else {
-            return new ResponseModel<String>(
-                    "删除失败", ResponseModel.FAIL.getCode()
-            );
-
+            msg = "删除失败";
+            return new ResponseModel<String>("msg", ResponseModel.FAIL.getCode());
         }
 
     }
@@ -102,8 +101,6 @@ public class AuthController {
         return ResponseHelper.buildResponseModel("操作成功");
     }
 
-
-
     @RequestMapping("/authList")
     @ResponseBody
     public ResponseModel<List<DDCAuth>> AuthList(HttpServletResponse resp){
@@ -113,63 +110,4 @@ public class AuthController {
 
     }
 
-//    @RequestMapping("/addAuth")
-//    @ResponseBody
-//    public void addAuth(@RequestParam(value = "name",required = false) String name, @RequestParam(value = "flag",required = false) String flag, @RequestParam(value = "pId",required = false) Long pId){
-//        Integer level;
-//        if(pId == 0){
-//            level = 1;
-//        }else{
-//            level = authService.selectById(pId).getLevel() + 1;
-//        }
-//        DDCAuth auth = new DDCAuth(name,flag,pId,level);
-//        authService.insertAuth(auth);
-//    }
-//
-//    @RequestMapping("/delAuth")
-//    @ResponseBody
-//    public ResponseModel<String> delAuth(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id) throws Exception {
-//        String msg;
-//        if (id != null) {
-//            authService = SpringContextBeanService.getBean(IDDCAuthService.class);
-//            authService.delAuth(id);
-//            msg = "删除成功";
-//        }else{
-//            msg = "数据出错";
-//        }
-//        return ResponseHelper.buildResponseModel(msg);
-//    }
-//
-//    @RequestMapping("/admin-auth-modify")
-//    @ResponseBody
-//    public ModelAndView findAuth(@RequestParam(value="id") Long id, HttpSession session){
-//        DDCAuth auth = authService.selectById(id);
-//        session.setAttribute("auth",auth);
-//        ModelAndView modelAndView=new ModelAndView();
-//        modelAndView.setViewName("admin-auth-modify");
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping("/modifyAuth")
-//    @ResponseBody
-//    public void modifyAuth(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id, @RequestParam(value = "name",required = false) String name, @RequestParam(value = "flag",required = false) String flag, @RequestParam(value = "pId",required = false) Long pId, HttpSession session , Model model){
-//        Integer level;
-//        if(pId == 0){
-//            level = 1;
-//        }else{
-//            level = authService.selectById(pId).getLevel() + 1;
-//        }
-//        DDCAuth auth = new DDCAuth(id,name,flag,pId,level);
-//        authService.updateAuth(auth);
-//    }
-//
-//    @RequestMapping("/batchDel")
-//    @ResponseBody
-//    public void batchDeletes(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="delItems") String delItems) {
-//        String[] strs = delItems.split(",");
-//        for (int i = 0; i < strs.length; i++) {
-//            long oid = Long.parseLong(strs[i]);
-//            authService.delAuth(oid);
-//        }
-//    }
 }
