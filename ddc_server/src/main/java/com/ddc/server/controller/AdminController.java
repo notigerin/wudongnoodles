@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,6 +68,10 @@ public class AdminController {
                                          @RequestParam(value = "sex",required = false) Integer sex, @RequestParam(value = "mobile",required = false) String mobile, @RequestParam(value = "email",required = false) String email,
                                          @RequestParam(value = "roleId",required = false) long roleId, @RequestParam(value = "remark",required = false) String remark, HttpSession session , Model model) throws Exception {
         String msg;
+        if(StringUtils.isEmpty(password) && StringUtils.isEmpty(confirmPassword)){
+            password ="123456";
+            confirmPassword = "123456";
+        }
         if(password.equals(confirmPassword)) {
             DDCAdmin admin = new DDCAdmin(name, password, sex, mobile, email, roleId, remark);
             adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
@@ -85,8 +90,14 @@ public class AdminController {
                                          @RequestParam(value = "sex",required = false) Integer sex, @RequestParam(value = "mobile",required = false) String mobile, @RequestParam(value = "email",required = false) String email,
                                          @RequestParam(value = "roleId",required = false) long roleId, @RequestParam(value = "remark",required = false) String remark, HttpSession session , Model model) throws Exception {
         String msg;
+        adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
+        if(StringUtils.isEmpty(password) && StringUtils.isEmpty(confirmPassword)){
+            DDCAdmin admin = new DDCAdmin(id, name, sex, mobile, email, roleId, remark);
+            adminService.updateAdmin(admin);
+            msg = "添加成功";
+            return ResponseHelper.buildResponseModel(msg);
+        }
         if(password.equals(confirmPassword)) {
-            adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
             DDCAdmin admin = new DDCAdmin(id, name, password, sex, mobile, email, roleId, remark);
             adminService.updateAdmin(admin);
             msg = "添加成功";

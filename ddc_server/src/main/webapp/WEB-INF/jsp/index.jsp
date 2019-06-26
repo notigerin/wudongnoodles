@@ -150,7 +150,7 @@
             <dd>
                 <ul>
                     <li><a data-href="/page/admin-role" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
-                    <li><a data-href="/page/admin-permission" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
+                    <li><a data-href="/page/auth" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
                     <li><a data-href="/page/admin-list" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
                 </ul>
             </dd>

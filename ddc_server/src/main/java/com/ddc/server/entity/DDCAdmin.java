@@ -138,7 +138,6 @@ public class DDCAdmin extends Model<DDCAdmin> {
         SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id = id;
         this.name = name;
-        this.password = password;
         this.sex = sex;
         this.mobile = mobile;
         this.email = email;

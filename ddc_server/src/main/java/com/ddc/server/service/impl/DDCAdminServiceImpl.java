@@ -7,6 +7,7 @@ import com.ddc.server.mapper.DDCAdminMapper;
 import com.ddc.server.service.IDDCAdminService;
 import com.ddc.server.shiro.PasswordUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -59,8 +60,9 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
 
     @Override
     public void updateAdmin(DDCAdmin admin){
-        PasswordUtils.entryptPassword(admin);
-        System.out.println(admin.getPassword());
+        if(!StringUtils.isEmpty(admin.getPassword())) {
+            PasswordUtils.entryptPassword(admin);
+        }
         adminMapper.updateById(admin);
     }
 }
