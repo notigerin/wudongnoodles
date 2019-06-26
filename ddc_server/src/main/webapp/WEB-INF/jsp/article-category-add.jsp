@@ -38,7 +38,7 @@
                 <span class="c-red">*</span>
                 分类名称：</label>
             <div class="formControls col-xs-6 col-sm-6">
-                <input type="text" class="input-text" value="" placeholder="" id="user-name" name="product-category-name">
+                <input type="text" class="input-text" value="" placeholder="" id="name" name="product-category-name">
             </div>
         </div>
         <div class="row cl">
@@ -49,8 +49,8 @@
             </div>
         </div>
         <div class="row cl">
-            <div class="col-9 col-offset-2">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="button" id="addCategory" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
     </form>
@@ -66,6 +66,26 @@
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+
+    $("#addCategory").click(function () {
+        //获取值
+        var name = $("#name").val();
+        var remark = $('textarea').val();
+        $.ajax({
+            url:"/Categories/add",
+            type:"post",
+            //注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
+            data:{
+                "name":name,
+                "remark":remark
+            },
+            dataType:"json",
+            success:function (data) {
+                // alert(data.result);
+            }
+        })
+        parent.location.reload();
+    })
     $(function(){
 
     });

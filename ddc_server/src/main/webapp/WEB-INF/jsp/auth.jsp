@@ -73,15 +73,14 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">上级权限</label>
-            <div class="formControls col-xs-8 col-sm-9" >
-                <select class="select" name="parentAuth" size="1" id="parentAuth">
-                    <option value="0" name="pId">--顶级权限--</option>
+            <div class="layui-input-inline">
+                <select name="pId" id="parentId" lay-verify="required" lay-search="">
                 </select>
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">权限级别</label>
             <div class="layui-input-block">
@@ -141,36 +140,44 @@
 </script>
 <script type="text/javascript">
     function authList() {
-        var getTpl = document.getElementById("demo").innerHTML;
         $.ajax({
             type: 'post',
-            url: '/auth/list',
+            url: '/auth/authList',
             dataType: 'json',
             success: function (data) {
                 console.log(data);
-                for (var i = 0; i<data.data.length; i++) {
-                    var di = data.data[i];
-                    if(di.level == 1){
-                        var li = '<option value="' + di.id+ '" name="pId">' + di.name +'......顶级权限</option>';
-                        $("#parentAuth").append(li);
-                    }else if(di.level == 2){
-                        var li = '<option value="' + di.id+ '" name="pId">' + di.name +'......二级权限</option>';
+
+                layui.use(['layer', 'form'], function () {
+                    var html1 = '<dd lay-value="" class="layui-select-tips layui-this">直接选择或搜索选择</dd>';
+                    var html2 = '<option value="" >直接选择或搜索选择</option>';
+                    html1 += '<dd lay-value="0" class="">设置为顶级权限</dd>';
+                    html2 += '<option value="0">设置为顶级权限</option>';
+                    for (var i = 0; i < data.data.length; i++) {
+                        var di = data.data[i];
+                        if (di.level == 1) {
+                            html1 += '<dd lay-value="' + di.id + '" class="">' + di.name + '</dd>';
+                            html2 += '<option value="' + di.id + '">' + di.name + '</option>';
+                            for (var j = 0; j < data.data.length; j++) {
+                                var dj = data.data[j];
+                                if (di.id == dj.pId) {
+                                    html1 += '<dd lay-value="' + dj.id + '" class="">--------' + dj.name + "</dd>";
+                                    html2 += '<option value="' + dj.id + '">---------' + dj.name + '</option>';
+                                }
+                            }
+                        }
                     }
-                    form.render('select');
-                    laytpl(getTpl).render(li, function(html){
-                        document.getElementById('parentAuth').innerHTML = html;
-                    });
-
-                }
-
+                    $("#parentId").next().children().eq(1).html(html1);
+                    $("#parentId").html(html2);
+                    layui.form.render("select");
+                });
             },
             error:function(data) {
                 console.log(data+"111");
             }
 
+
         });
     }
-
     $(function () {
         layui.use(['table', 'laytpl', 'element', 'form'], function () {
             var table = layui.table;
@@ -194,10 +201,10 @@
 
             //第一个实例
             table.render({
-                id: 'table',
-                elem: '.table-sort'
+                id: 'table'
+                , elem: '.table-sort'
                 , toolbar: '#toolbarDemo'
-                , height: 'full-220'
+                , height: 'full-205'
                 , url: '/auth/list' //数据接口
                 , page: true //开启分页
                 , cols: [[ //表头
@@ -224,7 +231,7 @@
                             }
                         }
                     }
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '25%'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '21.8%'}
                 ]]
             });
 
@@ -283,8 +290,9 @@
                     var index = layer.open({
                         type: 1,
                         content: html,
-                        area: ['500px', '600px']
+                        area: ['500px', '500px']
                     });
+                    authList();
                     form.render();
                     form.on('submit(update_form_submit)', function (data) {
                         layer.msg(JSON.stringify(data.field));
