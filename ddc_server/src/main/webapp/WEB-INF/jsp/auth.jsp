@@ -84,7 +84,40 @@
         <div class="layui-form-item">
             <label class="layui-form-label">上级权限</label>
             <div class="layui-input-inline">
-                <select name="pId" id="parentId" lay-verify="required" lay-search="">
+                <select name="pId" lay-filter="aihao">
+                    <option value="0">无</option>
+                    {{# layui.each(d.data, function(index, item){ }}
+                    {{# if(item.level === 1){ }}
+                    <option value="{{item.id}}" level="{{item.level}}"
+                            {{# if(d.pId===item.id){ }}
+                            selected
+                            {{# } }}
+                            {{# if(d.level===1){ }}
+                            disabled
+                            {{# } }}
+                            {{# if(d.level===3&&item.level===1){ }}
+                            disabled
+                            {{# } }}
+                    >{{item.name}}
+                    </option>
+                        {{# layui.each(d.data, function(index, item2){ }}
+                        {{# if(item2.pId === item.id){ }}
+                        <option value="{{item2.id}}" level="{{item2.level}}"
+                                {{# if(d.pId===item2.id){ }}
+                                selected
+                                {{# } }}
+                                {{# if(d.level===1){ }}
+                                disabled
+                                {{# } }}
+                                {{# if(d.level===2&&item2.level===2){ }}
+                                disabled
+                                {{# } }}
+                        >------{{item2.name}}
+                        </option>
+                        {{# } }}
+                        {{# }); }}
+                    {{# } }}
+                    {{# }); }}
                 </select>
             </div>
         </div>
@@ -171,45 +204,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/javascript">
-    function authList(data) {
-        $.ajax({
-            type: 'post',
-            url: '/auth/authList',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
 
-                layui.use(['layer', 'form'], function () {
-                    var html1 = '<dd lay-value="" class="layui-select-tips layui-this">直接选择或搜索选择</dd>';
-                    var html2 = '<option value="" >直接选择或搜索选择</option>';
-                    html1 += '<dd lay-value="0" class="">设置为顶级权限</dd>';
-                    html2 += '<option value="0">设置为顶级权限</option>';
-                    for (var i = 0; i < data.data.length; i++) {
-                        var di = data.data[i];
-                        if (di.level == 1) {
-                            html1 += '<dd lay-value="' + di.id + '" class="">' + di.name + '</dd>';
-                            html2 += '<option value="' + di.id + '">' + di.name + '</option>';
-                            for (var j = 0; j < data.data.length; j++) {
-                                var dj = data.data[j];
-                                if (di.id == dj.pId) {
-                                    html1 += '<dd lay-value="' + dj.id + '" class="">--------' + dj.name + "</dd>";
-                                    html2 += '<option value="' + dj.id + '">---------' + dj.name + '</option>';
-                                }
-                            }
-                        }
-                    }
-                    $("#parentId").next().children().eq(1).html(html1);
-                    $("#parentId").html(html2);
-                    layui.form.render("select");
-                });
-            },
-            error:function(data) {
-                console.log(data+"111");
-            }
-
-
-        });
-    }
     $(function () {
         layui.use(['table', 'laytpl', 'element', 'form'], function () {
             var table = layui.table;
@@ -248,9 +243,9 @@
                     }
                     ,
                     {field: 'name', title: '权限名称', width: '10%'}
-                    , {field: 'flag', title: '权限标示', width: '15%'}
-                    , {field: 'pName', title: '上级权限名称', width: '10%'}
-                    , {field: 'menuUrl', title: '转跳地址', width: '15%'}
+                    , {field: 'flag', title: '权限标示', width: '17%'}
+                    , {field: 'pName', title: '上级权限名称', width: '12%'}
+                    , {field: 'menuUrl', title: '转跳地址', width: '17%'}
                     , {
                         field: 'level', title: '权限', width: '7%'
                         , templet: function (d) {
@@ -332,35 +327,63 @@
 
             function addOrUpdate(data) {
                 var getTpl = document.getElementById("demo").innerHTML;
-                laytpl(getTpl).render(data, function (html) {
-                    var index = layer.open({
-                        type: 1,
-                        content: html,
-                        area: ['500px', '600px']
-                    });
-                    authList();
-                    form.render();
-                    form.on('submit(update_form_submit)', function (data) {
-                        layer.msg(JSON.stringify(data.field));
-                        $.ajax({
-                            "url": "/auth/updateOrAdd",
-                            "data": JSON.stringify(data.field),
-                            type: "post",
-                            contentType: 'application/json',
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.code === 200) {
-                                    layer.msg("操作成功");
-                                    reload();
-                                    layer.close(index);
-                                } else {
-                                    layer.msg(res.msg);
+                $.ajax({
+                    "url": "/auth/authList",
+                    type: "post",
+                    contentType: 'application/json',
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code === 200) {
+                            data.data = res.data;
+                            laytpl(getTpl).render(data, function (html) {
+                                var index = layer.open({
+                                    type: 1,
+                                    content: html,
+                                    area: ['500px', '600px']
+                                });
+
+                                if (data != null) {
+                                    switch (data.level) {
+                                        case 1:
+
+                                            $("select[name='level'] option[level='1']").attr("disabled", true);
+                                            $("select[name='level'] option[level='2']").attr("disabled", true);
+                                            break;
+                                        case 2:
+                                            // $("select[name='level'] option[level='1']").attr("disabled",true);
+                                            $("select[name='level'] option[level='2']").attr("disabled", true);
+                                            break;
+                                        case 3:
+                                            break;
+                                    }
                                 }
-                            }
-                        })
-                        return false;
-                    });
-                });
+                                form.render();
+                                form.on('submit(update_form_submit)', function (data) {
+                                    layer.msg(JSON.stringify(data.field));
+                                    $.ajax({
+                                        "url": "/auth/updateOrAdd",
+                                        "data": JSON.stringify(data.field),
+                                        type: "post",
+                                        contentType: 'application/json',
+                                        dataType: "json",
+                                        success: function (res) {
+                                            if (res.code === 200) {
+                                                layer.msg("操作成功");
+                                                reload();
+                                                layer.close(index);
+                                            } else {
+                                                layer.msg(res.msg);
+                                            }
+                                        }
+                                    })
+                                    return false;
+                                });
+                            });
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    }
+                })
             }
 
 //监听行工具事件
