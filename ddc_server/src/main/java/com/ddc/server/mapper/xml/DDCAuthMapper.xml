@@ -8,6 +8,8 @@
 		<result property="flag" column="flag" />
 		<result property="pId" column="p_id" />
 		<result property="level" column="level" />
+		<result property="authLevel" column="auth_level" />
+		<result property="menuUrl" column="menu_url" />
 		<result property="delFlag" column="del_flag" />
 	</resultMap>
 

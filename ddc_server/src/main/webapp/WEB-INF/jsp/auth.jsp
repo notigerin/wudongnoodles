@@ -73,6 +73,13 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">转跳地址</label>
+            <div class="layui-input-inline">
+                <input type="text" name="menuUrl" value="{{ d.menuUrl || '' }}" lay-verify="required" placeholder="请输入权限转跳地址"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">上级权限</label>
@@ -82,7 +89,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">权限级别</label>
+            <label class="layui-form-label">权限</label>
             <div class="layui-input-block">
                 <%--            <script type="text/html" template>--%>
 
@@ -100,6 +107,31 @@
 
                 <input type="radio" name="level"  value="3" title="操作"
                        {{# if(d.level===3){ }}
+                       checked
+                       {{# } }}
+                />
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限级别</label>
+            <div class="layui-input-block">
+                <%--            <script type="text/html" template>--%>
+
+                <input type="radio" name="authLevel" value="1" title="超级管理员权限"
+                       {{# if(d.authLevel===1){ }}
+                       checked
+                       {{# } }}
+                />
+
+                <input type="radio" name="authLevel" value="2" title="管理员权限"
+                       {{# if(d.authLevel===2){ }}
+                       checked
+                       {{# } }}
+                />
+
+                <input type="radio" name="authLevel"  value="3" title="普通权限"
+                       {{# if(d.authLevel===3){ }}
                        checked
                        {{# } }}
                 />
@@ -139,7 +171,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/javascript">
-    function authList() {
+    function authList(data) {
         $.ajax({
             type: 'post',
             url: '/auth/authList',
@@ -217,9 +249,10 @@
                     ,
                     {field: 'name', title: '权限名称', width: '10%'}
                     , {field: 'flag', title: '权限标示', width: '15%'}
-                    , {field: 'pId', title: '上级权限ID', width: '15%'}
+                    , {field: 'pName', title: '上级权限名称', width: '10%'}
+                    , {field: 'menuUrl', title: '转跳地址', width: '15%'}
                     , {
-                        field: 'level', title: '权限级别', width: '20%'
+                        field: 'level', title: '权限', width: '7%'
                         , templet: function (d) {
                             switch (d.level) {
                                 case 1:
@@ -231,7 +264,20 @@
                             }
                         }
                     }
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '21.8%'}
+                    , {
+                        field: 'authLevel', title: '权限级别', width: '7%'
+                        , templet: function (d) {
+                            switch (d.authLevel) {
+                                case 1:
+                                    return '超级管理员权限';
+                                case 2:
+                                    return '管理员权限';
+                                case 3:
+                                    return '普通权限';
+                            }
+                        }
+                    }
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '11.8%'}
                 ]]
             });
 
@@ -290,7 +336,7 @@
                     var index = layer.open({
                         type: 1,
                         content: html,
-                        area: ['500px', '500px']
+                        area: ['500px', '600px']
                     });
                     authList();
                     form.render();

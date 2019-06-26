@@ -56,9 +56,23 @@ public class AuthController {
         if (!StringUtils.isEmpty(keywords)) {
             wrapper = wrapper.like("name", keywords);
         }
-        ResponsePageModel<DDCAuth> page = ResponsePageHelper.buildResponseModel(
-                authService.selectPage(new Page<>(pageNumber, pageSize),
-                        wrapper));
+        Page<DDCAuth> page0 = authService.selectPage(new Page<>(pageNumber, pageSize), wrapper);
+        if(!CollectionUtils.isEmpty(page0.getRecords())){
+            for(DDCAuth auth : page0.getRecords()){
+                if(auth.getPId() == null || auth.getPId() == 0L){
+                    auth.setPName("无");
+                }else{
+                    DDCAuth pAuth = authService.selectById(auth.getPId());
+                    if(pAuth == null){
+                        auth.setPName("未知");
+                    }else{
+                        auth.setPName(pAuth.getName());
+                    }
+                }
+            }
+        }
+
+        ResponsePageModel<DDCAuth> page = ResponsePageHelper.buildResponseModel(page0);
         return page;
     }
 
@@ -72,13 +86,11 @@ public class AuthController {
                 idArray.add(Long.valueOf(arr[i]));
             }
         }
-        String msg = "删除成功";
         if (!CollectionUtils.isEmpty(idArray)) {
             authService.deleteBatchIds(idArray);
-            return ResponseHelper.buildResponseModel(msg);
+            return ResponseHelper.buildResponseModel("删除成功");
         } else {
-            msg = "删除失败";
-            return new ResponseModel<String>("msg", ResponseModel.FAIL.getCode());
+            return new ResponseModel<String>("删除失败", ResponseModel.FAIL.getCode());
         }
 
     }

@@ -15,8 +15,8 @@ import java.util.Date;
  * 权限表
  * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-17
  */
 @Builder
 @Getter
@@ -47,9 +47,19 @@ public class DDCAuth extends Model<DDCAuth> {
     @TableField("p_id")
     private Long pId;
     /**
-     * 权限级别
+     * 权限
      */
     private Integer level;
+    /**
+     * 权限级别 1超级管理员 2管理员 3普通
+     */
+    @TableField("auth_level")
+    private Integer authLevel;
+    /**
+     * 菜单URL
+     */
+    @TableField("menu_url")
+    private String menuUrl;
     /**
      * 创建人
      */
@@ -70,14 +80,14 @@ public class DDCAuth extends Model<DDCAuth> {
      */
     @TableField("update_time")
     private String updateTime;
-
-
     /**
      * 删除标志
      */
     @TableField("del_flag")
     private Integer delFlag;
 
+    @TableField(exist = false)
+    private String pName;
 
     @Override
     protected Serializable pkVal() {
