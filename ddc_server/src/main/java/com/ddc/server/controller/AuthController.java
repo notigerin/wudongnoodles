@@ -9,8 +9,9 @@ import com.ddc.server.config.web.http.ResponsePageHelper;
 import com.ddc.server.config.web.http.ResponsePageModel;
 import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.entity.DDCAuth;
-import com.ddc.server.service.IDDCAuthService;
-import com.ddc.server.service.SpringContextBeanService;
+import com.ddc.server.entity.DDCRole;
+import com.ddc.server.entity.DDCRoleAuth;
+import com.ddc.server.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,6 +41,10 @@ import java.util.List;
 public class AuthController {
     @Resource
     private IDDCAuthService authService;
+    @Resource
+    private IDDCRoleAuthService roleAuthService;
+    @Resource
+    private IDDCRoleService roleService;
 
     @RequestMapping("/list")
     @ResponseBody
@@ -88,6 +94,7 @@ public class AuthController {
         }
         if (!CollectionUtils.isEmpty(idArray)) {
             authService.deleteBatchIds(idArray);
+            roleAuthService.delete(new EntityWrapper<DDCRoleAuth>().in("auth_id",ids));
             return ResponseHelper.buildResponseModel("删除成功");
         } else {
             return new ResponseModel<String>("删除失败", ResponseModel.FAIL.getCode());
@@ -100,7 +107,9 @@ public class AuthController {
     public ResponseModel<String> updateOrAdd(@RequestBody DDCAuth entity,
                                              @CurrentUser DDCAdmin admin) throws Exception {
         SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean bool = false;
         if (entity.getId() == null) {
+            bool = true;
             entity.setId(0L);
             entity.setCreateBy(admin.getId());
             entity.setCreateTime(data.format(new Date(System.currentTimeMillis())));
@@ -109,7 +118,15 @@ public class AuthController {
         entity.setUpdateBy(admin.getId());
         entity.setUpdateTime(data.format(new Date(System.currentTimeMillis())));
         authService.insertOrUpdate(entity);
-
+        if(bool){
+            DDCRole rootRole = roleService.selectOne(
+                    new EntityWrapper<DDCRole>().eq("name","超级管理员"));
+            if(rootRole!=null){
+                DDCAuth auth = authService.selectOne(new EntityWrapper<DDCAuth>().eq("name",entity.getName()));
+                DDCRoleAuth roleAuth = new DDCRoleAuth(0L,rootRole.getId(),auth.getId());
+                roleAuthService.insert(roleAuth);
+            }
+        }
         return ResponseHelper.buildResponseModel("操作成功");
     }
 

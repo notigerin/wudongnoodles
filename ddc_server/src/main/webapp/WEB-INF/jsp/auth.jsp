@@ -76,7 +76,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">转跳地址</label>
             <div class="layui-input-inline">
-                <input type="text" name="menuUrl" value="{{ d.menuUrl || '' }}" lay-verify="required" placeholder="请输入权限转跳地址"
+                <input type="text" name="menuUrl" value="{{ d.menuUrl || '' }}" placeholder="请输入权限转跳地址"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
