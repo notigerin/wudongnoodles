@@ -82,7 +82,7 @@
                         <div class="layui-tree-entry">
                             <div class="layui-tree-main">
                                 <span class="layui-tree-iconClick layui-tree-icon">
-                                    <i class="layui-icon layui-icon-more-vertical"></i>
+                                    <i class="layui-icon layui-icon-rate"></i>
                                 </span>
                                 <input type="checkbox" name="authId" title="{{item.name}}" value="{{item.id}}">
                                 <div class="layui-unselect layui-form-checkbox">
@@ -98,7 +98,7 @@
                                 <div class="layui-tree-entry">
                                     <div class="layui-tree-main">
                                         <span class="layui-tree-iconClick">
-                                            <i class="layui-icon layui-icon-triangle-r"></i>
+                                            <i class="layui-icon layui-icon-rate-half"></i>
                                         </span>
                                         <input type="checkbox" name="authId" title="{{item2.name}}" value="{{item2.id}}">
                                         <div class="layui-unselect layui-form-checkbox">
@@ -107,6 +107,24 @@
                                         </div><br/>
                                     </div>
                                 </div>
+                                {{# layui.each(d.data, function(index, item3){ }}
+                                {{# if(item3.pId === item2.id){ }}
+                                <div data-id="{{item3.id}}" class="layui-tree-set"  style="padding-left: 20px;">
+                                    <div class="layui-tree-entry">
+                                        <div class="layui-tree-main">
+                                        <span class="layui-tree-iconClick">
+                                            <i class="layui-icon layui-icon-rate-solid"></i>
+                                        </span>
+                                            <input type="checkbox" name="authId" title="{{item3.name}}" value="{{item3.id}}">
+                                            <div class="layui-unselect layui-form-checkbox">
+                                                <span>{{item3.name}}</span>
+                                                <i class="layui-icon layui-icon-ok"></i>
+                                            </div><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{# } }}
+                                {{# }); }}
                             </div>
                             {{# } }}
                             {{# }); }}
@@ -116,55 +134,22 @@
                     {{# }); }}
                 </div>
             </div>
-<%--            <div class="layui-input-block">--%>
-<%--                <dl>--%>
-<%--                    {{# layui.each(d.data, function(index, item){ }}--%>
-<%--                    {{# if(item.level === 1){ }}--%>
-<%--                    <dt>--%>
-<%--                        <input type="checkbox" name="authId" title="{{item.name}}">--%>
-<%--                        <div class="layui-unselect layui-form-checkbox">--%>
-<%--                            <span>{{item.name}}</span>--%>
-<%--                            <i class="layui-icon layui-icon-ok"></i>--%>
-<%--                        </div><br/>--%>
-<%--                        <label>{{item.name}}子权限：</label>--%>
-<%--                    </dt>--%>
-<%--                    <dd>--%>
-<%--                        {{# layui.each(d.data, function(index, item2){ }}--%>
-<%--                        {{# if(item2.pId === item.id){ }}--%>
-<%--                        <input type="checkbox" name="authId" title="{{item2.name}}">--%>
-<%--                        <div class="layui-unselect layui-form-checkbox">--%>
-<%--                            <span>{{item2.name}}</span>--%>
-<%--                            <i class="layui-icon layui-icon-ok"></i>--%>
-<%--                        </div>--%>
-<%--                        {{# } }}--%>
-<%--                        {{# }); }}--%>
-<%--                    </dd>--%>
-<%--                    {{# } }}--%>
-<%--                    {{# }); }}--%>
-<%--                </dl>--%>
-<%--            </div>--%>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">角色级别</label>
             <div class="layui-input-block">
 
-<%--
-                <input type="radio" name="roleLevel" value="1" title="超级管理员"
-                       {{# if(d.roleLevel===1){ }}
-                       checked
-                       {{# } }}
-                />
---%>
+
                 {{# if(d.isRoot){ }}
-                <input type="radio" name="roleLevel" value="2" title="管理员"
+                <input type="radio" name="roleLevel" value="2" title="管理角色"
                        {{# if(d.roleLevel===2){ }}
                        checked
                        {{# } }}
                 />
                 {{# } }}
 
-                <input type="radio" name="roleLevel"  value="3" title="普通用户"
+                <input type="radio" name="roleLevel"  value="3" title="普通角色"
                        {{# if(d.roleLevel===3){ }}
                        checked
                        {{# } }}
