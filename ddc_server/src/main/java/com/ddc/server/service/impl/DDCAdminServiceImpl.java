@@ -41,6 +41,11 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
         adminMapper.updateStatus(id, status);
     }
 
+    @Override
+    public List<DDCAdmin> selectByRoleId(Long roleId) {
+        return adminMapper.selectByRoleId(roleId);
+    }
+
 
     @Override
     public List<DDCAdmin> selectAllAdmin(){

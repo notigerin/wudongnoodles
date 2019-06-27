@@ -22,4 +22,5 @@ public interface DDCAdminMapper extends BaseMapper<DDCAdmin> {
 
     void delAdmin(@Param(value = "id") long id);
 
+    List<DDCAdmin> selectByRoleId(@Param(value = "roleId") Long roleId);
 }

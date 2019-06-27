@@ -31,5 +31,6 @@ public interface IDDCAdminService extends IService<DDCAdmin> {
 
     void updateStatus(long id, Integer status);
 
+    List<DDCAdmin> selectByRoleId(Long roleId);
 }
 

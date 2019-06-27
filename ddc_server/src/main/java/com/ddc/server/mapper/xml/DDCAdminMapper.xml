@@ -40,5 +40,8 @@
         update ddc_admin set del_flag = 1 where id = #{id};
     </update>
 
+    <select id="selectByRoleId" resultMap="adminMap">
+        select * from ddc_admin where role_id = #{roleId} and del_flag = 0;
+    </select>
 
 </mapper>
