@@ -6,18 +6,15 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.*;
 
-import javax.management.relation.Role;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * <p>
  * 角色表
- * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-19
  */
 @Builder
 @Getter

@@ -14,12 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  *  服务实现类
- * </p>
  *
  * @author MuQ
- * @since 2019-06-17
+ * @since 2019-06-19
  */
 @Service
 public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> implements IDDCAdminService {

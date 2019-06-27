@@ -11,12 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * <p>
- * 管理员
- * </p>
+ * 管理员表
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-19
  */
 @Builder
 @Getter

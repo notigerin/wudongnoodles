@@ -6,12 +6,10 @@ import com.ddc.server.entity.DDCRole;
 import java.util.List;
 
 /**
- * <p>
  *  服务类
- * </p>
  *
  * @author MuQ
- * @since 2019-06-17
+ * @since 2019-06-19
  */
 public interface IDDCRoleService extends IService<DDCRole> {
     DDCRole selectByRoleId(long id);

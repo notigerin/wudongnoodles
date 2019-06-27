@@ -9,12 +9,10 @@ import lombok.*;
 import java.io.Serializable;
 
 /**
- * <p>
  * 角色权限中间表
- * </p>
  *
- * @author dingpengfei
- * @since 2019-05-09
+ * @author MuQ
+ * @since 2019-06-19
  */
 @Builder
 @Getter

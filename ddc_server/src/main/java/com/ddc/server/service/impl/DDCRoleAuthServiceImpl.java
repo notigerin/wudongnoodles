@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * <p>
  *  服务实现类
- * </p>
  *
  * @author MuQ
- * @since 2019-06-17
+ * @since 2019-06-19
  */
 @Service
 public class DDCRoleAuthServiceImpl extends ServiceImpl<DDCRoleAuthMapper, DDCRoleAuth> implements IDDCRoleAuthService {

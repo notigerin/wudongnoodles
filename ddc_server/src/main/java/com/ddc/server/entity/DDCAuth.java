@@ -11,9 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * <p>
  * 权限表
- * </p>
  *
  * @author MuQ
  * @since 2019-06-17

@@ -6,12 +6,10 @@ import com.ddc.server.entity.DDCAuth;
 import java.util.List;
 
 /**
- * <p>
  *  服务类
- * </p>
  *
  * @author MuQ
- * @since 2019-06-17
+ * @since 2019-06-19
  */
 public interface IDDCAuthService extends IService<DDCAuth> {
 
