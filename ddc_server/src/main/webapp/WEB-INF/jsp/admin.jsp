@@ -139,20 +139,21 @@
 
 
                 </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">留言内容</label>
-                <div class="layui-input-inline">
-                <textarea type="text" name="remark"
-                          class="layui-input">{{ d.remark || '' }}</textarea>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">留言内容</label>
+                    <div class="layui-input-inline">
+                    <textarea type="text" name="remark"
+                              class="layui-input">{{ d.remark || '' }}</textarea>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-inline">
-                <button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
             </div>
         </div>
     </form>
@@ -177,6 +178,11 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
+    {{# if(d.status===0){ }}
+    <a class="layui-btn layui-btn-xs layui-bg-gray" lay-event="stop" title="停用"><i class="layui-icon layui-icon-face-surprised" style="font-size: 30px; color: #3f324d;"> 停用 </i></a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs layui-bg-red" lay-event="run" title="启用"><i class="layui-icon layui-icon-fire" style="font-size: 30px; color: #00a5ff;"> 启用 </i></a>
+    {{# } }}
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -213,7 +219,7 @@
                 , cols: [[ //表头
                     {type: 'checkbox', fixed: 'left'}
                     , {
-                        field: 'id', title: 'ID', width: '5%', sort: true, fixed: 'left', templet: function (d) {
+                        field: 'id', title: 'ID', width: '15%', sort: true, fixed: 'left', templet: function (d) {
                             return d.id;//long 转Stirng
                         }
                     }
@@ -241,15 +247,15 @@
                         field: 'status', title: '状态', width: '5%'
                         , templet: function (d) {
                             switch (d.status) {
-                                case 1:
+                                case 0:
                                     return '启用';
-                                case 2:
+                                case 1:
                                     return '停用';
 
                             }
                         }
                     }
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '25%'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '15%'}
 
 
                 ]]
@@ -337,6 +343,55 @@
                 });
             }
 
+            /*管理员-停用*/
+            function stop(id,status){
+                layer.confirm('确认要停用吗？' ,function(index){
+                    //此处请求后台程序，下方是成功后的前台处理……
+                    $.ajax({
+                        type: 'post',
+                        url: '/admin/updateStatus',
+                        data:{
+                            "id":id,
+                            "status":status
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code === 200) {
+                                layer.msg("已停用");
+                                reload();
+                            } else {
+                                layer.msg(res.msg);
+                            }
+                        }
+                    });
+
+                });
+            }
+
+            /*管理员-启用*/
+            function run(id,status){
+                layer.confirm('确认要启用吗？',function(index){
+                    //此处请求后台程序，下方是成功后的前台处理……
+                    $.ajax({
+                        type: 'post',
+                        url: '/admin/updateStatus',
+                        data:{
+                            "id":id,
+                            "status":status
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code === 200) {
+                                layer.msg("已启用");
+                                reload();
+                            } else {
+                                layer.msg(res.msg);
+                            }
+                        }
+                    });
+                });
+            }
+
 //监听行工具事件
             table.on('tool(test)', function (obj) {
                 var data = obj.data;
@@ -346,7 +401,12 @@
                     deleteByIds(data.id);
                 } else if (obj.event === 'edit') {
                     addOrUpdate(data);
+                }else if(obj.event === 'run'){
+                    run(data.id,1);
+                }else if(obj.event === 'stop'){
+                    stop(data.id,0);
                 }
+
             });
         });
 

@@ -13,14 +13,9 @@ import com.ddc.server.entity.DDCRole;
 import com.ddc.server.service.IDDCAdminService;
 import com.ddc.server.service.IDDCRoleService;
 import com.ddc.server.shiro.PasswordUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -34,9 +29,8 @@ import java.util.List;
  * @author MuQ
  * @since 2019-06-19
  */
+@RestController
 @RequestMapping("/admin")
-@Controller
-@Slf4j
 public class AdminController {
     @Resource
     private IDDCAdminService adminService;
@@ -59,6 +53,8 @@ public class AdminController {
         if (!StringUtils.isEmpty(keywords)) {
             wrapper = wrapper.like("name", keywords);
         }
+
+        wrapper = wrapper.eq("del_flag", "0").notLike("name","root");
         Page<DDCAdmin> adminPage=adminService.selectPage(new Page<>(pageNumber, pageSize),
                 wrapper);
         if(!CollectionUtils.isEmpty(adminPage.getRecords())){
@@ -121,6 +117,20 @@ public class AdminController {
         entity.setUpdateTime(data.format(new Date(System.currentTimeMillis())));
         adminService.insertOrUpdate(entity);
 
+        return ResponseHelper.buildResponseModel("操作成功");
+    }
+
+    @RequestMapping("/updateStatus")
+    @ResponseBody
+    public ResponseModel<String> updateStatus(@RequestParam(value = "id",required = false) Long id , @RequestParam(value = "status",required = false) Integer status) throws Exception {
+        if (id != null && status != null) {
+            if (status == 0) {
+                status = 1;
+            }else {
+                status = 0;
+            }
+            adminService.updateStatus(id, status);
+        }
         return ResponseHelper.buildResponseModel("操作成功");
     }
 
@@ -200,21 +210,6 @@ public class AdminController {
 //    }
 //
 //
-//    @RequestMapping("/updateStatus")
-//    @ResponseBody
-//    public String updateStatus(HttpServletRequest request, @RequestParam(value = "id",required = false) Long id , @RequestParam(value = "status",required = false) Integer status) throws Exception {
-//        String msg;
-//        if (id != null && status != null) {
-//            if (status == 0) {
-//                status = 1;
-//            }else {
-//                status = 0;
-//            }
-//            adminService = SpringContextBeanService.getBean(IDDCAdminService.class);
-//            adminService.updateStatus(id, status);
-//        }
-//        return "/page/admin-list";
-//    }
 //
 //    @RequestMapping("/delAdmin")
 //    @ResponseBody
