@@ -70,9 +70,14 @@ public class DDCRole extends Model<DDCRole> {
     @TableField("del_flag")
     private Integer delFlag;
 
+    @TableField("role_level")
+    private Integer roleLevel;
 
     @TableField(exist = false)
     private String adminName;
+
+    @TableField(exist = false)
+    private String authId;
 
     @Override
     protected Serializable pkVal() {
