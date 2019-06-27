@@ -115,7 +115,6 @@ public class RoleController {
     @ResponseBody
     public ResponseModel<String> updateOrAdd(@RequestBody DDCRole entity,
                                              @CurrentUser DDCAdmin admin) throws Exception {
-        System.out.println(entity.getAuthId());
         SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         boolean bool = false;
         DDCRoleAuth roleAuth;
