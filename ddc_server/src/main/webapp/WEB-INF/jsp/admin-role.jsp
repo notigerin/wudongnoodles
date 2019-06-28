@@ -74,69 +74,8 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">权限：</label><br/><br/>
-
-<%--            <div id="authTree" class="demo-tree">
-                <div class="layui-tree layui-form layui-tree-line" lay-filter="LAY-tree-7">
-                    {{# layui.each(d.data, function(index, item){ }}
-                    {{# if(item.level === 1){ }}
-                    <div data-id="{{item.id}}" class="layui-tree-set layui-tree-setHide layui-tree-spread" style="margin-top:10px;">
-                        <div class="layui-tree-entry">
-                            <div class="layui-tree-main">
-                                <span class="layui-tree-iconClick layui-tree-icon">
-                                    <i class="layui-icon layui-icon-rate"></i>
-                                </span>
-                                <input type="checkbox" name="authId" title="{{item.name}}" value="{{item.id}}">
-                                <div class="layui-unselect layui-form-checkbox">
-                                    <span>{{item.name}}</span>
-                                    <i class="layui-icon layui-icon-ok"></i>
-                                </div><br/>
-                            </div>
-                        </div>
-                        <div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine layui-inline" style="padding-left: 20px;" >
-                            {{# layui.each(d.data, function(index, item2){ }}
-                            {{# if(item2.pId === item.id){ }}
-                            <div data-id="{{item2.id}}" class="layui-tree-set">
-                                <div class="layui-tree-entry">
-                                    <div class="layui-tree-main">
-                                        <span class="layui-tree-iconClick">
-                                            <i class="layui-icon layui-icon-rate-half"></i>
-                                        </span>
-                                        <input type="checkbox" name="authId" title="{{item2.name}}" value="{{item2.id}}">
-                                        <div class="layui-unselect layui-form-checkbox">
-                                            <span>{{item2.name}}</span>
-                                            <i class="layui-icon layui-icon-ok"></i>
-                                        </div><br/>
-                                    </div>
-                                </div>
-                                {{# layui.each(d.data, function(index, item3){ }}
-                                {{# if(item3.pId === item2.id){ }}
-                                <div data-id="{{item3.id}}" class="layui-tree-set"  style="padding-left: 20px;">
-                                    <div class="layui-tree-entry">
-                                        <div class="layui-tree-main">
-                                        <span class="layui-tree-iconClick">
-                                            <i class="layui-icon layui-icon-rate-solid"></i>
-                                        </span>
-                                            <input type="checkbox" name="authId" title="{{item3.name}}" value="{{item3.id}}">
-                                            <div class="layui-unselect layui-form-checkbox">
-                                                <span>{{item3.name}}</span>
-                                                <i class="layui-icon layui-icon-ok"></i>
-                                            </div><br/>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{# } }}
-                                {{# }); }}
-                            </div>
-                            {{# } }}
-                            {{# }); }}
-                        </div>
-                    </div>
-                    {{# } }}
-                    {{# }); }}
-                </div>
-            </div>
-        </div>--%>
-        <div id="test7" class="demo-tree"></div>
+            <div id="test7" class="demo-tree"></div>
+        </div>
         <div class="layui-form-item">
             <div id="test12" class="demo-tree-more"></div>
         </div>
