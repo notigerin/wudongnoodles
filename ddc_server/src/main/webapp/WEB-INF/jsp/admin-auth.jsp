@@ -122,7 +122,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">权限</label>
+            <label class="layui-form-label">级别</label>
             <div class="layui-input-block">
                 <%--            <script type="text/html" template>--%>
 
