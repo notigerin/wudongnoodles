@@ -334,24 +334,28 @@
                                     $("input[name='authId']:checked").each(function(){
                                         authId.push($(this).val());
                                     });
-                                    data.field.authId = authId.join(",");
-                                    layer.msg(JSON.stringify(data.field));
-                                    $.ajax({
-                                        "url": "/role/updateOrAdd",
-                                        "data": JSON.stringify(data.field),
-                                        type: "post",
-                                        contentType: 'application/json',
-                                        dataType: "json",
-                                        success: function (res) {
-                                            if (res.code === 200) {
-                                                layer.msg("操作成功");
-                                                reload();
-                                                layer.close(index);
-                                            } else {
-                                                layer.msg(res.msg);
+                                    if(authId.length ==0){
+                                        layer.msg("请先分配好权限");
+                                    }else {
+                                        data.field.authId = authId.join(",");
+                                        layer.msg(JSON.stringify(data.field));
+                                        $.ajax({
+                                            "url": "/role/updateOrAdd",
+                                            "data": JSON.stringify(data.field),
+                                            type: "post",
+                                            contentType: 'application/json',
+                                            dataType: "json",
+                                            success: function (res) {
+                                                if (res.code === 200) {
+                                                    layer.msg("操作成功");
+                                                    reload();
+                                                    layer.close(index);
+                                                } else {
+                                                    layer.msg(res.msg);
+                                                }
                                             }
-                                        }
-                                    })
+                                        })
+                                    }
                                     return false;
                                 });
                             });
