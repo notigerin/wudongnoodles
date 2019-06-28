@@ -123,8 +123,6 @@
                        {{# } }}
                 />
 
-
-
             </div>
 
             <div class="layui-form-item">
@@ -143,8 +141,6 @@
                            checked
                            {{# } }}
                     />
-
-
 
                 </div>
                 <div class="layui-form-item">
