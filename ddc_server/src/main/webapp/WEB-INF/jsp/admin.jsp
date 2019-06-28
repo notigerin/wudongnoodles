@@ -59,22 +59,20 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
-
-
             <div class="layui-input-inline">
                 <input type="text" name="name" value="{{ d.name || '' }}" lay-verify="required"
                        placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
-
-
             <div class="layui-input-inline">
                 <input type="password" name="password" value="{{ '' }}"
                        placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">手机号码</label>
             <div class="layui-input-inline">
@@ -82,6 +80,7 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
@@ -91,10 +90,18 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">角色ID</label>
+            <label class="layui-form-label">角色</label>
             <div class="layui-input-inline">
-                <input type="text" name="roleId" value="{{ d.roleId || '' }}"  placeholder="请输入角色ID"
-                       autocomplete="off" class="layui-input">
+                <select class="select" name="roleId" size="1" id="roleId">
+                    <option value="" name="roleId" disabled>请为管理员分配角色</option>
+                    {{# layui.each(d.data, function(index, item){ }}
+                    {{# if(item.id === d.roleId){ }}
+                    <option value="{{item.id}}" name="roleId" selected="selected">{{item.name}}</option>
+                    {{# }else{ }}
+                    <option value="{{item.id}}" name="roleId">{{item.name}}</option>
+                    {{# } }}
+                    {{# }); }}
+                </select>
             </div>
         </div>
 
@@ -242,7 +249,7 @@
                     {field: 'mobile', title: '手机号', width: '10%'}
                     , {field: 'email', title: '邮箱', width: '10%'}
                     , {field: 'roleName', title: '角色名称', width: '10%'}
-                    , {field: 'remark', title: '备注', width: '10%'}
+                    , {field: 'remark', title: '备注', width: '17%'}
                     , {
                         field: 'status', title: '状态', width: '5%'
                         , templet: function (d) {
@@ -313,33 +320,44 @@
 
             function addOrUpdate(data) {
                 var getTpl = document.getElementById("demo").innerHTML;
-                laytpl(getTpl).render(data, function (html) {
-                    var index = layer.open({
-                        type: 1,
-                        content: html,
-                        area: ['500px', '600px']
-                    });
-                    form.render();
-                    form.on('submit(update_form_submit)', function (data) {
-                        layer.msg(JSON.stringify(data.field));
-                        $.ajax({
-                            "url": "/admin/updateOrAdd",
-                            "data": JSON.stringify(data.field),
-                            type: "post",
-                            contentType: 'application/json',
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.code === 200) {
-                                    layer.msg("操作成功");
-                                    reload();
-                                    layer.close(index);
-                                } else {
-                                    layer.msg(res.msg);
-                                }
-                            }
-                        })
-                        return false;
-                    });
+                $.ajax({
+                    type: 'post',
+                    url: '/role/list',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res);
+                        data.data = res.data;
+
+                        laytpl(getTpl).render(data, function (html) {
+                            var index = layer.open({
+                                type: 1,
+                                content: html,
+                                area: ['500px', '600px']
+                            });
+                            form.render();
+                            form.on('submit(update_form_submit)', function (data) {
+                                layer.msg(JSON.stringify(data.field));
+                                $.ajax({
+                                    "url": "/admin/updateOrAdd",
+                                    "data": JSON.stringify(data.field),
+                                    type: "post",
+                                    contentType: 'application/json',
+                                    dataType: "json",
+                                    success: function (res) {
+                                        if (res.code === 200) {
+                                            layer.msg("操作成功");
+                                            reload();
+                                            layer.close(index);
+                                        } else {
+                                            layer.msg(res.msg);
+                                        }
+                                    }
+                                });
+                                return false;
+                            });
+                        });
+                    }
                 });
             }
 

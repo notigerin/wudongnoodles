@@ -96,6 +96,7 @@ public class AdminController {
                                              @CurrentUser DDCAdmin admin) throws Exception {
         SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (entity.getId() == null) {
+            entity.setId(0L);
             entity.setCreateBy(admin.getId());
             entity.setCreateTime(data.format(new Date(System.currentTimeMillis())));
             entity.setDelFlag(0);
