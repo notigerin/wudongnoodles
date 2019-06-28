@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2019-06-17
  */
 public interface IDDCCategoriesService extends IService<DDCCategories> {
-    List<DDCCategories> findAllCategories();
+    List<DDCCategories> selectAllCategories();
 
     void addCategories(DDCCategories categories);
 }

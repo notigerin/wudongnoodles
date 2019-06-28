@@ -8,3 +8,4 @@ import java.util.List;
 public interface DDCCategoriesMapper extends BaseMapper<DDCCategories> {
     List<DDCCategories> getCategoriesList();
 }
+

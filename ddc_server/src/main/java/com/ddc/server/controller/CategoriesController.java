@@ -27,15 +27,16 @@ public class CategoriesController {
     @ResponseBody
     public ResponseModel<List<DDCCategories>> CategoriesList(HttpServletResponse resp){
         categoriesService = SpringContextBeanService.getBean(IDDCCategoriesService.class);
-        List<DDCCategories> list = categoriesService.findAllCategories();
+        List<DDCCategories> list = categoriesService.selectAllCategories();
         return ResponseHelper.buildResponseModel(list);
     }
 
     @RequestMapping("/add")
     @ResponseBody
-    public ResponseModel<String> addCategories(HttpServletRequest request, @RequestParam(value = "name",required = false) String name, @RequestParam(value = "remark",required = false) String remark){
+    public ResponseModel<String> addCategories(HttpServletRequest request, @RequestParam(value = "name",required = false) String name, @RequestParam(value = "pId",required = false) Long pId, @RequestParam(value = "remark",required = false) String remark){
         String msg;
         DDCCategories categories = new DDCCategories(name,remark);
+        categories.setPId(pId);
         categoriesService = SpringContextBeanService.getBean(IDDCCategoriesService.class);
         categoriesService.addCategories(categories);
         msg = "添加成功";

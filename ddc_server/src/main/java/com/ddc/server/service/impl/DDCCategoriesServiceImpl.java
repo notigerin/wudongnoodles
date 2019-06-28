@@ -15,7 +15,7 @@ public class DDCCategoriesServiceImpl extends ServiceImpl<DDCCategoriesMapper, D
     private DDCCategoriesMapper categoriesMapper;
 
     @Override
-    public List<DDCCategories> findAllCategories() {
+    public List<DDCCategories> selectAllCategories() {
         return categoriesMapper.getCategoriesList();
     }
 

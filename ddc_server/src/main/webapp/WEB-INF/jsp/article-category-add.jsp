@@ -42,6 +42,14 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">上级分类</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <select name="pId" id="parentId" lay-filter="aihao">
+                    <option value="0" name="pId">无</option>
+                </select>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">备注：</label>
             <div class="formControls col-xs-6 col-sm-6">
                 <textarea name="" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
@@ -66,29 +74,55 @@
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
-
-    $("#addCategory").click(function () {
-        //获取值
-        var name = $("#name").val();
-        var remark = $('textarea').val();
+    $(function () {
         $.ajax({
-            url:"/Categories/add",
-            type:"post",
-            //注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
-            data:{
-                "name":name,
-                "remark":remark
-            },
-            dataType:"json",
-            success:function (data) {
-                // alert(data.result);
+            "url": "/Categories/list",
+            type: "post",
+            dataType: "json",
+            success: function (res) {
+                for (var i = 0; i <res.data.length; i++) {
+                    var d = res.data[i];
+                    if(d.level == 1) {
+                        var li = "<option value=\"" + d.id + "\" name=\"pId\">" + d.name + "</option>";
+                        $("#parentId").append(li);
+                    }else{
+                        for (var j = 0; j <res.data.length; j++) {
+                            var dj = res.data[j];
+                            if(dj.id == d.pId){
+                                var lj = "<option value=\"" + d.id + "\" name=\"pId\">" + dj.name +"---"+ d.name + "</option>";
+                                $("#parentId").append(lj);
+                            }
+                        }
+                    }
+                }
             }
-        })
-        parent.location.reload();
-    })
-    $(function(){
+        });
 
-    });
+        $("#addCategory").click(function () {
+            //获取值
+            var name = $("#name").val();
+            var pId = $("#parentId").val();
+            var remark = $('textarea').val();
+            $.ajax({
+                url: "/Categories/add",
+                type: "post",
+                //注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
+                data: {
+                    "name": name,
+                    "pId": pId,
+                    "remark": remark
+                },
+                dataType: "json",
+                success: function (data) {
+                    // alert(data.result);
+                }
+            })
+            parent.location.reload();
+        })
+        $(function () {
+
+        });
+    })
 </script>
 </body>
 </html>

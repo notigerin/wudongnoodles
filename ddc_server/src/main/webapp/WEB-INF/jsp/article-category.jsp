@@ -51,7 +51,7 @@
     var setting = {
         view: {
             dblClickExpand: false,
-            showLine: false,
+            showLine: true,
             selectedMulti: false
         },
         data: {
@@ -61,19 +61,19 @@
                 pIdKey: "pId",
                 rootPId: ""
             }
-        },
-        callback: {
-            beforeClick: function(treeId, treeNode) {
-                var zTree = $.fn.zTree.getZTreeObj("tree");
-                if (treeNode.isParent) {
-                    zTree.expandNode(treeNode);
-                    return false;
-                } else {
-                    demoIframe.attr("src",treeNode.file + ".html");
-                    return true;
-                }
-            }
         }
+        // , callback: {
+        //     beforeClick: function(treeId, treeNode) {
+        //         var zTree = $.fn.zTree.getZTreeObj("tree");
+        //         if (treeNode.isParent) {
+        //             zTree.expandNode(treeNode);
+        //             return false;
+        //         } else {
+        //             demoIframe.attr("src",treeNode.file + ".html");
+        //             return true;
+        //         }
+        //     }
+        // }
     };
 
     var zNodes =[
@@ -97,14 +97,48 @@
         code.append("<li>"+str+"</li>");
     }
 
-    $(document).ready(function(){
-        var t = $("#treeDemo");
-        t = $.fn.zTree.init(t, setting, zNodes);
-        demoIframe = $("#testIframe");
-        //demoIframe.on("load", loadReady);
-        var zTree = $.fn.zTree.getZTreeObj("tree");
-        //zTree.selectNode(zTree.getNodeByParam("id",'11'));
-    });
+    function proJSON(oldArr, pid) {
+        var newArr = [];
+        var self = this;
+        oldArr.map(function(item) {
+            if(item.pId == pid) {
+                var obj = {
+                    id: item.id,
+                    value: item.name
+                }
+                var childs = self.proJSON(oldArr, item.id);
+                if(childs.length > 0) {
+                    obj.childs = childs
+                }
+                newArr.push(obj)
+            }
+
+        })
+        return newArr;
+    };
+
+    $(function(){
+
+        $.ajax({
+            "url": "/Categories/list",
+            type: "post",
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+                var d = res.data;
+                console.log(d);
+                var testData = proJSON(d, 0);
+                console.log(testData);
+
+                $(document).ready(function() {
+                    var t = $("#treeDemo");
+                    t = $.fn.zTree.init(t, setting, d);
+                    demoIframe = $("#testIframe");
+                    var zTree = $.fn.zTree.getZTreeObj("tree");
+                })
+            }
+        })
+    })
 </script>
 </body>
 </html>
