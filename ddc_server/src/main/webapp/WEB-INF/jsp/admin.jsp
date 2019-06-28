@@ -95,11 +95,12 @@
                 <select class="select" name="roleId" size="1" id="roleId">
                     <option value="" name="roleId" disabled>请为管理员分配角色</option>
                     {{# layui.each(d.data, function(index, item){ }}
-                    {{# if(item.id === d.roleId){ }}
-                    <option value="{{item.id}}" name="roleId" selected="selected">{{item.name}}</option>
-                    {{# }else{ }}
-                    <option value="{{item.id}}" name="roleId">{{item.name}}</option>
-                    {{# } }}
+
+                    <option value="{{item.id}}" name="roleId"
+                            {{# if(item.id === d.roleId){ }}
+                            selected
+                            {{# } }}
+                    >{{item.name}}</option>
                     {{# }); }}
                 </select>
             </div>
