@@ -26,6 +26,8 @@ public interface IDDCRoleService extends IService<DDCRole> {
 
     void updateRole(DDCRole role);
 
+    List<DDCRole> selectRoleList(Integer roleLevel);
+
 
 
 

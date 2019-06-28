@@ -27,6 +27,10 @@
 		select id from ddc_role where name= #{name};
 	</select>
 
+	<select id="selectRoleList" resultMap="roleMap">
+		select * from ddc_role where role_level > #{roleLevel} and del_flag = 0;
+	</select>
+
 	<update id="delById">
 		update ddc_role set del_flag = 1 where id = #{id};
 	</update>

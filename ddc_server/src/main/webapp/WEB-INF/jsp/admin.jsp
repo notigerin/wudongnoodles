@@ -322,7 +322,7 @@
                 var getTpl = document.getElementById("demo").innerHTML;
                 $.ajax({
                     type: 'post',
-                    url: '/role/list',
+                    url: '/admin/roleList',
                     contentType: 'application/json',
                     dataType: "json",
                     success: function (res) {

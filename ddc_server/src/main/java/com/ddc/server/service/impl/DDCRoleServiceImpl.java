@@ -55,4 +55,9 @@ public class DDCRoleServiceImpl extends ServiceImpl<DDCRoleMapper, DDCRole> impl
     public void updateRole(DDCRole role) {
         roleMapper.updateById(role);
     }
+
+    @Override
+    public List<DDCRole> selectRoleList(Integer roleLevel) {
+        return roleMapper.selectRoleList(roleLevel);
+    }
 }

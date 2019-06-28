@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin" />
     <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css" />
     <link rel="stylesheet" href="/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -39,6 +40,81 @@
         <td class="va-t"><iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=390px SRC="/page/article-category-add"></iframe></td>
     </tr>
 </table>
+
+
+<div class="layui-collapse" lay-accordion="">
+    <div class="layui-colla-item">
+<%--        <h2 class="">文豪</h2>--%>
+        <div class="layui-tree-entry">
+            <div class="layui-tree-main">
+                <span class="layui-tree-iconClick layui-tree-icon layui-colla-title">
+                    <i class="layui-icon layui-icon-rate"></i>
+                </span>
+                <input type="checkbox" name="authId" title="{{item.name}}" value="{{item.id}}">
+                <div class="layui-unselect layui-form-checkbox">
+                    <span>{{item.name}}</span>
+                    <i class="layui-icon layui-icon-ok"></i>
+                </div><br/>
+            </div>
+        </div>
+        <div class="layui-colla-content layui-show">
+
+            <div class="layui-collapse" lay-accordion="">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">唐代</h2>
+                    <div class="layui-colla-content layui-show">
+
+                        <div class="layui-collapse" lay-accordion="">
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">杜甫</h2>
+                                <div class="layui-colla-content layui-show">
+                                    伟大的诗人
+                                </div>
+                            </div>
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">李白</h2>
+                                <div class="layui-colla-content">
+                                    <p>据说是韩国人</p>
+                                </div>
+                            </div>
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">王勃</h2>
+                                <div class="layui-colla-content">
+                                    <p>千古绝唱《滕王阁序》</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">宋代</h2>
+                    <div class="layui-colla-content">
+                        <p>比如苏轼、李清照</p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">当代</h2>
+                    <div class="layui-colla-content">
+                        <p>比如贤心</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">科学家</h2>
+        <div class="layui-colla-content">
+            <p>伟大的科学家</p>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">艺术家</h2>
+        <div class="layui-colla-content">
+            <p>浑身散发着艺术细胞</p>
+        </div>
+    </div>
+</div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
@@ -47,7 +123,18 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="/lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
+    layui.use(['element', 'layer'], function(){
+        var element = layui.element;
+        var layer = layui.layer;
+
+        //监听折叠
+        element.on('collapse(test)', function(data){
+            layer.msg('展开状态：'+ data.show);
+        });
+    });
+
     var setting = {
         view: {
             dblClickExpand: false,

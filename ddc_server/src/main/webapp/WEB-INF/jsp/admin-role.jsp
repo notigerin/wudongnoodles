@@ -74,7 +74,8 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label">权限：</label><br/><br/>
-            <div id="authTree" class="demo-tree">
+
+<%--            <div id="authTree" class="demo-tree">
                 <div class="layui-tree layui-form layui-tree-line" lay-filter="LAY-tree-7">
                     {{# layui.each(d.data, function(index, item){ }}
                     {{# if(item.level === 1){ }}
@@ -134,7 +135,8 @@
                     {{# }); }}
                 </div>
             </div>
-        </div>
+        </div>--%>
+        <div id="test7" class="demo-tree"></div>
         <div class="layui-form-item">
             <div id="test12" class="demo-tree-more"></div>
         </div>
@@ -187,7 +189,8 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <%--<script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>--%>
-<script type="text/javascript" src="/lib/layui/layui.all.js"></script>
+<script type="text/javascript" src="/lib/layui/layui.js"></script>
+<script src="/lib/layui/layui.all.js" charset="utf-8"></script>
 <%--<script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>--%>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -202,8 +205,9 @@
 </script>
 <script type="text/javascript">
     $(function () {
-        layui.use(['table', 'laytpl', 'element', 'form'], function () {
+        layui.use(['table', 'laytpl', 'element', 'form','tree'], function () {
             var table = layui.table;
+            var tree = layui.tree;
             var laytpl = layui.laytpl;
             var element = layui.element;
             var form = layui.form;
@@ -319,8 +323,14 @@
                     type: "post",
                     dataType: "json",
                     success: function (res) {
+                        console.log(res);
                         if (res.code === 200) {
                             data.data = res.data;
+
+                            var d = res.data;
+                            var testData = proJSON(d, 0);
+                            console.log(testData);
+
 
                             laytpl(getTpl).render(data, function (html) {
                                 var index = layer.open({
@@ -329,6 +339,11 @@
                                     area: ['500px', '600px']
                                 });
                                 form.render();
+                                tree.render({
+                                    elem: '#test7'
+                                    , data: testData
+                                    , showCheckbox: true
+                                });
                                 form.on('submit(update_form_submit)', function (data) {
                                     var authId = new Array();
                                     $("input[name='authId']:checked").each(function(){
@@ -380,6 +395,26 @@
         });
 
     });
+
+    function proJSON(oldArr, pid) {
+        var newArr = [];
+        var self = this;
+        oldArr.map(function(item) {
+            if(item.pId == pid) {
+                var obj = {
+                    id: item.id,
+                    title: item.name
+                }
+                var childs = self.proJSON(oldArr, item.id);
+                if(childs.length > 0) {
+                    obj.children = childs
+                }
+                newArr.push(obj)
+            }
+
+        })
+        return newArr;
+    };
 
 </script>
 </body>

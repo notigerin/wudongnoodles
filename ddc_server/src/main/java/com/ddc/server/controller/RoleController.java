@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *  前端控制器
@@ -174,6 +172,56 @@ public class RoleController {
                                                                         .eq("del_flag", 0)
                                                                         .eq("p_id", secondAuth.getId())
                                 );
+                        if(!CollectionUtils.isEmpty(opAuths)){
+                            for(DDCAuth opAuth:opAuths){
+                                nodes3.add(new AuthNode(opAuth,null));
+                            }
+                        }
+                        nodes2.add(new AuthNode(secondAuth,nodes3));
+                    }
+                }
+                list.add(new AuthNode(auth,nodes2));
+            }
+        }
+        return ResponseHelper.buildResponseModel(list);
+    }
+
+    @RequestMapping("/getOwnAuths")
+    @ResponseBody
+    public ResponseModel<List<AuthNode>> getOwnAuths(@CurrentUser DDCAdmin admin) throws Exception {
+        DDCRole currentRole = roleService.selectById(admin.getRoleId());
+        List<DDCRoleAuth> roleAuths=roleAuthService.selectList(new EntityWrapper<DDCRoleAuth>()
+                                                                .eq("role_id",currentRole.getId()));
+
+        Set<Long> authIds = new HashSet<>();
+        if(!CollectionUtils.isEmpty(roleAuths)){
+            for(DDCRoleAuth ra : roleAuths){
+                authIds.add(ra.getAuthId());
+            }
+        }
+        List<AuthNode> list = new ArrayList<>(10);
+        List<DDCAuth> topAuths = authService.selectList(new EntityWrapper<DDCAuth>()
+                .gt("auth_level", currentRole.getRoleLevel())
+                .eq("level", 1)
+                .eq("del_flag", 0));
+        if(!CollectionUtils.isEmpty(topAuths)){
+            for(DDCAuth auth:topAuths){
+                List<AuthNode> nodes=new ArrayList<>();
+                List<DDCAuth> secondAuths = authService.selectList(new EntityWrapper<DDCAuth>()
+                        .gt("auth_level", currentRole.getRoleLevel())
+                        .eq("level", 2)
+                        .eq("del_flag", 0)
+                        .eq("p_id", auth.getId()));
+                List<AuthNode> nodes2=new ArrayList<>(10);
+                if(!CollectionUtils.isEmpty(secondAuths)){
+                    for(DDCAuth secondAuth:secondAuths){
+                        List<AuthNode> nodes3=new ArrayList<>(10);
+                        List<DDCAuth> opAuths = authService.selectList(new EntityWrapper<DDCAuth>()
+                                .gt("auth_level", currentRole.getRoleLevel())
+                                .eq("level", 3)
+                                .eq("del_flag", 0)
+                                .eq("p_id", secondAuth.getId())
+                        );
                         if(!CollectionUtils.isEmpty(opAuths)){
                             for(DDCAuth opAuth:opAuths){
                                 nodes3.add(new AuthNode(opAuth,null));

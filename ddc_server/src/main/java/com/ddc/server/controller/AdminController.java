@@ -136,6 +136,14 @@ public class AdminController {
     }
 
 
+    @RequestMapping("/roleList")
+    @ResponseBody
+    public ResponseModel<List<DDCRole>> roleList(@CurrentUser DDCAdmin admin) throws Exception {
+        DDCRole role = roleService.selectByRoleId(admin.getRoleId());
+        List<DDCRole> list = roleService.selectRoleList(role.getRoleLevel());
+        return ResponseHelper.buildResponseModel(list);
+    }
+
 //    /**
 //    * 获取所有管理员列表
 //    *

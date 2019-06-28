@@ -22,4 +22,6 @@ public interface DDCRoleMapper extends BaseMapper<DDCRole> {
 
     void delById(@Param(value = "id") long id);
 
+    List<DDCRole> selectRoleList(@Param(value = "roleLevel") Integer roleLevel);
+
 }
