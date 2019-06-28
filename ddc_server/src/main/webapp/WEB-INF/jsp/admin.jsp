@@ -326,7 +326,6 @@
                     contentType: 'application/json',
                     dataType: "json",
                     success: function (res) {
-                        console.log(res);
                         data.data = res.data;
 
                         laytpl(getTpl).render(data, function (html) {

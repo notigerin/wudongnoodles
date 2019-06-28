@@ -72,7 +72,6 @@
 				var total=document.getElementsByClassName("total")[0];
 				total.innerHTML=data.data.length;
 				//window.location.reload();
-				console.log(data);
 				for (var i = 0; i <data.data.length ; i++) {
 					var d=data.data[i];
 					if(d.gender==1){

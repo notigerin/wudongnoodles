@@ -124,9 +124,7 @@
             type: "post",
             dataType: "json",
             success: function (res) {
-                console.log(res);
                 var d = res.data;
-                console.log(d);
                 var testData = proJSON(d, 0);
                 console.log(testData);
 

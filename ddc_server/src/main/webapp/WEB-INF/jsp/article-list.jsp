@@ -134,7 +134,6 @@
             url: '/article/list',
             dataType: 'json',
             success: function (data) {
-                console.log(data);
                 //alert(data.data.length);
                 for (var i = 0; i < data.data.length; i++) {
                     var d = data.data[i];

@@ -91,7 +91,6 @@
             url: '/column/list',
             dataType: 'json',
             success: function (data) {
-                console.log(data);
                 var total = document.getElementsByClassName("total")[0];
                 //console.log(total);
                 total.innerText = data.data.length;
