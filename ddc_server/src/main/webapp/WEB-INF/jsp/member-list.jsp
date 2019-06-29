@@ -29,294 +29,393 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 会员中心 <span class="c-gray en">&gt;</span> 会员管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'end\')||\'%y-%M-%d\'}' })" id="start"
+			   class="input-text Wdate" style="width:120px;" name="start"/>
 		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="searchInput" name="searchInput">
-		<button type="submit" class="btn btn-success radius" id="search" name="search" onclick="member_search()"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d' })" id="end"
+			   class="input-text Wdate" style="width:120px;" name="end"/>
+		<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="keywords" name="keywords"/>
+		<button type="button" class="btn btn-success radius" id="search" name="search"><i
+				class="Hui-iconfont">&#xe665;</i> 搜索
+		</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','/member/add','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong class="total"></strong> 条</span> </div>
-	<div class="mt-20">
-	<table class="table table-border table-bordered table-hover table-bg table-sort" id="member_list">
-		<thead>
-			<tr class="text-c">
-				<th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="80">ID</th>
-				<th width="100">用户名</th>
-				<th width="40">性别</th>
-				<th width="90">手机</th>
-				<th width="150">邮箱</th>
-				<th width="">地址</th>
-				<th width="130">加入时间</th>
-				<th width="70">状态</th>
-				<th width="100">操作</th>
-			</tr>
-		</thead>
-		<tbody id="jilu"></tbody>
+	<table class="table table-border table-bordered table-hover table-bg table-sort" lay-filter="test"
+	   style="margin-top: 10px;">
 	</table>
-
-	</div>
 </div>
+
+<script id="demo" type="text/html">
+	<form class="layui-form" action="">
+		<input type="hidden" name="id" value="{{ d.id || '' }}" autocomplete="off">
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="username" value="{{ d.username || '' }}" lay-verify="required"
+					   placeholder="请输入用户名" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-inline">
+				<input type="password" name="password" value="{{ '' }}"
+					   placeholder="请输入密码" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机号码</label>
+			<div class="layui-input-inline">
+				<input type="text" name="telephone" value="{{ d.telephone || '' }}" lay-verify="phone" placeholder="请输入号码"
+					   autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-inline">
+				<input type="text" name="email" value="{{ d.email || '' }}" lay-verify="email" placeholder="请输入邮箱"
+					   autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择性别</label>
+			<div class="layui-input-block">
+				<%--            <script type="text/html" template>--%>
+
+				<input type="radio" name="gender" value="0" title="男"
+					   {{# if(d.sex===0){ }}
+					   checked
+					   {{# } }}
+				/>
+
+				<input type="radio" name="gender" value="1" title="女"
+					   {{# if(d.sex===1){ }}
+					   checked
+					   {{# } }}
+				/>
+
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">所在城市：</label>
+			<div class="layui-input-inline">
+				<select class="select" size="1" name="city">
+					<option value="">请选择城市</option>
+					<option value="beijing">北京</option>
+					<option value="shanghai">上海</option>
+					<option value="guangzhou">广州</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">地址</label>
+			<div class="layui-input-inline">
+				<textarea type="text" name="address"
+						  class="layui-input">{{ d.address || '' }}</textarea>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-block">
+
+				<input type="radio" name="status" value="0" title="启用"
+					   {{# if(d.status===0){ }}
+					   checked
+					   {{# } }}
+				/>
+
+				<input type="radio" name="status" value="1" title="停用"
+					   {{# if(d.status===1){ }}
+					   checked
+					   {{# } }}
+				/>
+
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">留言内容</label>
+			<div class="layui-input-inline">
+				<textarea type="text" name="remark"
+						  class="layui-input">{{ d.remark || '' }}</textarea>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"></label>
+			<div class="layui-input-inline">
+				<button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</script>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
-<script>
-	/*用户列表查询*/
-		$.ajax({
-			type: 'POST',
-			url: '/member/memberList',
-			dataType: 'json',
-			success: function(data){
-				var total=document.getElementsByClassName("total")[0];
-				total.innerHTML=data.data.length;
-				//window.location.reload();
-				for (var i = 0; i <data.data.length ; i++) {
-					var d=data.data[i];
-					if(d.gender==1){
-						var sex='男';
-					}else if(d.gender==2){
-						var sex='女';
-					}else{
-						var sex='保密';
-					}
-					var li='<tr class="text-c">\n' +
-							'<td><input type="checkbox" value="1" name=""></td>\n' +
-							'<td>'+d.id+'</td>\n' +
-							'<td><u style="cursor:pointer" class="text-primary" onclick="member_show(this,\'360\',\'400\')">'+d.username+'</u></td>\n' +
-							// '<td><u style="cursor:pointer" class="text-primary" onclick="member_show(\'张三\',\'/member/show\',\'10001\',\'360\',\'400\')">'+d.username+'</u></td>\n' +
-							'<td>'+sex+'</td>\n' +
-							'<td>'+d.telephone+'</td>\n' +
-							'<td>'+d.email+'</td>\n' +
-							'<td class="text-l">'+d.address+'</td>\n' +
-							'<td>'+d.time+'</td>\n' +
-							'<td class="td-status"><span class="label label-success radius">已启用</span></td>\n' +
-							'<td class="td-manage">' +
-                            '<a style="text-decoration:none" onClick="member_stop(this,\'10001\')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>' +
-                            '<a title="编辑" href="javascript:;" onclick="member_edit(this,\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-                            '<a style="text-decoration:none" class="ml-5" onClick="change_password(\'修改密码\',\'change-password.jsp\',\'10001\',\'600\',\'270\')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>' +
-                            '<a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>\n' +
-							'</tr>';
-					$("#jilu").append(li);
-				}
-			},
-			error:function(data) {
-				console.log(data);
-			}
-		});
-
-</script>
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/lib/layui/layui.all.js"></script>
 
-<%--<script>--%>
-<%--	layui.use('table', function(){--%>
-<%--		var table = layui.table;--%>
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
+		<button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
 
-<%--		//第一个实例--%>
-<%--		table.render({--%>
-<%--			elem: '#member_list'--%>
-<%--			,height: 312--%>
-<%--			,url: '/member/memberList' //数据接口--%>
-<%--			,page: true //开启分页--%>
-<%--			,cols: [[ //表头--%>
-<%--				{type: 'checkbox', fixed: 'left'},--%>
-<%--				{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}--%>
-<%--				,{field: 'username', title: '用户名', width:80}--%>
-<%--				,{field: 'sex', title: '性别', width:80, sort: true}--%>
-<%--				,{field: 'mobile', title: '手机', width:80}--%>
-<%--				,{field: 'email', title: '邮箱', width: 80, sort: true}--%>
-<%--				,{field: 'address', title: '地址', width: 177}--%>
-<%--				,{field: 'createTime', title: '加入时间', width: 80, sort: true}--%>
-<%--				,{field: 'status', title: '状态', width: 80}--%>
-<%--				,{field: 'operator', title: '操作', width: 135, sort: true}--%>
-<%--			]]--%>
-<%--		});--%>
-
-<%--	});--%>
-<%--</script>--%>
-
+	</div>
+</script>
+<script type="text/html" id="barDemo">
+	{{# if(d.status===0){ }}
+	<a class="layui-btn layui-btn-xs layui-bg-gray" lay-event="stop" title="停用"><i class="layui-icon layui-icon-face-surprised" style="font-size: 30px; color: #3f324d;"> 停用 </i></a>
+	{{# }else{ }}
+	<a class="layui-btn layui-btn-xs layui-bg-red" lay-event="run" title="启用"><i class="layui-icon layui-icon-fire" style="font-size: 30px; color: #00a5ff;"> 启用 </i></a>
+	{{# } }}
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.jsp','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script type="text/javascript">
-/*用户-添加*/
-function member_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
-/*用户-查看*/
-function member_show(obj,w,h){
-	var id=obj.parentNode.parentNode.childNodes[3].innerText;
-	console.log(id);
-		$.ajax({
-			type: 'POST',
-			url: '/member/memberShow?id='+id,
-			dataType: 'json',
-			success: function(data){
-				console.log(data);
-				var d=data.data;
-				if(d.gender==1){
-					var sex='男';
-				}else if(d.gender==2){
-					var sex='女';
-				}else{
-					var sex='保密';
-				}
-				var id=d.id;
-				var username=d.username;
-				var telephone=d.telephone;
-				var postAddress=d.postAddress;
-				var address=d.address;
-				var time=d.time;
-				layer_show(username,'/member/show?id='+id+'&&username='+username+'&&gender='+sex+
-									'&&telephone='+telephone+'&&email='+postAddress+'&&address='+
-									address+'&&time='+time,w,h);
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});
-}
-/*用户-停用*/
-function member_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
-				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
 
+	$(function () {
+		layui.use(['table', 'laytpl', 'element', 'form'], function () {
+			var table = layui.table;
+			var laytpl = layui.laytpl;
+			var element = layui.element;
+			var form = layui.form;
+			$("#search").click(function () {
+				reload();
+			})
 
-/*用户-启用*/
-function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});
-	});
-}
-/*用户-编辑*/
-function member_edit(obj,w,h){
-	var id=obj.parentNode.parentNode.childNodes[3].innerText;
-	console.log(id);
-	$.ajax({
-		type: 'POST',
-		url: '/member/memberEdit?id='+id,
-		dataType: 'json',
-		success: function(data){
-			console.log(data);
-			var d=data.data;
-			var id=d.id;
-			var username=d.username;
-			var gender=d.gender;
-			var telephone=d.telephone;
-			var email=d.email;
-			var address=d.address;
-			var city=d.city;
-			layer_show(username,'/member/edit?id='+id+'&&username='+username+'&&gender='+gender+
-					'&&telephone='+telephone+'&&email='+ email +'&&address='+
-					address+'&&city='+city,w,h);
-		},
-		error:function(data) {
-			console.log(data.msg);
-		}
-	});
-}
-/*密码-修改*/
-function change_password(title,url,id,w,h){
-	layer_show(title,url,w,h);	
-}
-/*用户-删除*/
-function member_del(obj){
-	var id=obj.parentNode.parentNode.childNodes[3].innerText;
-	console.log(id);
-	var index=layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '/member/deleteMember?id='+id,
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.closeAll();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
-function member_search() {
-	var search=document.getElementById("searchInput").value;
-	$.ajax({
-		type: 'POST',
-		url: '/member/memberSearch?search='+search,
-		dataType: 'json',
-		success: function(data){
-			//window.location.reload();
-			console.log(data);
-			for (var i = 0; i <data.data.length ; i++) {
-				var d=data.data[i];
-				if(d.gender==1){
-					var sex='男';
-				}else if(d.gender==2){
-					var sex='女';
-				}else{
-					var sex='保密';
-				}
-				var li='<tr class="text-c">\n' +
-						'<td><input type="checkbox" value="1" name=""></td>\n' +
-						'<td>'+d.id+'</td>\n' +
-						'<td><u style="cursor:pointer" class="text-primary" onclick="member_show(\'张三\',\'member-show.html\',\'10001\',\'360\',\'400\')">'+d.username+'</u></td>\n' +
-						'<td>'+sex+'</td>\n' +
-						'<td>'+d.telephone+'</td>\n' +
-						'<td>'+d.postAddress+'</td>\n' +
-						'<td class="text-l">'+d.address+'</td>\n' +
-						'<td>'+d.createTime+'</td>\n' +
-						'<td class="td-status"><span class="label label-success radius">已启用</span></td>\n' +
-						'<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,\'10001\')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',\'4\',\'\',\'510\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="change_password(\'修改密码\',\'change-password.html\',\'10001\',\'600\',\'270\')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>'+
-						'</tr>';
-				$('#jilu').empty();
-				$("#jilu").append(li);
+			function reload() {
+				table.reload('table', {
+					where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+						start: $("#start").val(),
+						end: $("#end").val(),
+						keywords: $("#keywords").val()
+					}
+				});
 			}
-		},
-		error:function(data) {
-			console.log(data);
+
+
+			//第一个实例
+			table.render({
+				id: 'table',
+				elem: '.table-sort'
+				, toolbar: '#toolbarDemo'
+				, height: 'full-220'
+				, url: '/member/list' //数据接口
+				, page: true //开启分页
+				, cols: [[ //表头
+					{type: 'checkbox', fixed: 'left'}
+					, {
+						field: 'id', title: 'ID', width: '15%', sort: true, fixed: 'left', templet: function (d) {
+							return d.id;//long 转Stirng
+						}
+					}
+					,
+					{field: 'username', title: '用户名', width: '10%'}
+					,
+					{
+						field: 'gender', title: '性别', width: '5%'
+						, templet: function (d) {
+							switch (d.gender) {
+								case 1:
+									return '男';
+								case 2:
+									return '女';
+
+							}
+						}
+					}
+					,
+					{field: 'telephone', title: '手机号', width: '10%'}
+					, {field: 'email', title: '邮箱', width: '10%'}
+					, {field: 'address', title: '地址', width: '10%'}
+					, {field: 'time', title: '创建时间', width: '17%'}
+					, {
+						field: 'status', title: '状态', width: '5%'
+						, templet: function (d) {
+							switch (d.status) {
+								case 0:
+									return '启用';
+								case 1:
+									return '停用';
+
+							}
+						}
+					}
+					, {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '15%'}
+
+
+				]]
+
+			});
+
+			function deleteByIds(ids) {
+				layer.confirm('真的删除这些数据么', function (index) {
+					$.ajax({
+						"url": "/member/delete",
+						"data": {
+							ids: ids
+						},
+						type: "get",
+						dataType: "json",
+						success: function (data) {
+							if (data.code === 200) {
+								layer.msg("删除成功");
+								reload();
+
+								layer.close(index);
+							} else {
+								layer.msg(data.msg);
+							}
+						}
+					})
+
+				});
+			}
+
+//头工具栏事件
+			table.on('toolbar(test)', function (obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+					case 'add':
+						addOrUpdate({});
+						break;
+					case 'getCheckData':
+						var data = checkStatus.data;
+						if (data == null || data.length === 0) {
+							layer.msg("请先选择需要删除的数据");
+						} else {
+							var arr = [];
+							for (var i = 0; i < data.length; i++) {
+								arr.push(data[i].id);
+							}
+							deleteByIds(arr.join(','));
+						}
+
+						break;
+
+				}
+				;
+			});
+
+			function addOrUpdate(data) {
+				var getTpl = document.getElementById("demo").innerHTML;
+
+				laytpl(getTpl).render(data, function (html) {
+					var index = layer.open({
+						type: 1,
+						content: html,
+						area: ['500px', '600px']
+					});
+					form.render();
+					form.on('submit(update_form_submit)', function (data) {
+						layer.msg(JSON.stringify(data.field));
+						$.ajax({
+							"url": "/member/updateOrAdd",
+							"data": JSON.stringify(data.field),
+							type: "post",
+							contentType: 'application/json',
+							dataType: "json",
+							success: function (res) {
+								if (res.code === 200) {
+									layer.msg("操作成功");
+									reload();
+									layer.close(index);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
+						return false;
+					});
+				});
+			}
+
+
+//监听行工具事件
+			table.on('tool(test)', function (obj) {
+				var data = obj.data;
+
+				// console.log(data);
+				if (obj.event === 'del') {
+					deleteByIds(data.id);
+				} else if (obj.event === 'edit') {
+					addOrUpdate(data);
+				}else if(obj.event === 'run'){
+					run(data.id,1);
+				}else if(obj.event === 'stop'){
+					stop(data.id,0);
+				}
+
+			});
+		});
+		/*会员-停用*/
+		function stop(id,status){
+			layer.confirm('确认要停用吗？' ,function(index){
+				//此处请求后台程序，下方是成功后的前台处理……
+				$.ajax({
+					type: 'post',
+					url: '/member/updateStatus',
+					data:{
+						"id":id,
+						"status":status
+					},
+					dataType: 'json',
+					success: function (res) {
+						if (res.code === 200) {
+							layer.msg("已停用");
+							reload();
+						} else {
+							layer.msg(res.msg);
+						}
+					}
+				});
+
+			});
 		}
+
+		/*会员-启用*/
+		function run(id,status){
+			layer.confirm('确认要启用吗？',function(index){
+				//此处请求后台程序，下方是成功后的前台处理……
+				$.ajax({
+					type: 'post',
+					url: '/member/updateStatus',
+					data:{
+						"id":id,
+						"status":status
+					},
+					dataType: 'json',
+					success: function (res) {
+						if (res.code === 200) {
+							layer.msg("已启用");
+							reload();
+						} else {
+							layer.msg(res.msg);
+						}
+					}
+				});
+			});
+		}
+
 	});
-}
-setTimeout(function () {
-	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
-		"bStateSave": true,//状态保存
-		"aoColumnDefs": [
-			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-			{"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
-		]
-	});
-},150)
-</script> 
+
+</script>
+
+
+
 </body>
 </html>

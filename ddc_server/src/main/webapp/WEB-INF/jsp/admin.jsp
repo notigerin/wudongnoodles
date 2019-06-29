@@ -130,12 +130,12 @@
             <div class="layui-input-block">
                 <%--            <script type="text/html" template>--%>
 
-                <input type="radio" name="status" value="1" title="启用"
+                <input type="radio" name="status" value="0" title="启用"
                        {{# if(d.status===0){ }}
                        checked
                        {{# } }}
                 />
-                <input type="radio" name="status" value="2" title="停用"
+                <input type="radio" name="status" value="1" title="停用"
                        {{# if(d.status===1){ }}
                        checked
                        {{# } }}

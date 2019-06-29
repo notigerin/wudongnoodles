@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IDDCMemberService extends IService<DDCMember> {
     List<DDCMember> selectMemberList();
+
+    void updateStatus(long id, Integer status);
 }

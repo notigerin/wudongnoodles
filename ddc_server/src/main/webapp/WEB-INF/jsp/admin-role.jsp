@@ -185,11 +185,11 @@
                         , templet: function (d) {
                             switch (d.roleLevel) {
                                 case 1:
-                                    return '超级管理员';
+                                    return '超级管理员角色';
                                 case 2:
-                                    return '管理员';
+                                    return '管理员角色';
                                 case 3:
-                                    return '普通用户';
+                                    return '普通角色';
                             }
                         }
                     }

@@ -21,4 +21,7 @@ public interface DDCMemberMapper extends BaseMapper<DDCMember> {
     @Update("update user set username=#{username},gender=#{sex},telephone=#{mobile},email=#{email},city=#{city},address=#{beizhu} where id=#{id}")
     void updateMember(@Param("id") Long id, @Param("username") String username, @Param("sex") Integer sex, @Param("mobile") String mobile,
                       @Param("email") String email, @Param("city") String city, @Param("beizhu") String beizhu);
+
+    @Update("update user set status=#{status} where id=#{id}")
+    void updateStatus(@Param(value = "id") long id, @Param(value = "status") Integer status);
 }

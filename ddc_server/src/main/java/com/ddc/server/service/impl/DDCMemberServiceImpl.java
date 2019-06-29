@@ -25,4 +25,8 @@ public class DDCMemberServiceImpl extends ServiceImpl<DDCMemberMapper, DDCMember
     public List<DDCMember> selectMemberList(){
         return memberMapper.selectAll();
     }
+    @Override
+    public void updateStatus(long id, Integer status) {
+        memberMapper.updateStatus(id, status);
+    }
 }
