@@ -44,4 +44,35 @@
         select * from ddc_admin where role_id = #{roleId} and del_flag = 0;
     </select>
 
+    <select id="selectAdminList" resultMap="adminMap">
+        SELECT a.*,r.name as role_name
+        FROM ddc_admin a inner join ddc_role r on a.role_id=r.id
+        where 1=1
+        <if test="start !=null">
+            and a.create_time &gt;= #{start}
+        </if>
+        <if test="end !=null">
+            and a.create_time &lt;= #{end}
+        </if>
+        <if test="name!=null and name!=''">
+            and  a.name like ${name}
+        </if>
+        LIMIT #{offsets}, #{rows}
+    </select>
+
+    <select id="selectAdminCount" resultType="java.lang.Integer">
+        SELECT count(distinct  a.id) as role_name
+        FROM ddc_admin a inner join ddc_role r on a.role_id=r.id
+        where 1=1
+        <if test="start !=null">
+            and a.create_time &gt;= #{start}
+        </if>
+        <if test="end !=null">
+            and a.create_time &lt;= #{end}
+        </if>
+        <if test="name!=null and name!=''">
+            and  a.name like ${name}
+        </if>
+    </select>
+
 </mapper>

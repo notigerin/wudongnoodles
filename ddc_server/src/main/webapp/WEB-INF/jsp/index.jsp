@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -28,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css"/>
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
     <!--[if IE 6]>
     <script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -90,7 +92,46 @@
     </div>
 </header>
 <aside class="Hui-aside">
-    <div class="menu_dropdown bk_2">
+    <div class="menu_dropdown bk_2" id="menu_c">
+        <c:forEach  items="${list}" var="item">
+            <dl id="menu-${item.auth.id}">
+                <dt><i class="Hui-iconfont">&#xe616;</i> ${item.auth.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+                </dt>
+                <c:if test="${!empty item.nodes}">
+                    <dd>
+                        <ul>
+                            <c:forEach items="${item.nodes}" var="item2">
+                                <c:if test="${empty item2.auth.menuUrl}">
+                                    <li><a data-href="/page/404" data-title="${item2.auth.name}" href="javascript:void(0)">${item2.auth.name}</a></li>
+                                </c:if>
+                                <c:if test="${!empty item2.auth.menuUrl}">
+                                    <li><a data-href="${item2.auth.menuUrl}" data-title="${item2.auth.name}" href="javascript:void(0)">${item2.auth.name}</a></li>
+                                </c:if>
+                            </c:forEach>
+                        </ul>
+                    </dd>
+                </c:if>
+            </dl>
+        </c:forEach>
+    </div>
+    <%--<div id="test13" class="demo-tree-more"></div>--%>
+    <%--<div class="menu_dropdown bk_2">
+ &lt;%&ndash;       <c:forEach items="list" var="item">
+            <dl id="menu-${item.auth.id}">
+                <dt><i class="Hui-iconfont">&#xe616;</i> ${item.auth.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+
+                    <c:if test="${item.nodes.length!=0}">
+                    <dd>
+                        <ul>
+                        <c:forEach items="items.nodes" var="item2">
+                            <li><a data-href="${item2.auth.menuUrl}" data-title="${item2.auth.name}" href="javascript:void(0)">{item2.auth.name}</a></li>
+                        </c:forEach>
+                        </ul>
+                    </dd>
+                    </c:if>
+                </dd>
+            </dl>
+        </c:forEach>&ndash;%&gt;
         <dl id="menu-article">
             <dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
@@ -102,22 +143,6 @@
                 </ul>
             </dd>
         </dl>
-        <!--<dl id="menu-picture">-->
-        <!--<dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
-        <!--<dd>-->
-        <!--<ul>-->
-        <!--</ul>-->
-        <!--</dd>-->
-        <!--</dl>-->
-        <!--<dl id="menu-product">-->
-        <!--<dt><i class="Hui-iconfont">&#xe620;</i> 产品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
-        <!--<dd>-->
-        <!--<ul>-->
-        <!--<li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>-->
-        <!--<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>-->
-        <!--</ul>-->
-        <!--</dd>-->
-        <!--</dl>-->
         <dl id="menu-comments">
             <dt><i class="Hui-iconfont">&#xe622;</i> 评论管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
@@ -177,7 +202,7 @@
                 </ul>
             </dd>
         </dl>
-    </div>
+    </div>--%>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>
 </div>
@@ -217,8 +242,123 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/lib/layui/layui.js"></script>
+<script src="/lib/layui/layui.all.js" charset="utf-8"></script>
+
+<%--<script id="menu" type="text/html">
+    <aside class="Hui-aside">
+        <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="demo">
+            {{# layui.each(d.auths, function(index, item){ }}
+            <li class="layui-nav-item">
+                <a href="javascript:;">{{ item.auth.name }}</a>
+                {{#  if(item.nodes.length !== 0){ }}
+                {{#  layui.each(item.nodes, function(index2, item2){ }}
+                <dl class="layui-nav-child">
+                    <dd><a data-href="{{ item2.auth.menuUrl }}" data-title="{{ item2.auth.name }}" href="javascript:void(0)">{{ item2.auth.name }}</a></dd>
+                </dl>
+                {{# }); }}
+                {{# }); }}
+            </li>
+            {{# }); }}
+        </ul>
+    </aside>
+</script>--%>
 <script type="text/javascript">
     $(function () {
+
+ /*       layui.use(['tree', 'util'], function() {
+            var tree = layui.tree
+                , layer = layui.layer
+                , util = layui.util
+
+            $.ajax({
+                "url": "/auth/authList",
+                type: "post",
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+                    if (res.code === 200) {
+
+                        var d = res.data;
+                        var testData = proJSON(d, 0);
+                        console.log(testData);
+
+                        tree.render({
+                            elem: '#test13'
+                            , data: testData
+                            , showLine: false  //是否开启连接线
+                            , isJump: true
+                            , accordion: true
+                        });
+                    }
+                }
+            })
+        });*/
+
+ /*       layui.use(['element', 'form', 'upload'], function () {
+            var element = layui.element
+                , form = layui.form //获取form模块
+                , upload = layui.upload; //获取upload模块
+
+
+
+            $.ajax({
+                "url": "/role/getOwnAuths",
+                type: "post",
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+                    if (res.code === 200) {
+                        data.auths = res.data;
+                        console.log(data.auths);
+
+                        laytpl.render(data, function (html) {
+                            var index = layer.open({
+                                type: 1,
+                                content: html
+                            });
+                            form.render();
+                        });
+                    }
+                }
+            });
+
+            //一些事件监听
+            element.on('tab(demo)', function (data) {
+                console.log(data);
+            });
+        });*/
+    })
+
+    /*function proJSON(oldArr, pid) {
+        var newArr = [];
+        var self = this;
+        oldArr.map(function(item) {
+            if(item.pId == pid) {
+                var obj = {
+                    id: item.id,
+                    title: item.name,
+                    href:"javascript:void(0)",
+                    'data-href':item.menuUrl
+                };
+                if(item.level < 2) {
+                    var childs = self.proJSON(oldArr, item.id);
+                    if (childs.length > 0) {
+                        obj.children = childs;
+                    }
+                }
+                newArr.push(obj);
+            }
+
+        })
+        return newArr;
+    };*/
+        // layui.use(['table','laytpl','element','form']),function (){
+        //
+        // }
+
+
         /*$("#min_title_list li").contextMenu('Huiadminmenu', {
             bindings: {
                 'closethis': function(t) {
@@ -232,55 +372,55 @@
                 },
             }
         });*/
-    });
 
-    /*个人信息*/
-    function myselfinfo() {
-        layer.open({
-            type: 1,
-            area: ['300px', '200px'],
-            fix: false, //不固定
-            maxmin: true,
-            shade: 0.4,
-            title: '查看信息',
-            content: '<div>管理员信息</div>'
-        });
-    }
+        /*个人信息*/
+        function myselfinfo() {
+            layer.open({
+                type: 1,
+                area: ['300px', '200px'],
+                fix: false, //不固定
+                maxmin: true,
+                shade: 0.4,
+                title: '查看信息',
+                content: '<div>管理员信息</div>'
+            });
+        }
 
-    /*资讯-添加*/
-    function article_add(title, url) {
-        var index = layer.open({
-            type: 2,
-            title: title,
-            content: url
-        });
-        layer.full(index);
-    }
+        /*资讯-添加*/
+        function article_add(title, url) {
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
+        }
 
-    /*图片-添加*/
-    function picture_add(title, url) {
-        var index = layer.open({
-            type: 2,
-            title: title,
-            content: url
-        });
-        layer.full(index);
-    }
+        /*图片-添加*/
+        function picture_add(title, url) {
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
+        }
 
-    /*产品-添加*/
-    function product_add(title, url) {
-        var index = layer.open({
-            type: 2,
-            title: title,
-            content: url
-        });
-        layer.full(index);
-    }
+        /*产品-添加*/
+        function product_add(title, url) {
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
+        }
 
-    /*用户-添加*/
-    function member_add(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
+        /*用户-添加*/
+        function member_add(title, url, w, h) {
+            layer_show(title, url, w, h);
+        }
+
 
 
 </script>

@@ -47,53 +47,47 @@ public class IndexController {
     @Pass
     public ModelAndView index(@CurrentUser DDCAdmin admin, HttpSession session) {
         ModelAndView modelAndView=new ModelAndView();
-
-/*        DDCRole currentRole = roleService.selectById(admin.getRoleId());
-        List<DDCRoleAuth> roleAuths=roleAuthService.selectList(new EntityWrapper<DDCRoleAuth>()
-                .eq("role_id",currentRole.getId()));
-
-        Set<Long> authIds = new HashSet<>();
+        DDCRole currentRole = roleService.selectById(admin.getRoleId());
+        List<DDCRoleAuth> roleAuths=roleAuthService.selectList(new EntityWrapper<DDCRoleAuth>().
+                eq("role_id",currentRole.getId()));
+        Set<Long> authIds=new HashSet<>();
         if(!CollectionUtils.isEmpty(roleAuths)){
-            for(DDCRoleAuth ra : roleAuths){
+            for(DDCRoleAuth ra:roleAuths){
                 authIds.add(ra.getAuthId());
             }
         }
         List<RoleController.AuthNode> list = new ArrayList<>(10);
-        List<DDCAuth> topAuths = authService.selectList(new EntityWrapper<DDCAuth>()
-                .gt("auth_level", currentRole.getRoleLevel())
-                .eq("level", 1)
-                .eq("del_flag", 0));
-        if(!CollectionUtils.isEmpty(topAuths)){
-            for(DDCAuth auth:topAuths){
-                List<RoleController.AuthNode> nodes=new ArrayList<>();
-                List<DDCAuth> secondAuths = authService.selectList(new EntityWrapper<DDCAuth>()
-                        .gt("auth_level", currentRole.getRoleLevel())
-                        .eq("level", 2)
-                        .eq("del_flag", 0)
-                        .eq("p_id", auth.getId()));
-                List<RoleController.AuthNode> nodes2=new ArrayList<>(10);
-                if(!CollectionUtils.isEmpty(secondAuths)){
-                    for(DDCAuth secondAuth:secondAuths){
-                        List<RoleController.AuthNode> nodes3=new ArrayList<>(10);
-                        List<DDCAuth> opAuths = authService.selectList(new EntityWrapper<DDCAuth>()
-                                .gt("auth_level", currentRole.getRoleLevel())
-                                .eq("level", 3)
-                                .eq("del_flag", 0)
-                                .eq("p_id", secondAuth.getId())
-                        );
-                        if(!CollectionUtils.isEmpty(opAuths)){
-                            for(DDCAuth opAuth:opAuths){
-                                nodes3.add(new RoleController.AuthNode(opAuth,null));
-                            }
+        List<DDCAuth> topAuths =
+                authService.selectList(
+                        new EntityWrapper<DDCAuth>()
+                                .ge("auth_level", currentRole.getRoleLevel())
+                                .eq("level", 1)
+                                .eq("del_flag", 0));
+        if (!CollectionUtils.isEmpty(topAuths)) {
+            for (DDCAuth auth : topAuths) {
+                if(!authIds.contains(auth.getId())){
+                    continue;
+                }
+                List<DDCAuth> secondAuths =
+                        authService.selectList(
+                                new EntityWrapper<DDCAuth>()
+                                        .ge("auth_level", currentRole.getRoleLevel())
+                                        .eq("level", 2)
+                                        .eq("del_flag", 0)
+                                        .eq("p_id", auth.getId()));
+                List<RoleController.AuthNode> nodes2 = new ArrayList<>(10);
+                if (!CollectionUtils.isEmpty(secondAuths)) {
+                    for (DDCAuth secondAuth : secondAuths) {
+                        if(!authIds.contains(secondAuth.getId())){
+                            continue;
                         }
-                        nodes2.add(new RoleController.AuthNode(secondAuth,nodes3));
+                        nodes2.add(new RoleController.AuthNode(secondAuth, null));
                     }
                 }
-                list.add(new RoleController.AuthNode(auth,nodes2));
+                list.add(new RoleController.AuthNode(auth, nodes2));
             }
         }
-        session.setAttribute("list",list);*/
-        //modelAndView.addObject("list",list);
+        modelAndView.addObject("list",list);
         modelAndView.setViewName("index");
         return modelAndView;
     }

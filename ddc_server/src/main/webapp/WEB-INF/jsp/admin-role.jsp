@@ -285,7 +285,7 @@
                                 });
                                 form.on('submit(update_form_submit)', function (data) {
                                     var authId = new Array();
-                                    $("input[name='authId']:checked").each(function(){
+                                    $("input[name='layuiTreeCheck']:checked").each(function(){
                                         authId.push($(this).val());
                                     });
                                     if(authId.length ==0){
@@ -343,12 +343,12 @@
                 var obj = {
                     id: item.id,
                     title: item.name
-                }
+                };
                 var childs = self.proJSON(oldArr, item.id);
                 if(childs.length > 0) {
-                    obj.children = childs
+                    obj.children = childs;
                 }
-                newArr.push(obj)
+                newArr.push(obj);
             }
 
         })

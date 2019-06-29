@@ -1,6 +1,7 @@
 package com.ddc.server.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.mapper.DDCAdminMapper;
@@ -42,6 +43,16 @@ public class DDCAdminServiceImpl extends ServiceImpl<DDCAdminMapper, DDCAdmin> i
     @Override
     public List<DDCAdmin> selectByRoleId(Long roleId) {
         return adminMapper.selectByRoleId(roleId);
+    }
+
+    @Override
+    public Page<DDCAdmin> selectAdminPage(Map<String, Object> map) {
+        List<DDCAdmin> list = adminMapper.selectAdminList(map);
+        Integer count = adminMapper.selectAdminCount(map);
+        Page<DDCAdmin> page = new Page<>();
+        page.setTotal(count);
+        page.setRecords(list);
+        return page;
     }
 
 

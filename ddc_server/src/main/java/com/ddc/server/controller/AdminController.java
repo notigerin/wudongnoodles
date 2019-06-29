@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 前端控制器
@@ -42,27 +40,23 @@ public class AdminController {
     public ResponsePageModel<DDCAdmin> list(@RequestParam(name = "page", required = false, defaultValue = "1") Integer pageNumber,
                                             @RequestParam(name = "limit", required = false, defaultValue = "10") Integer pageSize,
                                             String start, String end, String keywords) throws Exception {
-        Wrapper<DDCAdmin> wrapper = new EntityWrapper<>();
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+
+        Map<String, Object> map = new HashMap<>(3);
+        map.put("offsets", (pageNumber - 1) * pageSize);
+        map.put("rows", pageSize);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (!StringUtils.isEmpty(start)) {
-            wrapper = wrapper.ge("create_time", simpleDateFormat.parse(start).getTime());
+            map.put("start", simpleDateFormat.parse(start).getTime());
         }
         if (!StringUtils.isEmpty(end)) {
-            wrapper = wrapper.le("create_time", simpleDateFormat.parse(end).getTime());
+            map.put("end", simpleDateFormat.parse(end).getTime());
         }
         if (!StringUtils.isEmpty(keywords)) {
-            wrapper = wrapper.like("name", keywords);
+            map.put("name", keywords);
         }
+        Page<DDCAdmin> adminPage;
+        adminPage = adminService.selectAdminPage(map);
 
-        wrapper = wrapper.eq("del_flag", "0").notLike("name","root");
-        Page<DDCAdmin> adminPage=adminService.selectPage(new Page<>(pageNumber, pageSize),
-                wrapper);
-        if(!CollectionUtils.isEmpty(adminPage.getRecords())){
-            for(DDCAdmin admin:adminPage.getRecords()){
-                DDCRole role=roleService.selectById(admin.getRoleId());
-                admin.setRoleName(role==null?"无":role.getName());
-            }
-        }
         ResponsePageModel<DDCAdmin> page = ResponsePageHelper.buildResponseModel(adminPage);
         return page;
     }

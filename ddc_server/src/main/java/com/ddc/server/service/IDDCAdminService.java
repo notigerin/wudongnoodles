@@ -1,6 +1,7 @@
 package com.ddc.server.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.ddc.server.entity.DDCAdmin;
 
@@ -30,5 +31,9 @@ public interface IDDCAdminService extends IService<DDCAdmin> {
     void updateStatus(long id, Integer status);
 
     List<DDCAdmin> selectByRoleId(Long roleId);
+
+    Page<DDCAdmin> selectAdminPage(Map<String, Object> map);
+
+
 }
 

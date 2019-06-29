@@ -5,6 +5,7 @@ import com.ddc.server.entity.DDCAdmin;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mapper 接口
@@ -23,4 +24,8 @@ public interface DDCAdminMapper extends BaseMapper<DDCAdmin> {
     void delAdmin(@Param(value = "id") long id);
 
     List<DDCAdmin> selectByRoleId(@Param(value = "roleId") Long roleId);
+
+    List<DDCAdmin> selectAdminList(Map<String, Object> map);
+
+    Integer selectAdminCount(Map<String, Object> map);
 }
