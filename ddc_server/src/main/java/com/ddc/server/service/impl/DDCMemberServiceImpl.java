@@ -29,4 +29,9 @@ public class DDCMemberServiceImpl extends ServiceImpl<DDCMemberMapper, DDCMember
     public void updateStatus(long id, Integer status) {
         memberMapper.updateStatus(id, status);
     }
+
+    @Override
+    public void editPasswordById(Long id, String password) {
+        memberMapper.updatePassword(id,password);
+    }
 }

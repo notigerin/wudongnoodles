@@ -87,13 +87,13 @@
 				<%--            <script type="text/html" template>--%>
 
 				<input type="radio" name="gender" value="0" title="男"
-					   {{# if(d.sex===0){ }}
+					   {{# if(d.gender===0){ }}
 					   checked
 					   {{# } }}
 				/>
 
 				<input type="radio" name="gender" value="1" title="女"
-					   {{# if(d.sex===1){ }}
+					   {{# if(d.gender===1){ }}
 					   checked
 					   {{# } }}
 				/>
@@ -120,7 +120,15 @@
 						  class="layui-input">{{ d.address || '' }}</textarea>
 			</div>
 		</div>
-
+		<div class="layui-form-item">
+			<div class="layui-upload">
+				<label class="form-label col-xs-4 col-sm-3">附件：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input class="input-text upload-url" type="text" name="icon" id="icon" readonly nullmsg="请添加附件！" style="width:200px" value="{{ d.icon || '' }}">
+					<button type="button" class="layui-btn" id="test1">上传图片</button>
+				</div>
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">状态</label>
 			<div class="layui-input-block">
@@ -151,11 +159,80 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"></label>
 			<div class="layui-input-inline">
-				<button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
+				<button class="layui-btn" id="add" lay-submit lay-filter="update_form_submit">立即提交</button>
 				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 			</div>
 		</div>
 	</form>
+</script>
+<script id="demo2" type="text/html">
+	<form class="layui-form" action="">
+		<input type="hidden" name="id" value="{{ d.id}}" autocomplete="off">
+		<div class="layui-form-item">
+			<label class="layui-form-label">新密码：</label>
+			<input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"></label>
+			<div class="layui-input-inline">
+				<button class="layui-btn" lay-submit lay-filter="edit_password">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</script>
+<script id="showMember" type="text/html">
+	<div class="cl pd-20" style=" background-color:#5bacb6">
+		<img class="avatar size-XL l" src="{{ d.icon}}">
+		<dl style="margin-left:80px; color:#fff">
+			<dt>
+				<span class="f-18">{{ d.username}}</span>
+				<span class="pl-10 f-12">
+					{{# if(d.isMember === 0){ }}
+						非会员
+					{{# }else{ }}
+						会员
+					{{# } }}
+				</span>
+			</dt>
+			<dd class="pt-10 f-12" style="margin-left:0">{{ d.resume}}</dd>
+		</dl>
+	</div>
+	<div class="pd-20">
+		<table class="table">
+			<tbody>
+			<tr>
+				<th class="text-r" width="80">性别：</th>
+				<td>{{# if(d.gender===0){ }}
+					男
+					{{# }else{ }}
+					女
+					{{# } }}
+				</td>
+			</tr>
+			<tr>
+				<th class="text-r">手机：</th>
+				<td>{{ d.telephone}}</td>
+			</tr>
+			<tr>
+				<th class="text-r">邮箱：</th>
+				<td>{{ d.email}}</td>
+			</tr>
+			<tr>
+				<th class="text-r">地址：</th>
+				<td>{{ d.address}}</td>
+			</tr>
+			<tr>
+				<th class="text-r">注册时间：</th>
+				<td>{{ d.registerTime}}</td>
+			</tr>
+			<tr>
+				<th class="text-r">积分：</th>
+				<td>{{ d.integral}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 </script>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
@@ -182,17 +259,19 @@
 	<a class="layui-btn layui-btn-xs layui-bg-red" lay-event="run" title="启用"><i class="layui-icon layui-icon-fire" style="font-size: 30px; color: #00a5ff;"> 启用 </i></a>
 	{{# } }}
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	<a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.jsp','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>
+	<a style="text-decoration:none" class="ml-5" title="修改密码" lay-event="editPassword"><i class="Hui-iconfont">&#xe63f;</i></a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/javascript">
 
 	$(function () {
-		layui.use(['table', 'laytpl', 'element', 'form'], function () {
+		layui.use(['table', 'laytpl', 'element', 'form', 'upload'], function () {
 			var table = layui.table;
 			var laytpl = layui.laytpl;
 			var element = layui.element;
 			var form = layui.form;
+			var jquery = layui.jquery
+			var upload = layui.upload;
 			$("#search").click(function () {
 				reload();
 			})
@@ -224,15 +303,20 @@
 						}
 					}
 					,
-					{field: 'username', title: '用户名', width: '10%'}
+					{
+						field: 'username', title: '用户名', width: '10%'
+						,templet:function (d) {
+							return '<a lay-event="show">'+d.username +'<a>'
+						}
+					}
 					,
 					{
 						field: 'gender', title: '性别', width: '5%'
 						, templet: function (d) {
 							switch (d.gender) {
-								case 1:
+								case 0:
 									return '男';
-								case 2:
+								case 1:
 									return '女';
 
 							}
@@ -307,8 +391,7 @@
 
 						break;
 
-				}
-				;
+				};
 			});
 
 			function addOrUpdate(data) {
@@ -321,6 +404,16 @@
 						area: ['500px', '600px']
 					});
 					form.render();
+					//普通图片上传
+					var uploadInst = upload.render({
+						elem: '#test1'
+						,url:'/member/upload'
+						,accept:'images'
+						,done: function(res){
+							console.log(res);
+							document.getElementById("icon").value = res.filePath;
+						}
+					});
 					form.on('submit(update_form_submit)', function (data) {
 						layer.msg(JSON.stringify(data.field));
 						$.ajax({
@@ -344,6 +437,51 @@
 				});
 			}
 
+			function editPassword(data) {
+				var getTpl = document.getElementById("demo2").innerHTML;
+
+				laytpl(getTpl).render(data, function (html) {
+					var index = layer.open({
+						type: 1,
+						content: html,
+						area: ['500px', '300px']
+					});
+					form.render();
+					form.on('submit(edit_password)', function (data) {
+						layer.msg(JSON.stringify(data.field));
+						$.ajax({
+							"url": "/member/editPassword",
+							"data": JSON.stringify(data.field),
+							type: "post",
+							contentType: 'application/json',
+							dataType: "json",
+							success: function (res) {
+								if (res.code === 200) {
+									layer.msg("操作成功");
+									reload();
+									layer.close(index);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
+						return false;
+					});
+				});
+			}
+
+			function showMember(data){
+				var getTpl = document.getElementById("showMember").innerHTML;
+
+				laytpl(getTpl).render(data, function (html) {
+					var index = layer.open({
+						type: 1,
+						content: html,
+						area: ['500px', '600px']
+					});
+					form.render();
+				});
+			}
 
 //监听行工具事件
 			table.on('tool(test)', function (obj) {
@@ -358,6 +496,10 @@
 					run(data.id,1);
 				}else if(obj.event === 'stop'){
 					stop(data.id,0);
+				}else if(obj.event === 'editPassword'){
+					editPassword(data);
+				}else if(obj.event === 'show'){
+					showMember(data);
 				}
 
 			});
@@ -410,7 +552,6 @@
 				});
 			});
 		}
-
 	});
 
 </script>
