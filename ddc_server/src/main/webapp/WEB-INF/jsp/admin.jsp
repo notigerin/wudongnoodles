@@ -124,42 +124,41 @@
                 />
 
             </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <%--            <script type="text/html" template>--%>
 
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-block">
-                    <%--            <script type="text/html" template>--%>
+                <input type="radio" name="status" value="1" title="启用"
+                       {{# if(d.status===0){ }}
+                       checked
+                       {{# } }}
+                />
+                <input type="radio" name="status" value="2" title="停用"
+                       {{# if(d.status===1){ }}
+                       checked
+                       {{# } }}
+                />
 
-                    <input type="radio" name="status" value="1" title="启用"
-                           {{# if(d.status===0){ }}
-                           checked
-                           {{# } }}
-                    />
-
-                    <input type="radio" name="status" value="2" title="停用"
-                           {{# if(d.status===1){ }}
-                           checked
-                           {{# } }}
-                    />
-
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">留言内容</label>
-                    <div class="layui-input-inline">
-                    <textarea type="text" name="remark"
-                              class="layui-input">{{ d.remark || '' }}</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label"></label>
-                <div class="layui-input-inline">
-                    <button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">留言内容</label>
+            <div class="layui-input-inline">
+                <textarea type="text" name="remark"
+                          class="layui-input">{{ d.remark || '' }}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <button class="layui-btn" lay-submit lay-filter="update_form_submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+
     </form>
 
 </script>

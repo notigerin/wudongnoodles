@@ -77,9 +77,6 @@
             <div id="test7" class="demo-tree"></div>
         </div>
         <div class="layui-form-item">
-            <div id="test12" class="demo-tree-more"></div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">角色级别</label>
             <div class="layui-input-block">
 
