@@ -12,9 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * <p>
  * 前台用户表
- * </p>
  *
  * @author Dimo
  * @since 2019-06-14
@@ -170,9 +168,4 @@ public class DDCMember extends Model<DDCMember> {
         this.registerTime=this.time;
     }
 
-    public static void main(String[] args) {
-//    HMac md5Digest=new HMac();
-//    md5Digest.update(Byte.parseByte(("hello"+"123")));
-//    System.out.println(md5Digest.);
-    }
 }

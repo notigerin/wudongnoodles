@@ -29,6 +29,13 @@
     <script src="/layui/layui.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
+    <style type="text/css">
+        .layui-table-cell {
+            height: auto;
+            line-height: 28px;
+            text-align: center;
+        }
+    </style>
     <title>图片列表</title>
 </head>
 <body>
@@ -53,7 +60,76 @@
 
 
 
+<script id="demo" type="text/html">
+    <form class="layui-form" action="">
+        <input type="hidden" name="id" value="{{ d.id || '' }}" autocomplete="off">
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" value="{{ d.name || '' }}" lay-verify="required"
+                       placeholder="请输入图片名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类</label>
+            <div class="layui-input-inline">
+                <input type="text" name="sort" value="{{ d.srot || '' }}" placeholder="分类" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tags" value="{{ d.tags || '' }}" placeholder="标签" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-upload">
+                <label class="layui-form-label">附件：</label>
+                <div class="layui-input-inline">
+                    <input class="input-text upload-url" type="text" name="image" id="image" readonly nullmsg="请添加附件！" style="width:200px" value="{{ d.image || '' }}">
+                    <button type="button" class="layui-btn" id="test1">上传图片</button>
+                </div>
+                <div class="layui-upload-list layui-input-inline" style="padding-left: 130px;">
+                    <img class="avatar size-XL l layui-upload-img"  id="lookImage" src="{{ d.image || ''}}">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+
+                <input type="radio" name="status" value="0" title="上架"
+                       {{# if(d.status===0){ }}
+                       checked
+                       {{# } }}
+                />
+
+                <input type="radio" name="status" value="1" title="下架"
+                       {{# if(d.status===1){ }}
+                       checked
+                       {{# } }}
+                />
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <button class="layui-btn" id="add" lay-submit lay-filter="update_form_submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</script>
+<script id="showPicture" type="text/html">
+    <img class="avatar size-XL l layui-upload-img" src="{{ d.image}}">
+</script>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
@@ -73,9 +149,9 @@
 </script>
 <script type="text/html" id="barDemo">
     {{# if(d.status===0){ }}
-    <a class="layui-btn layui-btn-xs layui-bg-gray" lay-event="stop" title="上架"><i class="layui-icon layui-icon-face-surprised" style="font-size: 30px; color: #3f324d;"> 上架 </i></a>
+    <a class="layui-btn layui-btn-xs layui-bg-gray" lay-event="stop" title="下架"><i class="layui-icon layui-icon-face-surprised" style="font-size: 30px; color: #3f324d;"> 下架 </i></a>
     {{# }else{ }}
-    <a class="layui-btn layui-btn-xs layui-bg-red" lay-event="run" title="下架"><i class="layui-icon layui-icon-fire" style="font-size: 30px; color: #00a5ff;"> 下架 </i></a>
+    <a class="layui-btn layui-btn-xs layui-bg-red" lay-event="run" title="上架"><i class="layui-icon layui-icon-fire" style="font-size: 30px; color: #00a5ff;"> 上架 </i></a>
     {{# } }}
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -111,45 +187,47 @@
                 elem: '.table-sort'
                 , toolbar: '#toolbarDemo'
                 , height: 'full-220'
+                , style:'height:auto;'
                 , url: '/picture/list' //数据接口
                 , page: true //开启分页
                 , cols: [[ //表头
-                    {type: 'checkbox', fixed: 'left'}
+                    {type: 'checkbox'}
                     , {
-                        field: 'id', title: 'ID', width: '15%', sort: true, fixed: 'left', templet: function (d) {
+                        field: 'id', title: 'ID', width: '9%', sort: true
+                        , templet: function (d) {
                             return d.id;//long 转Stirng
                         }
                     }
                     , {field: 'sort', title: '分类名', width: '10%'}
                     , {
-                        field: 'image', title: '图片封面', width: '10%'
+                        field: 'image', title: '图片封面', width: '7%'
                         ,templet:function (d) {
                             return '<img class="avatar size-XL l" src="'+ d.image +'">'
                         }
                     }
 
                     , {
-                        field: 'name', title: '图片名', width: '10%'
+                        field: 'name', title: '图片名', width: '17%'
                         ,templet:function (d) {
                             return '<a lay-event="show">'+d.name +'<a>'
                         }
                     }
                     ,
-                    {field: 'tags', title: '标签', width: '5%'}
-                    , {field: 'updateTime', title: '更新时间', width: '10%'}
+                    {field: 'tags', title: '标签', width: '20%'}
+                    , {field: 'updateTime', title: '更新时间', width: '15%'}
                     , {
                         field: 'status', title: '状态', width: '5%'
                         , templet: function (d) {
                             switch (d.status) {
                                 case 0:
-                                    return '启用';
+                                    return '上架';
                                 case 1:
-                                    return '停用';
+                                    return '下架';
 
                             }
                         }
                     }
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '15%'}
+                    , {title: '操作', toolbar: '#barDemo', width: '13%'}
 
 
                 ]]
@@ -176,7 +254,6 @@
                             }
                         }
                     })
-
                 });
             }
 
@@ -205,26 +282,6 @@
             });
 
             function addOrUpdate(data) {
-                $.ajax({
-                    "url": "/picture/list",
-                    "data": JSON.stringify(data.field),
-                    type: "post",
-                    contentType: 'application/json',
-                    dataType: "json",
-                    success: function (res) {
-                        console.log(res)
-                        if (res.code === 200) {
-
-                            layer.msg("操作成功");
-                            reload();
-                            layer.close(index);
-                        } else {
-                            layer.msg(res.msg);
-                        }
-                    }
-                });
-
-
                 var getTpl = document.getElementById("demo").innerHTML;
 
                 laytpl(getTpl).render(data, function (html) {
@@ -234,16 +291,22 @@
                         area: ['500px', '600px']
                     });
                     form.render();
-                    // //普通图片上传
-                    // var uploadInst = upload.render({
-                    //     elem: '#test1'
-                    //     ,url:'/member/upload'
-                    //     ,accept:'images'
-                    //     ,done: function(res){
-                    //         console.log(res);
-                    //         document.getElementById("icon").value = res.filePath;
-                    //     }
-                    // });
+                    //普通图片上传
+                    var uploadInst = upload.render({
+                        elem: '#test1'
+                        ,url:'/picture/upload'
+                        ,accept:'images'
+                        ,before: function(obj){
+                            //预读本地文件示例，不支持ie8
+                            obj.preview(function(index, file, result){
+                                $('#lookImage').attr('src', result); //图片链接（base64）
+                            });
+                        }
+                        ,done: function(res){
+                            console.log(res);
+                            document.getElementById("image").value = res.filePath;
+                        }
+                    });
                     form.on('submit(update_form_submit)', function (data) {
                         layer.msg(JSON.stringify(data.field));
                         $.ajax({
@@ -294,10 +357,8 @@
                     run(data.id,1);
                 }else if(obj.event === 'stop'){
                     stop(data.id,0);
-                }else if(obj.event === 'editPassword'){
-                    editPassword(data);
                 }else if(obj.event === 'show'){
-                    showMember(data);
+                    showPicture(data);
                 }
 
             });
@@ -317,13 +378,12 @@
                     success: function (res) {
                         if (res.code === 200) {
                             layer.msg("已停用");
-                            reload();
                         } else {
                             layer.msg(res.msg);
                         }
                     }
                 });
-
+                location.reload();
             });
         }
 
@@ -342,12 +402,12 @@
                     success: function (res) {
                         if (res.code === 200) {
                             layer.msg("已启用");
-                            reload();
                         } else {
                             layer.msg(res.msg);
                         }
                     }
                 });
+                location.reload();
             });
         }
     });

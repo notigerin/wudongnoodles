@@ -5,4 +5,5 @@ import com.baomidou.mybatisplus.service.IService;
 import com.ddc.server.entity.DDCPicture;
 
 public interface IDDCPictureService extends IService<DDCPicture> {
+    void updateStatus(Long id, Integer status);
 }

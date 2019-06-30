@@ -122,10 +122,14 @@
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-upload">
-				<label class="form-label col-xs-4 col-sm-3">附件：</label>
-				<div class="formControls col-xs-8 col-sm-9">
+                <label class="layui-form-label">附件：</label>
+				<div class="layui-input-inline">
 					<input class="input-text upload-url" type="text" name="icon" id="icon" readonly nullmsg="请添加附件！" style="width:200px" value="{{ d.icon || '' }}">
 					<button type="button" class="layui-btn" id="test1">上传图片</button>
+				</div>
+				<div class="layui-upload-list layui-input-inline" style="padding-left: 130px;">
+                    <img class="avatar size-XL l layui-upload-img"  id="demo1" src="{{ d.icon || ''}}">
+					<p id="demoText"></p>
 				</div>
 			</div>
 		</div>
@@ -409,6 +413,12 @@
 						elem: '#test1'
 						,url:'/member/upload'
 						,accept:'images'
+						,before: function(obj){
+							//预读本地文件示例，不支持ie8
+							obj.preview(function(index, file, result){
+								$('#demo1').attr('src', result); //图片链接（base64）
+							});
+						}
 						,done: function(res){
 							console.log(res);
 							document.getElementById("icon").value = res.filePath;
@@ -519,13 +529,12 @@
 					success: function (res) {
 						if (res.code === 200) {
 							layer.msg("已停用");
-							reload();
 						} else {
 							layer.msg(res.msg);
 						}
 					}
 				});
-
+				location.reload();
 			});
 		}
 
@@ -544,12 +553,12 @@
 					success: function (res) {
 						if (res.code === 200) {
 							layer.msg("已启用");
-							reload();
 						} else {
 							layer.msg(res.msg);
 						}
 					}
 				});
+				location.reload();
 			});
 		}
 	});
