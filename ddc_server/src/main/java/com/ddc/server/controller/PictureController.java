@@ -13,6 +13,9 @@ import com.ddc.server.entity.DDCAdmin;
 import com.ddc.server.entity.DDCMember;
 import com.ddc.server.entity.DDCPicture;
 import com.ddc.server.service.IDDCPictureService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -143,4 +146,31 @@ public class PictureController {
 
     }
 
+    @ResponseBody
+    @RequestMapping("/moreImage")
+    public ResponseModel<List<Picture>> moreImage(@RequestParam(value = "image", required = false) String image, @RequestParam(value = "images", required = false) String moreImage)throws Exception{
+        boolean op=true;
+        List<Picture> list = new ArrayList<>();
+        String[] arr = moreImage.split(",");
+        for(int i = 0; i < arr.length; i++){
+            if(image.equals(arr[i])){
+                op = false;
+            }
+        }
+        if(op){
+            list.add(new Picture(image));
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (!StringUtils.isEmpty(arr[i])) {
+                list.add(new Picture(arr[i]));
+            }
+        }
+        return ResponseHelper.buildResponseModel(list);
+    }
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Data
+    public static  class Picture{
+        public String image;
+    }
 }

@@ -29,6 +29,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.ddc.server.shiro.PasswordUtils.memberPassword;
+
 @RequestMapping("/member")
 @Controller
 @Slf4j
@@ -95,12 +97,14 @@ public class MemberController {
             entity.setIsDelete(0);
             if (StringUtils.isEmpty(entity.getPassword())) {
                 entity.setPassword("123456");
-
             }
+            memberPassword(entity);
         } else {
             if (StringUtils.isEmpty(entity.getPassword())) {
                 DDCMember dbmember = memberService.selectById(entity.getId());
                 entity.setPassword(dbmember.getPassword());
+            }else{
+                memberPassword(entity);
             }
         }
         entity.setCreater(entity.getId());
@@ -129,6 +133,8 @@ public class MemberController {
     @ResponseBody
     public ResponseModel<String> editPassword(@RequestBody DDCMember entity,
                                               @CurrentUser DDCAdmin admin) throws Exception {
+        entity.setUsername(memberService.selectById(entity.getId()).getUsername());
+        memberPassword(entity);
         memberService.editPasswordById(entity.getId(), entity.getPassword());
         return ResponseHelper.buildResponseModel("操作成功");
     }

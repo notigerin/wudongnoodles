@@ -75,7 +75,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分类</label>
             <div class="layui-input-inline">
-                <input type="text" name="sort" value="{{ d.srot || '' }}" placeholder="分类" autocomplete="off" class="layui-input">
+                <input type="text" name="sort" value="{{ d.sort || '' }}" placeholder="分类" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -88,15 +88,26 @@
 
         <div class="layui-form-item">
             <div class="layui-upload">
-                <label class="layui-form-label">附件：</label>
+                <label class="layui-form-label">图片封面：</label>
                 <div class="layui-input-inline">
-                    <input class="input-text upload-url" type="text" name="image" id="image" readonly nullmsg="请添加附件！" style="width:200px" value="{{ d.image || '' }}">
-                    <button type="button" class="layui-btn" id="test1">上传图片</button>
+                    <input class="input-text upload-url" type="text" name="image" id="image" readonly nullmsg="请添加封面图片！" style="width:200px" value="{{ d.image || '' }}">
+                    <button type="button" class="layui-btn" id="test1" style="margin-top: 10px;">上传图片</button>
                 </div>
-                <div class="layui-upload-list layui-input-inline" style="padding-left: 130px;">
+                <div class="layui-upload-list layui-input-inline" style="padding-left: 120px;">
                     <img class="avatar size-XL l layui-upload-img"  id="lookImage" src="{{ d.image || ''}}">
                     <p id="demoText"></p>
                 </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-upload">
+                <label class="layui-form-label">更多图片：</label>
+                <input class="input-text upload-url" type="text" name="moreImage" id="moreImage" readonly nullmsg="请添加更多图片！" style="width:200px" value="{{ d.moreImage || '' }}">
+                <button type="button" class="layui-btn" id="test2">更多图片上传：</button>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                    预览图：
+                    <div class="layui-upload-list" id="demo2" style="height: 70px;"></div>
+                </blockquote>
             </div>
         </div>
         <div class="layui-form-item">
@@ -128,7 +139,8 @@
     </form>
 </script>
 <script id="showPicture" type="text/html">
-    <img class="avatar size-XL l layui-upload-img" src="{{ d.image}}">
+    <div style="width:700px;" id="moreImages">
+    </div>
 </script>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
@@ -140,6 +152,7 @@
 <script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="/lib/layui/layui.all.js"></script>
+<script type="text/javascript" src="/lib/layui/layui.js"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
@@ -214,7 +227,7 @@
                     }
                     ,
                     {field: 'tags', title: '标签', width: '20%'}
-                    , {field: 'updateTime', title: '更新时间', width: '15%'}
+                    , {field: 'updateTime', title: '更新时间', width: '15%', sort: true}
                     , {
                         field: 'status', title: '状态', width: '5%'
                         , templet: function (d) {
@@ -291,7 +304,7 @@
                         area: ['500px', '600px']
                     });
                     form.render();
-                    //普通图片上传
+                    //封面图片上传
                     var uploadInst = upload.render({
                         elem: '#test1'
                         ,url:'/picture/upload'
@@ -307,6 +320,29 @@
                             document.getElementById("image").value = res.filePath;
                         }
                     });
+
+                    //更多图片上传
+                    upload.render({
+                        elem: '#test2'
+                        ,url: '/picture/upload'
+                        ,multiple: true
+                        ,before: function(obj){
+                            //预读本地文件示例，不支持ie8
+                            obj.preview(function(index, file, result){
+                                $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="avatar size-XL l layui-upload-img">')
+                            });
+                        }
+                        ,done: function(res){
+                            //上传完毕
+                            console.log(res);
+                            if(document.getElementById("moreImage").value == ""){
+                                document.getElementById("moreImage").value = res.filePath;
+                            }else{
+                                document.getElementById("moreImage").value += "," + res.filePath;
+                            }
+                        }
+                    });
+
                     form.on('submit(update_form_submit)', function (data) {
                         layer.msg(JSON.stringify(data.field));
                         $.ajax({
@@ -333,15 +369,36 @@
 
             function showPicture(data){
                 var getTpl = document.getElementById("showPicture").innerHTML;
+                console.log(data.moreImage);
+                $.ajax({
+                    "url": "/picture/moreImage",
+                    "data":
+                        {
+                            image:data.image,
+                            images:data.moreImage
+                        },
+                    type: "post",
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res);
+                        data.data = res.data;
+                        console.log(data);
+                        laytpl(getTpl).render(data, function (html) {
+                            var index = layer.open({
+                                type: 1,
+                                content: html,
+                                area: ['700px', '600px']
 
-                laytpl(getTpl).render(data, function (html) {
-                    var index = layer.open({
-                        type: 1,
-                        content: html,
-                        area: ['500px', '600px']
-                    });
-                    form.render();
-                });
+                            });
+                            form.render();
+                            for(var i=0; i<data.data.length; i++){
+                                var d = data.data[i];
+                                console.log(d.image);
+                                $('#moreImages').append('<img src="'+ d.image +'" alt="'+ data.name +'" class="avatar size-XL l layui-upload-img" style="padding-left:5px;">');
+                            }
+                        });
+                    }
+                })
             }
 
 //监听行工具事件

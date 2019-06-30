@@ -3,6 +3,7 @@ package com.ddc.server.shiro;
 import java.util.UUID;
 
 import com.ddc.server.entity.DDCAdmin;
+import com.ddc.server.entity.DDCMember;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 /**
@@ -20,6 +21,13 @@ public class PasswordUtils {
         Object md5Password = new SimpleHash(ALGORITHM_NAME, temPassword, ByteSource.Util.bytes(salt), HASH_ITERATIONS);
         admin.setSalt(salt);
         admin.setPassword(md5Password.toString());
+    }
+
+    public static void memberPassword(DDCMember member) {
+        String salt = member.getUsername();
+        String temPassword = member.getPassword();
+        Object md5Password = new SimpleHash(ALGORITHM_NAME, temPassword, ByteSource.Util.bytes(salt), HASH_ITERATIONS);
+        member.setPassword(md5Password.toString());
     }
 
 }

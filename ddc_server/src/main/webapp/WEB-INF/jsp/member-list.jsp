@@ -127,7 +127,7 @@
 					<input class="input-text upload-url" type="text" name="icon" id="icon" readonly nullmsg="请添加附件！" style="width:200px" value="{{ d.icon || '' }}">
 					<button type="button" class="layui-btn" id="test1">上传图片</button>
 				</div>
-				<div class="layui-upload-list layui-input-inline" style="padding-left: 130px;">
+				<div class="layui-upload-list layui-input-inline" style="padding-left: 120px;">
                     <img class="avatar size-XL l layui-upload-img"  id="demo1" src="{{ d.icon || ''}}">
 					<p id="demoText"></p>
 				</div>
@@ -155,8 +155,8 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">留言内容</label>
 			<div class="layui-input-inline">
-				<textarea type="text" name="remark"
-						  class="layui-input">{{ d.remark || '' }}</textarea>
+				<textarea type="text" name="resume"
+						  class="layui-input">{{ d.resume || '' }}</textarea>
 			</div>
 		</div>
 
