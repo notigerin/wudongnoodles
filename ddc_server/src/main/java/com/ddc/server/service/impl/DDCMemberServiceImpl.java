@@ -10,9 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  会员类的实现
- * </p>
+ *  服务实现类
  *
  * @author Dimo
  * @since 2019-06-18

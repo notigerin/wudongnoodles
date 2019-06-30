@@ -7,6 +7,12 @@ import com.ddc.server.entity.DDCMember;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+/**
+ *  Mapper 接口
+ *
+ * @author MuQ
+ * @since 2019-06-30
+ */
 
 public interface DDCMemberMapper extends BaseMapper<DDCMember> {
     @Select("select * from user")

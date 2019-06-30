@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ *  服务实现类
+ *
+ * @author MuQ
+ * @since 2019-06-30
+ */
 @Service
 public class DDCPictureServiceImpl extends ServiceImpl<DDCPictureMapper, DDCPicture> implements IDDCPictureService {
     @Resource
